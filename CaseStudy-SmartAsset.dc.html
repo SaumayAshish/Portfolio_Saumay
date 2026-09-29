@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing: border-box; }
+    ::selection { background:#ffb547; color:#07090b; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#eceeec; font-family:'IBM Plex Sans',sans-serif; letter-spacing:-0.006em; width:100%; overflow-x:hidden;" data-screen-label="Case Study — Smart Asset Management">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px clamp(20px,5vw,64px); backdrop-filter:blur(10px); background:rgba(18,16,12,0.85); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none; display:flex; align-items:center; gap:8px;">← Return to Mission Control</a>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#aab4bc;">MISSION: DISCOVER SAUMAY · CASE FILE</div>
+  </nav>
+
+  <header style="padding:100px clamp(20px,5vw,64px) 56px; border-bottom:1px solid #1f2a33; background:#0a0d10;">
+    <div style="max-width:900px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; border:1px solid rgba(255,181,71,0.35); padding:6px 14px;">Enterprise SAP</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8b97a1; border:1px solid #2c3a44; padding:6px 14px;">Built &amp; documented · production-readiness reviewed</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(clamp(17px,2.6vw,32px) * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.45; margin:0 0 20px; letter-spacing:-0.02em;">Governing the asset lifecycle in SAP.</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; margin-bottom:18px;">My role — Backend Engineer &amp; Solution Builder · end-to-end, solo</div>
+      <p style="font-size:18px; line-height:1.65; color:#c4c7c9; max-width:720px; margin:0 0 28px;">I built an enterprise SAP application that puts governed, auditable control around the full asset lifecycle — from New to Active, Maintenance, and Retired — the kind of process rigor that SAP-centric organizations and consulting engagements depend on.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;">
+        <a href="{{ resumeLink }}" target="_blank" style="background:#ffb547; color:#07090b; padding:14px 28px; text-decoration:none; font-weight:700; font-size:14px; display:inline-block;">Download Resume ↓</a>
+        <a href="https://github.com/SaumayAshish/smart-asset-management-system" target="_blank" style="border:1px solid rgba(255,255,255,0.2); color:#eceeec; padding:14px 28px; text-decoration:none; font-weight:600; font-size:14px; display:inline-block;">View Repository →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:20px; max-width:640px;">
+        <sc-for list="{{ outcomeStats }}" as="s" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:#ffb547;">{{ s.n }}</div>
+            <div style="font-size:12px; color:#8b97a1; margin-top:4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+  <section style="max-width:920px; margin:0 auto; padding:48px clamp(20px,5vw,56px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY · WHY / WHAT / HOW / CONCLUSION</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;"><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHY</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Enterprise asset lifecycles often lack governed, auditable state transitions and clear ownership.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHAT</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">An SAP ABAP Cloud (RAP) application enforcing New → Active → Maintenance → Retired with instance-based authorization and a Fiori Elements UI.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">HOW</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">CDS views, RAP behaviour definitions and an OData V4 service, documented for architecture, security and deployment.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">CONCLUSION</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">A governed, authorized lifecycle delivered with full documentation and a production-readiness review.</div></div></div>
+  </section>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px clamp(20px,5vw,64px);">
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">01 — THE SITUATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">There was a problem worth solving.</h2>
+      <sc-for list="{{ situation }}" as="para" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.8; color:#c4c7c9; margin:0 0 18px;">{{ para }}</p>
+      </sc-for>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">02 — STAKEHOLDERS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Who was affected.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;">
+        <sc-for list="{{ stakeholders }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; padding:18px 20px;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:6px;">{{ s.who }}</div>
+            <div style="font-size:13.5px; color:#aab4bc; line-height:1.55;">{{ s.need }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">03 — OBJECTIVES</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">What success had to look like.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ objectives }}" as="o" hint-placeholder-count="4">
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-size:14px; padding-top:2px;">✓</span>
+            <span style="font-size:16px; line-height:1.65; color:#c4c7c9;">{{ o }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">04 — WHAT I DID</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 28px;">The steps I took.</h2>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:64px 1fr; gap:24px; padding:24px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px; color:#ffb547;">{{ step.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:17px; margin-bottom:8px;">{{ step.title }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ step.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">05 — THE SOLUTION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What I delivered.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
+        <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#eceeec;">{{ f.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ f.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">06 — CHALLENGES → HOW I RESOLVED THEM</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">When things broke, I fixed them.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffaa3c; border:1px solid rgba(255,170,60,0.4); padding:3px 8px; flex:0 0 auto;">CHALLENGE</span>
+              <span style="font-size:15px; line-height:1.6; color:#c4c7c9;">{{ c.problem }}</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:3px 8px; flex:0 0 auto;">RESOLVED</span>
+              <span style="font-size:15px; line-height:1.6; color:#aab4bc;">{{ c.resolution }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">07 — BUSINESS VALUE &amp; IMPACT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Why it matters to the business.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-bottom:20px;">
+        <sc-for list="{{ value }}" as="v" hint-placeholder-count="3">
+          <div style="border:1px solid #1f2a33; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#ffb547;">{{ v.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ v.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-left:3px solid #ffb547; padding:14px 20px; background:rgba(255,181,71,0.05);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; margin-bottom:6px;">HONEST MEASUREMENT</div>
+        <p style="font-size:14.5px; line-height:1.65; color:#c4c7c9; margin:0;">{{ valueNote }}</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">08 — TECHNOLOGY (BRIEF)</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">The tools behind it.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="10">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#8b97a1; background:rgba(255,255,255,0.05); padding:8px 14px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">09 — WHY THIS MAKES ME AN ASSET</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What an organization gets in me.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ asset }}" as="a" hint-placeholder-count="3">
+          <div style="display:flex; gap:14px; align-items:flex-start; border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16px; padding-top:2px;">▸</span>
+            <span style="font-size:16px; line-height:1.7; color:#c4c7c9;">{{ a }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">10 — FUTURE ENHANCEMENTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Where it goes next.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ future }}" as="f" hint-placeholder-count="5">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#eceeec; border:1px solid #2c3a44; padding:8px 16px;">{{ f }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="padding:48px clamp(20px,5vw,64px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <a href="https://github.com/SaumayAshish/smart-asset-management-system" target="_blank" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; text-decoration:none; border-bottom:1px solid #ffb547;">View Repository →</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;resumeLink&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      resumeLink: this.props.resumeLink ?? 'https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms',
+      outcomeStats: [
+        { n: '4 states', label: 'Governed Lifecycle' },
+        { n: 'OData V4', label: 'Fiori Elements UI' },
+        { n: 'Instance', label: 'Level Authorization' },
+        { n: 'ABAP Unit', label: 'Verified' }
+      ],
+      situation: [
+        'Enterprises run on their assets — equipment, infrastructure, hardware — yet the lifecycle of those assets is often tracked in ways that are neither governed nor auditable. An asset moves from New to Active, into Maintenance, and eventually Retired, but without enforced rules those transitions happen inconsistently, ownership blurs, and audit trails go cold.',
+        'For SAP-centric organizations that is a real risk: uncontrolled state changes and weak authorization undermine compliance and make reporting untrustworthy. I set out to show what disciplined, governed asset management looks like, built the SAP-native way.'
+      ],
+      stakeholders: [
+        { who: 'Asset / Operations Managers', need: 'Confidence that every asset is in a known, valid state with clear ownership.' },
+        { who: 'Compliance & Audit', need: 'An auditable trail of who changed what, when, and under what authorization.' },
+        { who: 'End Users (Fiori)', need: 'A clean, guided interface that only allows valid lifecycle actions.' },
+        { who: 'SAP / IT Governance', need: 'A solution built to SAP standards using the modern RAP programming model.' }
+      ],
+      objectives: [
+        'Enforce a governed asset lifecycle: New → Active → Maintenance → Retired, with no invalid jumps.',
+        'Control access at the instance level so users only act on assets they are authorized for.',
+        'Deliver a modern SAP experience using the RAP model and Fiori Elements / OData V4.',
+        'Document it to a standard a consulting or enterprise SAP team could pick up and trust.'
+      ],
+      steps: [
+        { n: '01', title: 'Framed the governance problem', desc: 'Defined the asset lifecycle as a set of valid states and permitted transitions — the business rules the system would enforce, before any build.' },
+        { n: '02', title: 'Modeled the data in CDS', desc: 'Designed CDS views to represent assets and their lifecycle cleanly, exposing them as an OData V4 service the SAP way.' },
+        { n: '03', title: 'Built on the RAP model', desc: 'Implemented the application on SAP ABAP Cloud (RAP) so lifecycle logic and validations live in a governed, standards-based framework.' },
+        { n: '04', title: 'Enforced instance-based authorization', desc: 'Restricted actions to authorized users at the individual-asset level, so access is precise rather than blanket.' },
+        { n: '05', title: 'Delivered a Fiori Elements UI', desc: 'Surfaced the whole flow through a Fiori Elements / OData V4 interface that guides users to valid actions only.' },
+        { n: '06', title: 'Documented & reviewed for production', desc: 'Wrote architecture, security, and deployment guides, verified logic with ABAP Unit tests, and ran a self-assessed production-readiness review.' }
+      ],
+      features: [
+        { title: 'Governed lifecycle transitions', desc: 'New → Active → Maintenance → Retired, with invalid state changes blocked by design.' },
+        { title: 'Instance-based authorization', desc: 'Access is scoped to specific assets, not granted wholesale — precise and auditable.' },
+        { title: 'Fiori Elements / OData V4 UI', desc: 'A modern, SAP-standard interface that only permits valid lifecycle actions.' },
+        { title: 'Full documentation set', desc: 'Architecture, security, and deployment guides plus a production-readiness review.' }
+      ],
+      challenges: [
+        { problem: 'Lifecycle rules could easily become scattered logic that is hard to audit.', resolution: 'Centralized valid states and transitions in the RAP behavior definition, so the governance rules live in one authoritative place.' },
+        { problem: 'Blanket authorization would have let users touch assets they should not.', resolution: 'Implemented instance-based authorization so permission is evaluated per asset, matching how real enterprises control access.' },
+        { problem: 'A solo enterprise build risks being hard for a team to adopt.', resolution: 'Documented architecture, security, and deployment thoroughly and added ABAP Unit tests, so the work is handover-ready.' }
+      ],
+      value: [
+        { title: 'Compliance by design', desc: 'Governed transitions and precise authorization make the asset record trustworthy for audit.' },
+        { title: 'SAP-native, not bolted on', desc: 'Built on the modern RAP model, so it fits how SAP organizations actually work.' },
+        { title: 'Handover-ready', desc: 'Documentation and tests mean a consulting or enterprise team can adopt it with confidence.' }
+      ],
+      valueNote: 'This is a demonstrator built to enterprise standards, not a system running in a client\u2019s production landscape — so operational KPIs (assets managed, audit findings) are not yet measured. What is delivered is verified governance logic, instance-level security, and a documented, production-readiness-reviewed application.',
+      tech: ['SAP ABAP Cloud (RAP)', 'CDS Views', 'OData V4', 'Fiori Elements', 'ABAP Unit', 'Instance Authorization'],
+      asset: [
+        'I speak SAP and business fluently. I can turn a governance requirement into a RAP data model and an authorization design — the exact bridge SAP consulting roles need.',
+        'I build for governance and audit from the start, not as an afterthought — the mindset enterprises rely on for compliance-sensitive systems.',
+        'I document to a professional standard, so my work is something a team can inherit, review, and extend — not a black box.'
+      ],
+      future: ['Workflow approvals', 'Maintenance scheduling', 'Analytics / Fiori overview page', 'Integration with S/4HANA asset modules', 'Client pilot']
+    };
+  }
+}
+</script>
+</body>
+</html>

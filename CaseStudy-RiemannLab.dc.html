@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing:border-box; scrollbar-color:#2c3a44 transparent; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#dce3e8; font-family:'IBM Plex Sans',sans-serif; min-height:100vh;" data-screen-label="Case file">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(20px,5vw,56px); background:rgba(7,9,11,0.92); backdrop-filter:blur(8px); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#aab4bc; white-space:nowrap;">MISSION: DISCOVER SAUMAY · CASE FILE {{ fileId }}</span>
+  </nav>
+
+  <header style="padding:84px clamp(20px,5vw,56px) 52px; border-bottom:1px solid #1f2a33;">
+    <div style="max-width:920px;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:6px 12px;">{{ tag }}</span>
+        <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ statusColor }}; border:1px solid #2c3a44; padding:6px 12px;"><span style="width:7px; height:7px; background:{{ statusColor }};"></span>{{ status }}</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.05; margin:0 0 18px; text-wrap:balance;">{{ title }}</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; margin-bottom:18px;">{{ role }}</div>
+      <p style="font-size:18px; line-height:1.65; color:#c3ccd3; max-width:760px; margin:0 0 28px; text-wrap:pretty;">{{ intro }}</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="2">
+          <a href="{{ l.href }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:0.05em; padding:12px 18px; border:1px solid #3a4852; color:#dce3e8; text-decoration:none;" style-hover="border-color:#ffb547; color:#ffb547;">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid #1f2a33;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 18px; border-right:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; color:{{ s.c }};">{{ s.n }}</div>
+            <div style="font-size:12.5px; color:#8b97a1; margin-top:6px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
+        <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">{{ s.k }}</div>
+            <div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">01 — WHY</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ whyTitle }}</h2>
+      <sc-for list="{{ why }}" as="p" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">02 — WHAT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ whatTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px;">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="6">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ w.t }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ w.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">03 — HOW</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ howTitle }}</h2>
+      <div style="border:1px solid #1f2a33; background:rgba(10,13,16,0.85); padding:20px; margin-bottom:26px; overflow-x:auto;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:14px;">{{ flowLabel }}</div>
+        <div style="display:flex; flex-direction:column; align-items:stretch; gap:0; min-width:300px;">
+          <sc-for list="{{ flow }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:100%; max-width:560px; border:1px solid {{ f.border }}; background:#0c1014; padding:11px 14px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#dce3e8;">{{ f.t }}</span>
+                <span style="font-size:12.5px; color:#8b97a1;">{{ f.d }}</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; line-height:1.4; display:{{ f.arrow }};">↓</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; padding:20px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:#ffb547;">{{ s.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:16.5px; margin-bottom:6px;">{{ s.t }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">04 — DECISIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">Calls I made, and what they cost.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px 20px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ d.q }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc;">{{ d.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">05 — RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">What came out of it.</h2>
+      <div style="border:1px solid #1f2a33;">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <span style="font-size:14.5px; color:#c3ccd3;">{{ r.k }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:{{ r.c }}; text-align:right;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">06 — CONCLUSION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ conclusionTitle }}</h2>
+      <sc-for list="{{ conclusion }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <sc-for list="{{ proves }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:18px 1fr; gap:10px; border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:14px 16px;">
+            <span style="color:#3ddc84; font-family:'IBM Plex Mono',monospace;">✓</span>
+            <span style="font-size:15px; line-height:1.65; color:#dce3e8;">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.12em; padding:6px 0; margin-right:6px;">NEXT BURN</span>
+        <sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dce3e8; border:1px solid #2c3a44; padding:6px 12px;">{{ n }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="8">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aab4bc; border:1px solid #2c3a44; padding:5px 10px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:36px clamp(20px,5vw,56px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; text-decoration:none;">View repository ↗</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = {
+    fileId: 'PL-02',
+    tag: 'Java · Numerical Computing', status: 'LATEST COMPLETE · 8 OF 8 PHASES', statusColor: '#3ddc84',
+    title: 'RiemannLab: a Java platform for hunting zeta zeros',
+    role: 'Solo · design, implementation, testing, benchmarking, documentation',
+    intro: 'A plain-JVM platform that evaluates the Riemann zeta function across the complex plane and locates its non-trivial zeros to a stated, checked error bound. It makes no claim about the Riemann Hypothesis; it is a correctness and engineering exercise with a hard, well-defined answer key.',
+    repo: 'https://github.com/SaumayAshish/riemann-lab',
+    links: [
+      { label: 'REPOSITORY ↗', href: 'https://github.com/SaumayAshish/riemann-lab' },
+      { label: 'ARCHITECTURE.md ↗', href: 'https://github.com/SaumayAshish/riemann-lab/blob/main/ARCHITECTURE.md' },
+      { label: 'MATH_BACKGROUND.md ↗', href: 'https://github.com/SaumayAshish/riemann-lab/blob/main/MATH_BACKGROUND.md' }
+    ],
+    stats: [
+      { n: '466', label: 'Tests passing in CI on main', c: '#ffb547' },
+      { n: '8 / 8', label: 'Planned phases complete', c: '#3ddc84' },
+      { n: '3', label: 'Independent validation passes', c: '#dce3e8' },
+      { n: 'Java 25', label: 'No framework, plain JVM', c: '#dce3e8' }
+    ],
+    summary: [
+      { k: 'WHY', v: 'Numerical answers are only worth something if their error is known. I wanted a Java project where correctness is checkable, and where no framework does the thinking for me.' },
+      { k: 'WHAT', v: 'Zeta evaluators, a critical-line zero scanner (sequential and parallel), root refinement, validation, visualisation, JMH benchmarks and built-in observability.' },
+      { k: 'HOW', v: 'Eight phases, each tested before the next: complex arithmetic, evaluators, scanning, refinement, visualisation, validation, benchmarking, observability.' },
+      { k: 'CONCLUSION', v: 'All eight phases shipped with 466 passing tests in CI. Every precision claim is cross-checked and every performance claim is measured.' }
+    ],
+    whyTitle: 'Correctness you can check, on the JVM.',
+    why: [
+      'Most portfolio projects have no answer key: if the output looks plausible, it ships. The non-trivial zeros of the Riemann zeta function are the opposite. Their positions are catalogued, so every result the software produces can be checked against a known value and a stated error bound.',
+      'That makes it an unforgiving test of engineering discipline. A single evaluator that is subtly wrong still produces clean-looking numbers, so trusting one strategy hides the error. The project had to cross-check itself.',
+      'The second reason was depth in Java. I wanted a codebase where concurrency, numerics, benchmarking and observability are all mine, written close to the JVM without Spring or any framework making decisions on my behalf.'
+    ],
+    whatTitle: 'What the platform does.',
+    what: [
+      { t: 'Multi-strategy ζ(s) evaluation', d: 'A naive Dirichlet-eta series, an Euler-accelerated eta series, and analytic continuation through the functional equation, each cross-checked against the others.' },
+      { t: 'Critical-line scanning', d: 'Scans Re(s) = ½ for local minima of |ζ(s)|, the numerical signature of a nearby zero. Sequential and parallel paths with a guarantee of identical output.' },
+      { t: 'Zero refinement', d: 'Complex-valued Newton-Raphson and secant root finders refine candidates to machine precision.' },
+      { t: 'Self-validation', d: 'Known-zero catalogue cross-checks, error-bound honesty checks, and eta-series versus functional-equation agreement checks.' },
+      { t: 'Visualisation', d: 'Domain colouring across the complex plane and |ζ(s)| plots along the critical line, rendered from the same live pipeline.' },
+      { t: 'Benchmarks & observability', d: 'JMH throughput benchmarks, SLF4J/Logback logging tagged by scan mode through MDC, and Micrometer metrics with a reader that turns them into a summary.' }
+    ],
+    howTitle: 'Detection is cheap. Refinement is precise.',
+    flowLabel: 'PIPELINE · com.riemannlab',
+    flow: [
+      { t: 'core.complex / core.special', d: 'Complex record, exp/log/pow, Lanczos gamma' },
+      { t: 'zeta', d: 'Naive · accelerated eta · functional equation' },
+      { t: 'zeros · detection', d: 'Critical-line scan, sequential + parallel' },
+      { t: 'zeros · refinement', d: 'Newton-Raphson and secant to machine precision' },
+      { t: 'validation', d: 'Known zeros · error bounds · evaluator agreement' },
+      { t: 'viz · bench · metrics', d: 'Domain colouring · JMH · Micrometer' }
+    ],
+    steps: [
+      { n: '01', t: 'Built the number system first', d: 'An immutable Complex value type as a Java record, with complex exp, log and pow, plus a Lanczos approximation of the complex gamma function that the functional equation needs.' },
+      { n: '02', t: 'Wrote three evaluators instead of one', d: 'Each strategy converges differently in different regions of the strip. Running them against each other exposes the region where any one of them goes wrong.' },
+      { n: '03', t: 'Split detection from refinement', d: 'The scanner is cheap and approximate and must never miss a zero. The refiner is expensive and precise and only runs on plausible candidates. Each half is tested for its own job.' },
+      { n: '04', t: 'Made parallelism provably safe', d: 'The parallel scanner has to produce byte-for-byte the same output as the sequential one. That equality is a test, so a speed-up can never quietly change an answer.' },
+      { n: '05', t: 'Validated three independent ways', d: 'Against the catalogue of known zeros, against its own claimed error bounds, and by checking the eta series and the functional equation agree where both apply.' },
+      { n: '06', t: 'Measured before optimising', d: 'JMH benchmarks for evaluator and scanner throughput. Every performance change in the project history has a measured before and after.' },
+      { n: '07', t: 'Made it observable and documented', d: 'MDC-tagged structured logs, Micrometer counters and timers, ten runnable demos, and separate architecture, math-background and contributing documents.' }
+    ],
+    decisions: [
+      { q: 'Why no Spring Boot?', a: 'The goal was to understand the JVM underneath the framework: threads, memory, numerics. Plain Java kept every decision visible. The trade-off is more code for things a framework would give for free, such as configuration and wiring.' },
+      { q: 'Why three evaluators when one works?', a: 'One evaluator that is wrong in a corner of the strip still returns tidy numbers. Agreement between independent methods is the only evidence that the numbers are right. It costs extra compute on every validation run.' },
+      { q: 'Why an identical-output guarantee for the parallel scanner?', a: 'Parallel code that is faster but occasionally different is worse than slow code. Asserting equality makes concurrency bugs visible as test failures instead of wrong zeros.' },
+      { q: 'Why JMH instead of timing loops?', a: 'JIT warm-up, dead-code elimination and GC make naive timing lie on the JVM. JMH controls for them, so a claimed speed-up is real.' }
+    ],
+    results: [
+      { k: 'Automated tests', v: '466 passing', c: '#3ddc84' },
+      { k: 'Planned phases delivered', v: '8 of 8', c: '#3ddc84' },
+      { k: 'Independent validation passes', v: '3', c: '#dce3e8' },
+      { k: 'Runnable demos', v: '10', c: '#dce3e8' },
+      { k: 'JMH benchmark suites', v: '2', c: '#dce3e8' },
+      { k: 'Scanner throughput (events/sec)', v: 'Not published here', c: '#8b97a1' }
+    ],
+    conclusionTitle: 'What we did, and what it proves.',
+    conclusion: [
+      'RiemannLab went from a complex-number record to a validated, benchmarked and observable numerical platform in eight tested phases. It evaluates ζ(s) three ways, finds zeros on the critical line, refines them to machine precision, and checks its own answers against known values before reporting them.',
+      'The mathematics is the test harness. The transferable part is the engineering: correctness asserted rather than assumed, concurrency that cannot change an answer, and performance claims that are measured.'
+    ],
+    proves: [
+      'I can own a non-trivial Java codebase end to end: design, implementation, testing, CI, documentation.',
+      'I treat correctness as something to prove with tests and cross-checks, the same standard a production backend needs.',
+      'I build observability and benchmarking in from the start instead of bolting them on after an incident.'
+    ],
+    next: ['Project-wide documentation', 'Wider zero ranges', 'Published benchmark results'],
+    tech: ['Java 25', 'Maven', 'JUnit 5', 'JMH', 'SLF4J + Logback', 'Micrometer', 'GitHub Actions', 'MIT License']
+  };
+  renderVals() {
+    const d = this.DATA;
+    const n = d.flow.length;
+    return { ...d, flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
+  }
+}
+</script>
+</body>
+</html>

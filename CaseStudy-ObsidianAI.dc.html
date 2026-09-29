@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing: border-box; }
+    ::selection { background:#ffb547; color:#07090b; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#eceeec; font-family:'IBM Plex Sans',sans-serif; letter-spacing:-0.006em; width:100%; overflow-x:hidden;" data-screen-label="Case Study — Obsidian_OS">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px clamp(20px,5vw,64px); backdrop-filter:blur(10px); background:rgba(18,16,12,0.85); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none; display:flex; align-items:center; gap:8px;">← Return to Mission Control</a>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#aab4bc;">MISSION: DISCOVER SAUMAY · CASE FILE</div>
+  </nav>
+
+  <header style="padding:100px clamp(20px,5vw,64px) 56px; border-bottom:1px solid #1f2a33; background:#0a0d10;">
+    <div style="max-width:900px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; border:1px solid rgba(255,181,71,0.35); padding:6px 14px;">AI Knowledge Platform</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8b97a1; border:1px solid #2c3a44; padding:6px 14px;">Built · CI-green · evolving (pgvector phased)</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(clamp(17px,2.6vw,32px) * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.45; margin:0 0 20px; letter-spacing:-0.02em;">A life OS where Markdown stays the truth.</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; margin-bottom:18px;">My role — System design &amp; build · solo</div>
+      <p style="font-size:18px; line-height:1.65; color:#c4c7c9; max-width:720px; margin:0 0 28px;">I built an Obsidian-first personal operating system that keeps Markdown as the source of truth, syncs structured records into PostgreSQL, and runs a token-efficient local RAG pipeline — so my own knowledge stays owned and portable while still being searchable.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;">
+        <a href="{{ resumeLink }}" target="_blank" style="background:#ffb547; color:#07090b; padding:14px 28px; text-decoration:none; font-weight:700; font-size:14px; display:inline-block;">Download Resume ↓</a>
+        <a href="https://github.com/SaumayAshish/Obsidian_OS" target="_blank" style="border:1px solid rgba(255,255,255,0.2); color:#eceeec; padding:14px 28px; text-decoration:none; font-weight:600; font-size:14px; display:inline-block;">View Repository →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:20px; max-width:640px;">
+        <sc-for list="{{ outcomeStats }}" as="s" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:#ffb547;">{{ s.n }}</div>
+            <div style="font-size:12px; color:#8b97a1; margin-top:4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+  <section style="max-width:920px; margin:0 auto; padding:48px clamp(20px,5vw,56px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY · WHY / WHAT / HOW / CONCLUSION</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;"><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHY</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Knowledge scatters across tools, and most AI note apps lock your notes in and send raw content to the cloud.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHAT</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">An Obsidian-first system: Markdown stays the source of truth, a Python layer syncs structured records to PostgreSQL, and a local RAG pipeline answers questions.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">HOW</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Semantic chunking, local embeddings and context compression, never persisting raw note bodies. CI with automated fix PRs and a phased pgvector plan.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">CONCLUSION</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Notes stay owned and portable while becoming searchable, with a scaling path that does not break existing users.</div></div></div>
+  </section>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px clamp(20px,5vw,64px);">
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">01 — THE SITUATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">There was a problem worth solving.</h2>
+      <sc-for list="{{ situation }}" as="para" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.8; color:#c4c7c9; margin:0 0 18px;">{{ para }}</p>
+      </sc-for>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">02 — STAKEHOLDERS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Who was affected.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;">
+        <sc-for list="{{ stakeholders }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; padding:18px 20px;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:6px;">{{ s.who }}</div>
+            <div style="font-size:13.5px; color:#aab4bc; line-height:1.55;">{{ s.need }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">03 — OBJECTIVES</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">What success had to look like.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ objectives }}" as="o" hint-placeholder-count="4">
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-size:14px; padding-top:2px;">✓</span>
+            <span style="font-size:16px; line-height:1.65; color:#c4c7c9;">{{ o }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">04 — WHAT I DID</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 28px;">The steps I took.</h2>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:64px 1fr; gap:24px; padding:24px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px; color:#ffb547;">{{ step.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:17px; margin-bottom:8px;">{{ step.title }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ step.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">05 — THE SOLUTION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What I delivered.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
+        <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#eceeec;">{{ f.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ f.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">06 — CHALLENGES → HOW I RESOLVED THEM</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">When things broke, I fixed them.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffaa3c; border:1px solid rgba(255,170,60,0.4); padding:3px 8px; flex:0 0 auto;">CHALLENGE</span>
+              <span style="font-size:15px; line-height:1.6; color:#c4c7c9;">{{ c.problem }}</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:3px 8px; flex:0 0 auto;">RESOLVED</span>
+              <span style="font-size:15px; line-height:1.6; color:#aab4bc;">{{ c.resolution }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">07 — BUSINESS VALUE &amp; IMPACT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Why it matters to the business.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-bottom:20px;">
+        <sc-for list="{{ value }}" as="v" hint-placeholder-count="3">
+          <div style="border:1px solid #1f2a33; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#ffb547;">{{ v.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ v.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-left:3px solid #ffb547; padding:14px 20px; background:rgba(255,181,71,0.05);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; margin-bottom:6px;">HONEST MEASUREMENT</div>
+        <p style="font-size:14.5px; line-height:1.65; color:#c4c7c9; margin:0;">{{ valueNote }}</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">08 — TECHNOLOGY (BRIEF)</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">The tools behind it.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="10">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#8b97a1; background:rgba(255,255,255,0.05); padding:8px 14px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">09 — WHY THIS MAKES ME AN ASSET</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What an organization gets in me.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ asset }}" as="a" hint-placeholder-count="3">
+          <div style="display:flex; gap:14px; align-items:flex-start; border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16px; padding-top:2px;">▸</span>
+            <span style="font-size:16px; line-height:1.7; color:#c4c7c9;">{{ a }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">10 — FUTURE ENHANCEMENTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Where it goes next.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ future }}" as="f" hint-placeholder-count="5">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#eceeec; border:1px solid #2c3a44; padding:8px 16px;">{{ f }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="padding:48px clamp(20px,5vw,64px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <a href="https://github.com/SaumayAshish/Obsidian_OS" target="_blank" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; text-decoration:none; border-bottom:1px solid #ffb547;">View Repository →</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;resumeLink&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      resumeLink: this.props.resumeLink ?? 'https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms',
+      outcomeStats: [
+        { n: 'Markdown', label: 'Source of Truth' },
+        { n: 'Local RAG', label: 'Token-Efficient' },
+        { n: 'pgvector', label: 'Phased (P4)' },
+        { n: 'CI/CD', label: 'Auto-fix PRs' }
+      ],
+      situation: [
+        'The tools we use to think — notes, tasks, goals, finances, habits — end up spread across apps that each own your data in their own format. Most "AI knowledge" products make this worse: they lock your notes into their system and send raw content to the cloud to make it searchable.',
+        'I wanted the opposite: a personal operating system where plain-text Markdown stays the source of truth and I keep full ownership, yet the system is still structured enough for analytics and smart enough for AI retrieval — without shipping my raw notes to anyone.'
+      ],
+      stakeholders: [
+        { who: 'The individual (primary user)', need: 'One owned place for daily notes, goals, finance, and habits.' },
+        { who: 'Data-ownership-conscious users', need: 'Plain-text truth and local-first AI, not cloud lock-in.' },
+        { who: 'Future team/SaaS use', need: 'A foundation that could extend to multi-tenant features.' },
+        { who: 'Me (Builder)', need: 'A durable system I can trust, maintain, and migrate safely.' }
+      ],
+      objectives: [
+        'Keep Markdown as the single source of truth — portable and owned.',
+        'Sync structured records into PostgreSQL for analytics and retrieval.',
+        'Run a token-efficient local RAG pipeline without persisting raw notes.',
+        'Plan a phased pgvector migration so scale never breaks existing data.'
+      ],
+      steps: [
+        { n: '01', title: 'Set the ownership principle', desc: 'Decided Markdown stays the source of truth and the database holds only structured metadata — never raw note bodies — so data stays owned and portable.' },
+        { n: '02', title: 'Built the sync layer', desc: 'Wrote a Python layer (sync_vault.py) that parses Markdown frontmatter and extracts structured records — tasks, goals, finance, habits — into PostgreSQL.' },
+        { n: '03', title: 'Designed the schema', desc: 'Modeled Postgres tables for notes, tasks, goals, habits, and finance, storing embeddings metadata rather than the note contents themselves.' },
+        { n: '04', title: 'Built a token-efficient RAG pipeline', desc: 'Implemented semantic chunking, local embeddings (sentence-transformers), metadata-driven filtering, and context compression to keep LLM token usage low while preserving retrieval quality.' },
+        { n: '05', title: 'Planned the pgvector phase', desc: 'Scoped a Phase-4 pgvector migration to add vector search without breaking existing deployments — a safe, staged evolution rather than a rewrite.' },
+        { n: '06', title: 'Hardened it with CI/CD', desc: 'Set up GitHub Actions with pre-commit hooks, flake8 linting, schema validation, a pytest suite, and scheduled jobs that auto-open maintenance PRs.' }
+      ],
+      features: [
+        { title: 'Markdown source of truth', desc: 'Daily notes, goals, finance, and habits live as owned, portable plain text.' },
+        { title: 'Python sync → PostgreSQL', desc: 'Frontmatter parsed into structured records for analytics — metadata only, not raw bodies.' },
+        { title: 'Token-efficient local RAG', desc: 'Semantic chunking, local embeddings, and context compression keep retrieval cheap and private.' },
+        { title: 'Production-grade CI/CD', desc: 'Pre-commit, linting, schema checks, tests, and scheduled auto-fix PRs.' }
+      ],
+      challenges: [
+        { problem: 'Most AI-notes tools lock content in and push raw data to the cloud.', resolution: 'Kept Markdown as the source of truth and stored only metadata + embeddings in the DB — ownership and privacy by design.' },
+        { problem: 'RAG can burn tokens and leak full note contents into prompts.', resolution: 'Built semantic chunking, metadata filtering, and context compression so only the minimal relevant context reaches the model.' },
+        { problem: 'Adding vector search later could break an existing database.', resolution: 'Scoped pgvector as a phased Phase-4 migration — additive, not a rewrite — so current data keeps working.' }
+      ],
+      value: [
+        { title: 'Data you actually own', desc: 'Plain-text Markdown truth with metadata-only storage — no lock-in, no raw-note cloud exposure.' },
+        { title: 'Private, efficient retrieval', desc: 'Local embeddings and compression make AI search cheap and self-hosted.' },
+        { title: 'Safe to evolve', desc: 'A phased pgvector path shows migration planned without breaking users.' }
+      ],
+      valueNote: 'This is a personal system that is still evolving — pgvector vector search is a planned Phase 4, not yet shipped, and it has no adoption metrics because it is single-user by design. Everything described as built (Markdown truth, Python sync to PostgreSQL, local RAG pipeline, CI/CD) reflects the actual repository; the phased items are marked as roadmap.',
+      tech: ['Python', 'PostgreSQL', 'pgvector (Phase 4)', 'sentence-transformers', 'Obsidian + Dataview', 'GitHub Actions · pre-commit · pytest'],
+      asset: [
+        'I design around principles, not hype. Choosing "Markdown is truth, DB holds metadata only" is a data-ownership decision a consultant makes deliberately — and can defend.',
+        'I plan migrations, not rewrites. Staging pgvector as an additive phase shows I think about scale and continuity the way enterprise systems demand.',
+        'I hold a real quality bar. CI/CD with pre-commit, linting, tests, and auto-fix PRs on a solo project is the production discipline teams actually care about.'
+      ],
+      future: ['Ship Phase-4 pgvector vector search', 'Richer Dataview dashboards', 'Broader life-domain coverage', 'Optional multi-tenant / team mode', 'Tighter local-LLM integration']
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing: border-box; }
+    ::selection { background:#ffb547; color:#07090b; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#eceeec; font-family:'IBM Plex Sans',sans-serif; letter-spacing:-0.006em; width:100%; overflow-x:hidden;" data-screen-label="Case Study — Executive Analytics">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px clamp(20px,5vw,64px); backdrop-filter:blur(10px); background:rgba(18,16,12,0.85); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none; display:flex; align-items:center; gap:8px;">← Return to Mission Control</a>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#aab4bc;">MISSION: DISCOVER SAUMAY · CASE FILE</div>
+  </nav>
+
+  <header style="padding:100px clamp(20px,5vw,64px) 56px; border-bottom:1px solid #1f2a33; background:#0a0d10;">
+    <div style="max-width:900px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; border:1px solid rgba(255,181,71,0.35); padding:6px 14px;">Data &amp; Analytics</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8b97a1; border:1px solid #2c3a44; padding:6px 14px;">Delivered · Bluestock Fintech internship</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(clamp(17px,2.6vw,32px) * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.45; margin:0 0 20px; letter-spacing:-0.02em;">Turning 600K raw records into executive insight.</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; margin-bottom:18px;">My role — Backend Engineer &amp; Solution Builder · end-to-end, solo</div>
+      <p style="font-size:18px; line-height:1.65; color:#c4c7c9; max-width:720px; margin:0 0 28px;">As a Data Analyst Intern at Bluestock Fintech, I took a 600,000+ record dataset that no one could report on and turned it into structured, executive-ready Power BI dashboards spanning 100 listed companies — by starting with the questions leadership actually needed answered.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;">
+        <a href="{{ resumeLink }}" target="_blank" style="background:#ffb547; color:#07090b; padding:14px 28px; text-decoration:none; font-weight:700; font-size:14px; display:inline-block;">Download Resume ↓</a>
+        <a href="https://github.com/SaumayAshish" target="_blank" style="border:1px solid rgba(255,255,255,0.2); color:#eceeec; padding:14px 28px; text-decoration:none; font-weight:600; font-size:14px; display:inline-block;">View GitHub →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:20px; max-width:640px;">
+        <sc-for list="{{ outcomeStats }}" as="s" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:#ffb547;">{{ s.n }}</div>
+            <div style="font-size:12px; color:#8b97a1; margin-top:4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+  <section style="max-width:920px; margin:0 auto; padding:48px clamp(20px,5vw,56px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY · WHY / WHAT / HOW / CONCLUSION</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;"><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHY</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">A 600,000+ record financial dataset had no structure that executive reporting could use.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHAT</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Data requirements, a 4-level hierarchical schema, and Power BI dashboards covering 100 listed companies.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">HOW</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">SQL data modelling, Python (Pandas) cleaning, and Power BI built on the new schema.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">CONCLUSION</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Query performance and reporting reliability improved, giving leadership a dependable view of the market it tracks.</div></div></div>
+  </section>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px clamp(20px,5vw,64px);">
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">01 — THE SITUATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">There was a problem worth solving.</h2>
+      <sc-for list="{{ situation }}" as="para" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.8; color:#c4c7c9; margin:0 0 18px;">{{ para }}</p>
+      </sc-for>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">02 — STAKEHOLDERS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Who was affected.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;">
+        <sc-for list="{{ stakeholders }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; padding:18px 20px;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:6px;">{{ s.who }}</div>
+            <div style="font-size:13.5px; color:#aab4bc; line-height:1.55;">{{ s.need }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">03 — OBJECTIVES</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">What success had to look like.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ objectives }}" as="o" hint-placeholder-count="4">
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-size:14px; padding-top:2px;">✓</span>
+            <span style="font-size:16px; line-height:1.65; color:#c4c7c9;">{{ o }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">04 — WHAT I DID</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 28px;">The steps I took.</h2>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:64px 1fr; gap:24px; padding:24px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px; color:#ffb547;">{{ step.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:17px; margin-bottom:8px;">{{ step.title }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ step.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">05 — THE SOLUTION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What I delivered.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
+        <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#eceeec;">{{ f.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ f.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">06 — CHALLENGES → HOW I RESOLVED THEM</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">When things broke, I fixed them.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffaa3c; border:1px solid rgba(255,170,60,0.4); padding:3px 8px; flex:0 0 auto;">CHALLENGE</span>
+              <span style="font-size:15px; line-height:1.6; color:#c4c7c9;">{{ c.problem }}</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:3px 8px; flex:0 0 auto;">RESOLVED</span>
+              <span style="font-size:15px; line-height:1.6; color:#aab4bc;">{{ c.resolution }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">07 — BUSINESS VALUE &amp; IMPACT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Why it matters to the business.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-bottom:20px;">
+        <sc-for list="{{ value }}" as="v" hint-placeholder-count="3">
+          <div style="border:1px solid #1f2a33; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#ffb547;">{{ v.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ v.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-left:3px solid #ffb547; padding:14px 20px; background:rgba(255,181,71,0.05);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; margin-bottom:6px;">HONEST MEASUREMENT</div>
+        <p style="font-size:14.5px; line-height:1.65; color:#c4c7c9; margin:0;">{{ valueNote }}</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">08 — TECHNOLOGY (BRIEF)</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">The tools behind it.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="10">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#8b97a1; background:rgba(255,255,255,0.05); padding:8px 14px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">09 — WHY THIS MAKES ME AN ASSET</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What an organization gets in me.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ asset }}" as="a" hint-placeholder-count="3">
+          <div style="display:flex; gap:14px; align-items:flex-start; border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16px; padding-top:2px;">▸</span>
+            <span style="font-size:16px; line-height:1.7; color:#c4c7c9;">{{ a }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">10 — FUTURE ENHANCEMENTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Where it goes next.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ future }}" as="f" hint-placeholder-count="5">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#eceeec; border:1px solid #2c3a44; padding:8px 16px;">{{ f }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="padding:48px clamp(20px,5vw,64px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <a href="https://github.com/SaumayAshish" target="_blank" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; text-decoration:none; border-bottom:1px solid #ffb547;">View GitHub →</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;resumeLink&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      resumeLink: this.props.resumeLink ?? 'https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms',
+      outcomeStats: [
+        { n: '600K+', label: 'Records Structured' },
+        { n: '100', label: 'Listed Companies' },
+        { n: '4-level', label: 'Schema Design' },
+        { n: 'Exec', label: 'Power BI Dashboards' }
+      ],
+      situation: [
+        'Bluestock Fintech had a 600,000+ record dataset covering the listed-company universe — and no one could report on it. The data existed, but it had no structure a business user could query, so the questions leadership wanted answered simply could not be.',
+        'The gap was not a missing tool. It was that raw data had never been turned into a reliable model. Without that foundation, every attempt at executive reporting was slow, inconsistent, and impossible to trust.'
+      ],
+      stakeholders: [
+        { who: 'Executive Leadership', need: 'A dependable, at-a-glance view of the listed-company universe to inform decisions.' },
+        { who: 'Business / Reporting Team', need: 'Data structured so it can actually be queried and reported on reliably.' },
+        { who: 'Product Stakeholders', need: 'Requirements captured accurately and reflected in what gets built.' },
+        { who: 'Me (Data Analyst)', need: 'A clear picture of the real reporting questions before touching the data.' }
+      ],
+      objectives: [
+        'Give a 600K+ record dataset a structure that supports reliable reporting.',
+        'Improve query performance so analysis is fast, not painful.',
+        'Translate stakeholder questions into dashboards leadership can act on.',
+        'Cover the full universe of 100 listed companies in one coherent view.'
+      ],
+      steps: [
+        { n: '01', title: 'Recognized the real gap', desc: 'I saw that the dataset had no reportable structure and took the initiative to define the data requirements — rather than forcing dashboards onto a broken foundation.' },
+        { n: '02', title: 'Gathered reporting requirements', desc: 'Partnered directly with stakeholders to understand what leadership actually needed to see and decide, before designing anything.' },
+        { n: '03', title: 'Designed a 4-level schema', desc: 'Modeled a hierarchical schema that organized the 600K+ records into a clean, queryable structure spanning the full company universe.' },
+        { n: '04', title: 'Improved query performance', desc: 'Structured the data so reporting queries run reliably and fast, removing the friction that made analysis unusable before.' },
+        { n: '05', title: 'Built executive dashboards', desc: 'Delivered interactive Power BI dashboards for executive-level financial analysis across 100 listed companies.' },
+        { n: '06', title: 'Validated with stakeholders', desc: 'Checked the dashboards against the original questions to make sure the output answered what leadership set out to learn.' }
+      ],
+      features: [
+        { title: '4-level hierarchical schema', desc: 'A clean structure that turns 600K+ raw records into a queryable, reliable model.' },
+        { title: 'Executive Power BI dashboards', desc: 'Interactive, at-a-glance financial analysis built for decision-makers.' },
+        { title: '100-company coverage', desc: 'The full listed-company universe unified into one coherent reporting view.' },
+        { title: 'Requirements-first delivery', desc: 'Built around the questions leadership actually asked, not guesswork.' }
+      ],
+      challenges: [
+        { problem: 'A 600K+ record dataset had no structure usable for reporting.', resolution: 'Defined data requirements and designed a 4-level hierarchical schema that made the data queryable and reliable.' },
+        { problem: 'Reporting queries were slow and inconsistent on the raw data.', resolution: 'Restructured the data model so query performance and reporting reliability improved materially.' },
+        { problem: 'Stakeholders needed answers, not just charts.', resolution: 'Gathered reporting requirements directly and designed dashboards around the decisions leadership had to make.' }
+      ],
+      value: [
+        { title: 'Decisions on solid ground', desc: 'Leadership gained a dependable, structured view of the market it tracks.' },
+        { title: 'Faster, reliable reporting', desc: 'A better data model improved query performance and reporting reliability.' },
+        { title: 'Stakeholder-aligned output', desc: 'Dashboards answered the real questions because I gathered them first.' }
+      ],
+      valueNote: 'Exact before/after query times and adoption metrics were internal to the internship and are not published here. What is documented is the scope and outcome: a 600,000+ record dataset structured into a 4-level schema and delivered as executive Power BI dashboards across 100 listed companies.',
+      tech: ['SQL', 'Power BI', 'Python (Pandas)', 'Advanced Excel', 'Data Modeling', 'KPI Design'],
+      asset: [
+        'I lead with the business question. I refused to build dashboards on broken data and instead fixed the foundation first — the instinct that separates an analyst from a chart-maker.',
+        'I turn ambiguity into structure. Handed 600K+ shapeless records, I produced a schema and a reporting model a business can actually rely on.',
+        'I work with stakeholders, not around them. Requirements gathered directly become dashboards leadership trusts and uses.'
+      ],
+      future: ['Automated data refresh', 'Self-service report templates', 'Drill-through detail views', 'Alerting on key thresholds', 'Broader market coverage']
+    };
+  }
+}
+</script>
+</body>
+</html>

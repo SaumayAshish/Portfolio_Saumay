@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing: border-box; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+    @keyframes railDot { 0% { top:0%; } 100% { top:100%; } }
+    @keyframes lampPulse { 0% { opacity:1; box-shadow:0 0 14px 3px rgba(255,59,48,0.85); } 14% { opacity:0.18; box-shadow:0 0 0 0 rgba(255,59,48,0); } 100% { opacity:0.18; box-shadow:0 0 0 0 rgba(255,59,48,0); } }
+    @media (prefers-reduced-motion: reduce) { [data-rail-dot] { animation:none !important; } [data-lamp] { animation:none !important; opacity:0.5 !important; } }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#eceeec; font-family:'IBM Plex Sans',sans-serif; letter-spacing:-0.006em; width:100%; overflow-x:hidden;" data-screen-label="Case Study — Industrial ML">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px clamp(20px,5vw,64px); backdrop-filter:blur(10px); background:rgba(18,16,12,0.85); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none; display:flex; align-items:center; gap:8px;">← Return to Mission Control</a>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#aab4bc;">MISSION: DISCOVER SAUMAY · CASE FILE</div>
+  </nav>
+
+  <header style="padding:100px clamp(20px,5vw,64px) 56px; border-bottom:1px solid #1f2a33; background:#0a0d10;">
+    <div style="max-width:900px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; border:1px solid rgba(255,181,71,0.35); padding:6px 14px;">Industrial ML</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8b97a1; border:1px solid #2c3a44; padding:6px 14px;">Complete · runs end-to-end locally, not deployed</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(clamp(16px,2.4vw,29px) * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px; letter-spacing:-0.02em;">Forecast what to stock. Predict what will break.</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; margin-bottom:18px;">My role — end-to-end, solo · data → models → serving → MLOps</div>
+      <p style="font-size:18px; line-height:1.65; color:#c4c7c9; max-width:740px; margin:0 0 28px;">Two end-to-end ML systems covering the two halves of industrial operations: a demand forecasting pipeline that predicts daily per-store sales to reduce stockouts and overstock, and a predictive maintenance system that estimates a jet engine's remaining useful life and flags degradation before failure.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;">
+        <a href="{{ resumeLink }}" target="_blank" style="background:#ffb547; color:#07090b; padding:14px 28px; text-decoration:none; font-weight:700; font-size:14px; display:inline-block;">Download Resume ↓</a>
+        <a href="https://github.com/SaumayAshish/Demand-Forecasting-and-Predictive-Maintenance" target="_blank" style="border:1px solid rgba(255,255,255,0.2); color:#eceeec; padding:14px 28px; text-decoration:none; font-weight:600; font-size:14px; display:inline-block;">View Repository →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:20px; max-width:700px;">
+        <sc-for list="{{ outcomeStats }}" as="s" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:#ffb547;">{{ s.n }}</div>
+            <div style="font-size:12px; color:#8b97a1; margin-top:4px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+  <section style="max-width:920px; margin:0 auto; padding:48px clamp(20px,5vw,56px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY · WHY / WHAT / HOW / CONCLUSION</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;"><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHY</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">How much to stock and whether equipment is about to fail are both usually answered with a rule of thumb.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHAT</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Two ML systems: per-store demand forecasting over 1,115 stores, and remaining-useful-life prediction for jet engines on NASA C-MAPSS.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">HOW</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">A baseline ladder up to a Temporal Fusion Transformer, 6 compared architectures plus an autoencoder, FastAPI + Streamlit, MLflow, DVC, Docker.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">CONCLUSION</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Forecast error cut from 31.4% to 9.4% WAPE; degrading engines flagged 70–100 cycles early. Offline results, not deployed.</div></div></div>
+  </section>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px clamp(20px,5vw,64px);">
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">01 — THE SITUATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Two problems, one engineering pattern.</h2>
+      <sc-for list="{{ situation }}" as="para" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.8; color:#c4c7c9; margin:0 0 18px;">{{ para }}</p>
+      </sc-for>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">02 — THE TWO SYSTEMS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Deliberately different task shapes.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px;">
+        <sc-for list="{{ systems }}" as="sys" hint-placeholder-count="2">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:26px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; letter-spacing:0.08em; margin-bottom:10px;">{{ sys.kicker }}</div>
+            <div style="font-weight:700; font-size:17px; margin-bottom:12px;">{{ sys.title }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc; margin-bottom:18px;">{{ sys.desc }}</div>
+            <div style="display:flex; flex-direction:column; gap:9px; border-top:1px solid #1f2a33; padding-top:16px;">
+              <sc-for list="{{ sys.facts }}" as="f" hint-placeholder-count="4">
+                <div style="display:flex; gap:12px; align-items:baseline; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+                  <span style="color:#8b97a1; flex:0 0 84px;">{{ f.k }}</span>
+                  <span style="color:#c4c7c9; min-width:0;">{{ f.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">03 — OBJECTIVES</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">What success had to look like.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ objectives }}" as="o" hint-placeholder-count="4">
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-size:14px; padding-top:2px;">✓</span>
+            <span style="font-size:16px; line-height:1.65; color:#c4c7c9;">{{ o }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">04 — THE PIPELINE</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 12px;">Signal down the line.</h2>
+      <p style="font-size:15.5px; line-height:1.7; color:#8b97a1; margin:0 0 32px; max-width:640px;">The same eight stages carry both systems, from raw files to a dashboard someone can actually look at. Watch the signal travel.</p>
+
+      <div style="position:relative; border:1px solid #1f2a33; background:#0c1014; padding:28px 24px 28px 22px;">
+        <div style="position:absolute; left:44px; top:44px; bottom:44px; width:3px; background:#4a1512;"></div>
+        <div data-rail-dot style="position:absolute; left:39px; top:44px; width:13px; height:13px; background:#ff3b30; box-shadow:0 0 16px 4px rgba(255,59,48,0.8); animation:railDot 6s linear infinite;"></div>
+        <div style="display:flex; flex-direction:column; gap:0; position:relative;">
+          <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="8">
+            <div style="display:grid; grid-template-columns:44px 1fr; gap:18px; align-items:flex-start; padding:11px 0;">
+              <div style="display:flex; justify-content:center; padding-top:5px;">
+                <div data-lamp style="width:15px; height:15px; background:#ff3b30; opacity:0.18; animation:lampPulse 6s linear infinite; animation-delay:{{ p.delay }}s;"></div>
+              </div>
+              <div style="border:1px solid #1f2a33; background:#0a0d10; padding:14px 18px; min-width:0;">
+                <div style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:baseline;">
+                  <span style="font-weight:700; font-size:15px; color:#eceeec;">{{ p.title }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1;">{{ p.file }}</span>
+                </div>
+                <div style="font-size:13.5px; line-height:1.6; color:#aab4bc; margin-top:6px;">{{ p.desc }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; margin-top:12px;">MLflow tracks every stage above · DVC versions the data feeding it · Docker Compose runs both stacks side by side (8000/8501 and 8001/8502)</div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">05 — WHAT I DID</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 28px;">The steps I took.</h2>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:64px 1fr; gap:24px; padding:24px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px; color:#ffb547;">{{ step.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:17px; margin-bottom:8px;">{{ step.title }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ step.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">06 — MEASURED RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 12px;">Every number here came out of a run.</h2>
+      <p style="font-size:15.5px; line-height:1.7; color:#8b97a1; margin:0 0 28px; max-width:660px;">Both tables are the committed metric files in the repo, not estimates.</p>
+
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; letter-spacing:0.06em; margin-bottom:12px;">DEMAND FORECASTING — TEST WAPE, LOWER IS BETTER</div>
+      <div style="border:1px solid #1f2a33; margin-bottom:36px;">
+        <sc-for list="{{ forecastRows }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:1fr 74px; gap:14px; align-items:center; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <div style="min-width:0;">
+              <div style="font-size:14px; color:{{ r.nameColor }}; font-weight:{{ r.weight }}; margin-bottom:7px;">{{ r.name }}</div>
+              <div style="height:8px; background:#161f26; width:100%;">
+                <div style="height:8px; background:{{ r.barColor }}; width:{{ r.pct }}%;"></div>
+              </div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; text-align:right; color:{{ r.nameColor }}; font-weight:{{ r.weight }};">{{ r.wape }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; letter-spacing:0.06em; margin-bottom:12px;">PREDICTIVE MAINTENANCE — RUL REGRESSION, 6 ARCHITECTURES COMPARED</div>
+      <div style="border:1px solid #1f2a33; overflow-x:auto; margin-bottom:20px;">
+        <div style="min-width:420px;">
+          <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:10px; padding:12px 18px; border-bottom:1px solid #1f2a33; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.05em;">
+            <span>MODEL</span><span style="text-align:right;">TEST RMSE</span><span style="text-align:right;">TEST MAE</span><span style="text-align:right;">NASA SCORE</span>
+          </div>
+          <sc-for list="{{ rulRows }}" as="r" hint-placeholder-count="6">
+            <div style="display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:10px; padding:12px 18px; border-bottom:1px solid #161f26; font-family:'IBM Plex Mono',monospace; font-size:13px; color:{{ r.color }};">
+              <span style="font-weight:{{ r.weight }};">{{ r.name }}</span>
+              <span style="text-align:right;">{{ r.rmse }}</span>
+              <span style="text-align:right;">{{ r.mae }}</span>
+              <span style="text-align:right;">{{ r.nasa }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <p style="font-size:15px; line-height:1.75; color:#aab4bc; margin:0 0 28px;">{{ rulNote }}</p>
+
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; letter-spacing:0.06em; margin-bottom:12px;">ANOMALY DETECTION — ZERO FAILURE LABELS USED</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px;">
+        <sc-for list="{{ anomalyStats }}" as="a" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:21px; font-weight:700; color:#ffb547;">{{ a.n }}</div>
+            <div style="font-size:13px; color:#aab4bc; margin-top:8px; line-height:1.55;">{{ a.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">07 — CHALLENGES → HOW I RESOLVED THEM</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 12px;">The useful bugs looked like they worked.</h2>
+      <p style="font-size:15.5px; line-height:1.7; color:#8b97a1; margin:0 0 24px; max-width:660px;">Each of these ran without an error message. That is what made them worth writing down.</p>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffaa3c; border:1px solid rgba(255,170,60,0.4); padding:3px 8px; flex:0 0 auto;">CHALLENGE</span>
+              <span style="font-size:15px; line-height:1.6; color:#c4c7c9;">{{ c.problem }}</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:3px 8px; flex:0 0 auto;">RESOLVED</span>
+              <span style="font-size:15px; line-height:1.6; color:#aab4bc;">{{ c.resolution }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">08 — JUDGEMENT CALLS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Where the best metric was not the right answer.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ tradeoffs }}" as="t" hint-placeholder-count="3">
+          <div style="border-left:3px solid #ffb547; background:rgba(255,181,71,0.04); padding:20px 22px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:9px; color:#eceeec;">{{ t.q }}</div>
+            <div style="font-size:15px; line-height:1.75; color:#aab4bc;">{{ t.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">09 — BUSINESS VALUE &amp; IMPACT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Why it matters to the business.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-bottom:20px;">
+        <sc-for list="{{ value }}" as="v" hint-placeholder-count="3">
+          <div style="border:1px solid #1f2a33; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#ffb547;">{{ v.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ v.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-left:3px solid #ffb547; padding:14px 20px; background:rgba(255,181,71,0.05);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; margin-bottom:6px;">HONEST MEASUREMENT</div>
+        <p style="font-size:14.5px; line-height:1.65; color:#c4c7c9; margin:0;">{{ valueNote }}</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">10 — TECHNOLOGY (BRIEF)</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">The tools behind it.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="12">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#8b97a1; background:rgba(255,255,255,0.05); padding:8px 14px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">11 — WHY THIS MAKES ME AN ASSET</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What an organization gets in me.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ asset }}" as="a" hint-placeholder-count="3">
+          <div style="display:flex; gap:14px; align-items:flex-start; border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16px; padding-top:2px;">▸</span>
+            <span style="font-size:16px; line-height:1.7; color:#c4c7c9;">{{ a }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">12 — FUTURE ENHANCEMENTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Where it goes next.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ future }}" as="f" hint-placeholder-count="5">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#eceeec; border:1px solid #2c3a44; padding:8px 16px;">{{ f }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="padding:48px clamp(20px,5vw,64px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <a href="https://github.com/SaumayAshish/Demand-Forecasting-and-Predictive-Maintenance" target="_blank" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; text-decoration:none; border-bottom:1px solid #ffb547;">View Repository →</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;resumeLink&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://drive.google.com/uc?export=download&amp;id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const forecast = [
+      { name: 'Naive (lag-1)', wape: 30.95 },
+      { name: 'Seasonal-naive (lag-7)', wape: 31.41 },
+      { name: 'SARIMA (15 stores)', wape: 22.96 },
+      { name: 'LSTM (tuned)', wape: 11.32 },
+      { name: 'TFT (tuned) — winner', wape: 9.38, win: true }
+    ];
+    const maxW = 35;
+    const forecastRows = forecast.map((r) => ({
+      name: r.name,
+      wape: r.wape.toFixed(2) + '%',
+      pct: Math.round((r.wape / maxW) * 100),
+      barColor: r.win ? '#ffb547' : '#5a4520',
+      nameColor: r.win ? '#ffb547' : '#c4c7c9',
+      weight: r.win ? 700 : 400
+    }));
+
+    const rul = [
+      { name: 'Random Forest', rmse: 12.97, mae: 9.08, nasa: 278.9 },
+      { name: 'XGBoost', rmse: 13.15, mae: 9.77, nasa: 288.6 },
+      { name: 'LSTM — winner', rmse: 12.87, mae: 9.38, nasa: 253.0, win: true },
+      { name: '1D CNN', rmse: 14.90, mae: 11.33, nasa: 315.3 },
+      { name: 'CNN-LSTM', rmse: 12.93, mae: 10.03, nasa: 270.4 },
+      { name: 'Transformer', rmse: 13.54, mae: 10.03, nasa: 285.8 }
+    ];
+    const rulRows = rul.map((r) => ({
+      name: r.name,
+      rmse: r.rmse.toFixed(2),
+      mae: r.mae.toFixed(2),
+      nasa: r.nasa.toFixed(1),
+      color: r.win ? '#ffb547' : '#aab4bc',
+      weight: r.win ? 700 : 400
+    }));
+
+    const stages = [
+      { title: 'Raw data in', file: 'download.py', desc: 'Rossmann store sales from Kaggle; NASA C-MAPSS FD001 turbofan runs from the public dataset.' },
+      { title: 'Dataset & labelling', file: 'make_dataset.py', desc: 'Sales joined to store metadata; engine cycles turned into a remaining-useful-life target per row.' },
+      { title: 'Feature engineering', file: 'build_features.py', desc: 'Lag and rolling windows for sales; sensor selection and scaling for engines. Per-store MinMax on one side, global MinMax on the other — the scales mean different things.' },
+      { title: 'Split & windowing', file: 'lstm_dataset.py / pm_dataset.py', desc: 'Time-based split for sales so no future leaks backwards; engine-based split for maintenance so no engine sees its own future.' },
+      { title: 'Model training', file: 'train_*.py', desc: 'Five approaches compared on forecasting, six architectures plus an autoencoder on maintenance. Optuna tuning on the two deep models.' },
+      { title: 'Evaluation & comparison', file: 'compare_models.py, metrics.py', desc: 'WAPE / MAPE / SMAPE for forecasting; RMSE, MAE and the NASA PHM08 asymmetric score for maintenance.' },
+      { title: 'Registry & serving', file: 'main.py (FastAPI)', desc: 'Champion models promoted by alias in the MLflow registry, then served — dual endpoints on the maintenance side for RUL and anomaly.' },
+      { title: 'Dashboard', file: 'app.py (Streamlit)', desc: 'A what-if simulator for demand, and a live anomaly banner with early-warning lead time for maintenance.' }
+    ];
+    const pipeline = stages.map((s, i) => ({ ...s, delay: (i * (6 / stages.length)).toFixed(2) }));
+
+    return {
+      resumeLink: this.props.resumeLink ?? 'https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms',
+      outcomeStats: [
+        { n: '9.4%', label: 'Test WAPE, down from 31.4% baseline' },
+        { n: '12.87', label: 'RUL test RMSE, cycles' },
+        { n: '6+1', label: 'Architectures compared, plus autoencoder' },
+        { n: '70–100', label: 'Cycles of early warning before failure' }
+      ],
+      situation: [
+        'Industrial operations have two questions running at all times: how much to produce or stock, and whether the equipment producing it is about to stop. Both are time-series problems, and both are usually answered with a rule of thumb.',
+        'I built one system for each, on public datasets with published benchmarks so the results could be checked rather than claimed. The demand side uses Rossmann Store Sales — 1,115 stores, roughly three years of daily sales. The maintenance side uses NASA\u2019s C-MAPSS FD001 subset: 100 turbofan engines run to failure, 100 more truncated before it, 21 sensors per cycle.',
+        'The pairing was deliberate. Multi-horizon forecasting and single-value regression plus unsupervised anomaly detection are genuinely different task shapes, so applying the same engineering pattern to both shows the pattern generalises rather than being tuned to one dataset\u2019s quirks.'
+      ],
+      systems: [
+        {
+          kicker: 'SYSTEM 01 — PLANNING',
+          title: 'Demand Forecasting',
+          desc: 'Predicts daily sales per store so stockouts and overstock both shrink. Progressive ladder from a naive baseline through SARIMA and LSTM to a Temporal Fusion Transformer.',
+          facts: [
+            { k: 'Dataset', v: 'Rossmann — 1,115 stores, ~3 yrs daily' },
+            { k: 'Task', v: 'Multi-horizon sales forecasting' },
+            { k: 'Split', v: 'Time-based' },
+            { k: 'Best', v: 'TFT — 9.4% test WAPE' },
+            { k: 'Served', v: 'FastAPI + Streamlit (LSTM)' }
+          ]
+        },
+        {
+          kicker: 'SYSTEM 02 — RELIABILITY',
+          title: 'Predictive Maintenance',
+          desc: 'Two objectives on the same sensor data: how many cycles of life an engine has left, and whether its behaviour has drifted from healthy — the second answered with no failure labels at all.',
+          facts: [
+            { k: 'Dataset', v: 'NASA C-MAPSS FD001 — 100 engines' },
+            { k: 'Task', v: 'RUL regression + anomaly detection' },
+            { k: 'Split', v: 'Engine-based' },
+            { k: 'Best', v: 'LSTM — 12.87 test RMSE' },
+            { k: 'Served', v: 'Dual-endpoint FastAPI + Streamlit' }
+          ]
+        }
+      ],
+      objectives: [
+        'Beat a credible baseline by a margin large enough to be worth the complexity, not a decimal point.',
+        'Compare architectures honestly, and report when the difference between them turns out not to matter.',
+        'Score maintenance predictions the way the business feels them — a late prediction is worse than an early one.',
+        'Make degradation detectable without waiting for labelled failures, which real fleets rarely have.',
+        'Ship the whole path — tracking, registry, data versioning, API, dashboard, containers — not just a notebook.'
+      ],
+      pipeline: pipeline,
+      steps: [
+        { n: '01', title: 'Built the baselines first', desc: 'Naive and seasonal-naive forecasts, then SARIMA. Without a floor to beat, a 9% error rate means nothing — the seasonal-naive 31.4% WAPE is what makes the final number legible.' },
+        { n: '02', title: 'Engineered features, then found the bug in them', desc: 'Lag and rolling windows on sales looked correct until implicit store closures turned out to be silently shifting the lag windows on 41 stores. Fixed by making the calendar gaps explicit before any window was computed.' },
+        { n: '03', title: 'Climbed the model ladder', desc: 'LSTM, then a Temporal Fusion Transformer, both tuned with Optuna. On the maintenance side, six architectures — Random Forest, XGBoost, LSTM, 1D CNN, CNN-LSTM and a Transformer.' },
+        { n: '04', title: 'Wrote a scoring function that matches the risk', desc: 'Implemented the NASA PHM08 asymmetric score alongside RMSE, so an optimistic prediction that risks an in-service failure costs more than a conservative one that wastes some useful life.' },
+        { n: '05', title: 'Detected degradation without labels', desc: 'Trained a dense autoencoder only on healthy windows, so reconstruction error becomes an anomaly signal by construction. Threshold set at the 95th percentile of the healthy set\u2019s own error.' },
+        { n: '06', title: 'Explained the models two independent ways', desc: 'SHAP on the tree baseline and hand-extracted attention weights from the Transformer. Both converged on the same physically-meaningful sensors and the same conclusion: recent trend, not current level, drives the prediction.' },
+        { n: '07', title: 'Made it operable', desc: 'MLflow tracking and a model registry with alias-based promotion, DVC for raw and processed data, FastAPI serving, Streamlit dashboards, and Docker Compose on separate ports so both stacks run side by side.' }
+      ],
+      forecastRows: forecastRows,
+      rulRows: rulRows,
+      rulNote: 'All six architectures land in a 12.9–14.9 RMSE band. That tightness is itself the finding: on this single-condition, single-fault-mode subset, target scaling and feature engineering mattered more than architecture sophistication. The LSTM wins on test RMSE and on the NASA score, which is the one that penalises a dangerous prediction.',
+      anomalyStats: [
+        { n: '−0.569', label: 'Correlation between reconstruction error and true remaining life (p ≈ 0)' },
+        { n: '67.8 vs 110.4', label: 'Mean RUL of flagged windows vs. not-flagged' },
+        { n: '14.2%', label: 'Of all test windows flagged anomalous' },
+        { n: '0', label: 'Failure labels used in training' }
+      ],
+      challenges: [
+        { problem: 'An LSTM that trained without error but had silently collapsed to predicting the training-set mean — loss dropped once, then flatlined.', resolution: 'Inputs were scaled to [0,1] while RUL targets were left at raw [0,125]; MSE against that mismatch drove the network into a local minimum. Scaling targets during training and rescaling predictions for evaluation cut test RMSE from 40.2 to 12.9 cycles. The fix moved into a shared training loop so the three architectures built afterwards could not reintroduce it.' },
+        { problem: 'An attention-visualisation script that ran cleanly and captured nothing.', resolution: 'PyTorch routes TransformerEncoderLayer through a fused native kernel in eval mode, bypassing the Python forward the patch was attached to. I replicated the layer\u2019s post-norm forward by hand — same weights, same output, but on the eager path that actually returns attention weights.' },
+        { problem: 'Lag and rolling features quietly miscalculated on stores with implicit closure days.', resolution: 'The gaps were absent rows rather than zero rows, so the windows shifted rather than erroring. Reindexing to a complete calendar before feature construction corrected all 41 affected stores.' },
+        { problem: 'The most accurate forecasting model was the wrong one to serve.', resolution: 'The TFT needs known-future covariates such as a planned promo calendar to realise its accuracy; a simple endpoint does not have those. Serving the LSTM reproduces validated performance honestly rather than shipping a number the API could never actually hit.' }
+      ],
+      tradeoffs: [
+        { q: 'Why not just report RMSE?', a: 'RMSE punishes a ten-cycle early miss and a ten-cycle late miss identically, and in maintenance those are not equally bad. The NASA PHM08 score is asymmetric by design. Here it mostly agreed with RMSE — but it can disagree, and reporting only one would hide that.' },
+        { q: 'Why compare six architectures if they all land in the same band?', a: 'Because that result is the honest one. A benchmark that only reports the winner would have implied architecture choice was the lever. It was not — scaling and features were.' },
+        { q: 'Why both MLflow and DVC?', a: 'They answer different questions. The registry answers which model artefact is currently serving; DVC answers what data produced it. Data files stay out of git as small hashed pointers, so versions remain diffable without bloating the repo.' }
+      ],
+      value: [
+        { title: 'Fewer stockouts and less overstock', desc: 'Cutting forecast error from roughly 31% to 9% narrows the buffer a planner has to hold to be safe.' },
+        { title: 'Unplanned downtime becomes scheduled work', desc: 'Seventy to a hundred cycles of warning is enough lead time to book maintenance rather than absorb a failure.' },
+        { title: 'Works without a labelled failure history', desc: 'The anomaly detector needs only healthy operating data, which is what most fleets actually have.' }
+      ],
+      valueNote: 'These are offline results on public benchmark datasets. Both systems run end-to-end locally, but neither is deployed against production traffic or real users, so time saved, cost avoided and uptime are all not yet measured. What is measured is on this page: error rates, comparison tables and lead times, all reproducible from the repo.',
+      tech: ['Python', 'PyTorch', 'Temporal Fusion Transformer', 'LSTM', 'XGBoost', 'Scikit-learn', 'Optuna', 'SHAP', 'FastAPI', 'Streamlit', 'MLflow', 'DVC', 'Docker Compose', 'pytest'],
+      asset: [
+        'I build a floor before I build a model. The baseline ladder is why the headline number can be trusted instead of admired.',
+        'I report what the comparison actually showed, including the finding that six architectures barely differed. That instinct is what makes an analyst\u2019s numbers usable by someone making a decision.',
+        'I choose the model the system can honestly serve rather than the one with the best offline score, and I can explain that trade-off to both an engineer and a stakeholder.'
+      ],
+      future: ['Known-future covariate pipeline for the TFT', 'C-MAPSS FD002–FD004 subsets', 'Per-condition normalisation', 'Sequence-aware autoencoder', 'Live telemetry endpoint', 'Threshold recalibration monitoring']
+    };
+  }
+}
+</script>
+</body>
+</html>

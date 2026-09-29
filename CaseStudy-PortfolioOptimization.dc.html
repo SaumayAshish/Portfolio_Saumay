@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing: border-box; }
+    ::selection { background:#ffb547; color:#07090b; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#eceeec; font-family:'IBM Plex Sans',sans-serif; letter-spacing:-0.006em; width:100%; overflow-x:hidden;" data-screen-label="Case Study — Portfolio Optimization">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px clamp(20px,5vw,64px); backdrop-filter:blur(10px); background:rgba(18,16,12,0.85); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#aab4bc;">MISSION: DISCOVER SAUMAY · CASE FILE</div>
+  </nav>
+
+  <header style="padding:100px clamp(20px,5vw,64px) 64px; border-bottom:1px solid #1f2a33; background:#0a0d10;">
+    <div style="max-width:900px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; border:1px solid rgba(255,181,71,0.35); padding:6px 14px; border-radius:0;">Finance AI</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8b97a1; border:1px solid #2c3a44; padding:6px 14px; border-radius:0;">Jan 2026 – May 2026</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(clamp(17px,2.8vw,34px) * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.45; margin:0 0 20px; letter-spacing:-0.02em;">RAG-based NIFTY 100 portfolio optimization.</h1>
+      <p style="font-size:18px; line-height:1.65; color:#c4c7c9; max-width:680px; margin:0 0 28px;">A retrieval-augmented pipeline that pairs vector search over financial data with XGBoost ranking and SHAP explainability, to give investors contextual, explainable insight into NIFTY 100 stocks.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="{{ resumeLink }}" target="_blank" style="background:#ffb547; color:#07090b; padding:14px 28px; text-decoration:none; font-weight:700; font-size:14px; display:inline-block;">Download Resume ↓</a>
+        <a href="https://github.com/SaumayAshish/BlueStock_Nifty100" target="_blank" style="border:1px solid rgba(255,255,255,0.2); color:#eceeec; padding:14px 28px; text-decoration:none; font-weight:600; font-size:14px; display:inline-block;">View Repository →</a>
+      </div>
+    </div>
+  </header>
+  <section style="max-width:920px; margin:0 auto; padding:48px clamp(20px,5vw,56px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY · WHY / WHAT / HOW / CONCLUSION</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;"><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHY</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Screening NIFTY 100 stocks across many financial indicators gives investors little context and no explanation.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHAT</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">A retrieval-augmented pipeline with XGBoost ranking, SHAP explanations and LLM-generated summaries.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">HOW</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Vector search over financial data and news, an XGBoost ranking model, and SHAP to show why each stock ranked where it did.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">CONCLUSION</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Explainable, context-aware screening that outperformed baseline screening in backtesting. Return figures: not yet measured here.</div></div></div>
+  </section>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px clamp(20px,5vw,64px);">
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">01 — PROBLEM</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 16px;">The problem</h2>
+      <p style="font-size:16px; line-height:1.75; color:#c4c7c9; margin:0;">Investors lack contextual, AI-powered insight when evaluating NIFTY 100 stocks across complex financial indicators — most screeners give ranked numbers with no explanation of why a stock ranks where it does.</p>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">02 — DATA PIPELINE</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Data pipeline</h2>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:0; background:#0c1014; border:1px solid #1f2a33; border-radius:0; padding:36px;">
+        <sc-for list="{{ pipeline }}" as="step" hint-placeholder-count="5">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; border:1px solid rgba(255,181,71,0.4); color:#eceeec; background:rgba(255,181,71,0.06); padding:12px 24px; border-radius:0; min-width:220px; text-align:center;">{{ step }}</div>
+            <sc-if value="{{ step }}" hint-placeholder-val="{{ true }}"><div style="color:#ffb547; font-size:18px; padding:6px 0;">↓</div></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">03 — FEATURE ENGINEERING &amp; MODEL</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 16px;">Feature engineering &amp; model training</h2>
+      <p style="font-size:16px; line-height:1.75; color:#c4c7c9; margin:0 0 16px;">Financial indicators feed an XGBoost ranking model; retrieved context from a vector database grounds an LLM's generated investment insights, and SHAP values explain which features drove each ranking.</p>
+      <div style="border:1px dashed rgba(255,150,60,0.4); background:rgba(255,150,60,0.06); border-radius:0; padding:20px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffa64d; border:1px solid rgba(255,150,60,0.5); padding:3px 10px; border-radius:0;">TODO</span>
+        <p style="font-size:14.5px; color:#c4c7c9; margin:12px 0 0; line-height:1.6;">Exact feature list, hyperparameters, and embedding model choice not yet documented.</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">04 — EVALUATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 16px;">Evaluation</h2>
+      <p style="font-size:16px; line-height:1.75; color:#c4c7c9; margin:0 0 16px;">Backtested against a baseline screening approach — outperformed it by 15% in backtesting.</p>
+      <div style="border:1px dashed rgba(255,150,60,0.4); background:rgba(255,150,60,0.06); border-radius:0; padding:20px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffa64d; border:1px solid rgba(255,150,60,0.5); padding:3px 10px; border-radius:0;">TODO</span>
+        <p style="font-size:14.5px; color:#c4c7c9; margin:12px 0 0; line-height:1.6;">No further accuracy, precision/recall, or return metrics beyond the 15% backtesting figure are confirmed — do not extrapolate additional numbers.</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">05 — VISUALIZATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 16px;">Visualization</h2>
+      <div style="border:1px dashed rgba(255,150,60,0.4); background:rgba(255,150,60,0.06); border-radius:0; padding:20px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffa64d; border:1px solid rgba(255,150,60,0.5); padding:3px 10px; border-radius:0;">TODO</span>
+        <p style="font-size:14.5px; color:#c4c7c9; margin:12px 0 0; line-height:1.6;">Dashboard/visualization details not yet documented.</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">06 — TECH STACK</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Tech stack</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ techStack }}" as="t" hint-placeholder-count="6">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; background:rgba(255,181,71,0.08); padding:8px 16px; border-radius:0;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">07 — REMAINING SECTIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(16px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 16px;">Folder structure, API/DB design, trade-offs & lessons learned</h2>
+      <div style="border:1px dashed rgba(255,150,60,0.4); background:rgba(255,150,60,0.06); border-radius:0; padding:20px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffa64d; border:1px solid rgba(255,150,60,0.5); padding:3px 10px; border-radius:0;">TODO</span>
+        <p style="font-size:14.5px; color:#c4c7c9; margin:12px 0 0; line-height:1.6;">Not yet documented for this project — share repo details to fill these in.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="padding:48px clamp(20px,5vw,64px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <a href="https://github.com/SaumayAshish/BlueStock_Nifty100" target="_blank" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; text-decoration:none; border-bottom:1px solid #ffb547;">View on GitHub →</a>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;resumeLink&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      resumeLink: this.props.resumeLink ?? 'https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms',
+      pipeline: ['NIFTY 100 Financial Data', 'Ingestion', 'Vector Store (embeddings)', 'XGBoost Ranking + LLM Insight Generation', 'SHAP Explainability'],
+      techStack: ['XGBoost', 'SHAP', 'RAG', 'LangChain', 'Vector DB', 'FastAPI']
+    };
+  }
+}
+
+</script>
+</body>
+</html>

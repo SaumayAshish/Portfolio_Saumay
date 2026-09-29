@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing:border-box; scrollbar-color:#2c3a44 transparent; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#dce3e8; font-family:'IBM Plex Sans',sans-serif; min-height:100vh;" data-screen-label="Case file">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(20px,5vw,56px); background:rgba(7,9,11,0.92); backdrop-filter:blur(8px); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#aab4bc; white-space:nowrap;">MISSION: DISCOVER SAUMAY · CASE FILE {{ fileId }}</span>
+  </nav>
+
+  <header style="padding:84px clamp(20px,5vw,56px) 52px; border-bottom:1px solid #1f2a33;">
+    <div style="max-width:920px;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:6px 12px;">{{ tag }}</span>
+        <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ statusColor }}; border:1px solid #2c3a44; padding:6px 12px;"><span style="width:7px; height:7px; background:{{ statusColor }};"></span>{{ status }}</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.05; margin:0 0 18px; text-wrap:balance;">{{ title }}</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; margin-bottom:18px;">{{ role }}</div>
+      <p style="font-size:18px; line-height:1.65; color:#c3ccd3; max-width:760px; margin:0 0 28px; text-wrap:pretty;">{{ intro }}</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="2">
+          <a href="{{ l.href }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:0.05em; padding:12px 18px; border:1px solid #3a4852; color:#dce3e8; text-decoration:none;" style-hover="border-color:#ffb547; color:#ffb547;">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid #1f2a33;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 18px; border-right:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; color:{{ s.c }};">{{ s.n }}</div>
+            <div style="font-size:12.5px; color:#8b97a1; margin-top:6px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
+        <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">{{ s.k }}</div>
+            <div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">01 — WHY</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ whyTitle }}</h2>
+      <sc-for list="{{ why }}" as="p" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">02 — WHAT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ whatTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px;">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="6">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ w.t }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ w.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">03 — HOW</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ howTitle }}</h2>
+      <div style="border:1px solid #1f2a33; background:rgba(10,13,16,0.85); padding:20px; margin-bottom:26px; overflow-x:auto;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:14px;">{{ flowLabel }}</div>
+        <div style="display:flex; flex-direction:column; align-items:stretch; gap:0; min-width:300px;">
+          <sc-for list="{{ flow }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:100%; max-width:560px; border:1px solid {{ f.border }}; background:#0c1014; padding:11px 14px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#dce3e8;">{{ f.t }}</span>
+                <span style="font-size:12.5px; color:#8b97a1;">{{ f.d }}</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; line-height:1.4; display:{{ f.arrow }};">↓</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; padding:20px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:#ffb547;">{{ s.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:16.5px; margin-bottom:6px;">{{ s.t }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">04 — DECISIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">Calls I made, and what they cost.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px 20px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ d.q }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc;">{{ d.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">05 — RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">What came out of it.</h2>
+      <div style="border:1px solid #1f2a33;">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <span style="font-size:14.5px; color:#c3ccd3;">{{ r.k }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:{{ r.c }}; text-align:right;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">06 — CONCLUSION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ conclusionTitle }}</h2>
+      <sc-for list="{{ conclusion }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <sc-for list="{{ proves }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:18px 1fr; gap:10px; border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:14px 16px;">
+            <span style="color:#3ddc84; font-family:'IBM Plex Mono',monospace;">✓</span>
+            <span style="font-size:15px; line-height:1.65; color:#dce3e8;">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.12em; padding:6px 0; margin-right:6px;">NEXT BURN</span>
+        <sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dce3e8; border:1px solid #2c3a44; padding:6px 12px;">{{ n }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="8">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aab4bc; border:1px solid #2c3a44; padding:5px 10px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:36px clamp(20px,5vw,56px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; text-decoration:none;">View repository ↗</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = {
+    "fileId": "PL-03",
+    "tag": "Data Integration · Automation",
+    "status": "COMPLETE",
+    "statusColor": "#3ddc84",
+    "title": "Three systems, no shared key, one audited record",
+    "role": "Solo · data pipeline, schema, n8n automation, Flask app, tests",
+    "intro": "Three messy CSVs exported from three different systems, merged into one clean SQLite database with a full audit trail. An n8n workflow uses an LLM to tag every person with a skill category, and a Flask app collects audio recordings into the same schema and extracts their properties automatically.",
+    "repo": "https://github.com/SaumayAshish/consultbae-assignment",
+    "links": [
+      {
+        "label": "REPOSITORY ↗",
+        "href": "https://github.com/SaumayAshish/consultbae-assignment"
+      },
+      {
+        "label": "DATA_ISSUES.md ↗",
+        "href": "https://github.com/SaumayAshish/consultbae-assignment/blob/main/DATA_ISSUES.md"
+      },
+      {
+        "label": "SCALE.md ↗",
+        "href": "https://github.com/SaumayAshish/consultbae-assignment/blob/main/SCALE.md"
+      }
+    ],
+    "stats": [
+      {
+        "n": "105 → 56",
+        "label": "Source rows to unique people",
+        "c": "#ffb547"
+      },
+      {
+        "n": "296",
+        "label": "Data issues logged, 22 types",
+        "c": "#dce3e8"
+      },
+      {
+        "n": "73",
+        "label": "Tests passing",
+        "c": "#3ddc84"
+      },
+      {
+        "n": "0",
+        "label": "People left untagged by n8n",
+        "c": "#dce3e8"
+      }
+    ],
+    "summary": [
+      {
+        "k": "WHY",
+        "v": "Three systems described the same people with no common ID. Merging them carelessly silently fuses two real people into one record."
+      },
+      {
+        "k": "WHAT",
+        "v": "A deterministic merge pipeline, a rebuildable golden-record schema, an n8n LLM skill tagger, and a Flask audio-collection app writing into the same database."
+      },
+      {
+        "k": "HOW",
+        "v": "Normalise, then match in three passes from hardest evidence to weakest: email, phone, then name + metro gated on uniqueness. Log every issue and conflict."
+      },
+      {
+        "k": "CONCLUSION",
+        "v": "105 rows became 56 people, 15 matched across all three files, 296 issues logged with the action taken, and the homonym trap caught instead of merged."
+      }
+    ],
+    "whyTitle": "This is what customer data actually looks like.",
+    "why": [
+      "The three files came from a job portal, a gig roster and a partner network. No ID was common to all three, and no pair shared a full key: the gig roster had emails but no phones, the partner network had phones but no emails.",
+      "The obvious fix is fuzzy name matching with a similarity threshold. That is exactly how a database gets quietly destroyed: two different people with the same name in the same city become one record, and nobody notices.",
+      "This is the everyday reality of solution engineering. The customer’s systems do not agree, the data is dirty, and the job is to integrate them without losing anything or inventing anything."
+    ],
+    "whatTitle": "What got built.",
+    "what": [
+      {
+        "t": "Deterministic merge pipeline",
+        "d": "Ingest, normalise, match and merge in one command. Two consecutive builds produce byte-identical output."
+      },
+      {
+        "t": "Auditable schema",
+        "d": "Every raw row kept append-only. The golden person record is derived and can be dropped and rebuilt at any time. Every match records which rule attached it."
+      },
+      {
+        "t": "Conflict and issue tables",
+        "d": "Every cross-source disagreement keeps both values. Every data-quality problem is logged with the action taken. DATA_ISSUES.md is generated from the table."
+      },
+      {
+        "t": "n8n LLM automation",
+        "d": "Pulls untagged people from the API, classifies each with an LLM and a structured output parser, and writes the batch back. Falls back to a keyword classifier if the LLM fails."
+      },
+      {
+        "t": "Audio collection app",
+        "d": "Flask app that records in the browser or accepts uploads, matches the submitter by normalised phone, and extracts duration, sample rate, bitrate, LUFS, SNR and clipping."
+      },
+      {
+        "t": "Scale analysis",
+        "d": "SCALE.md works through what breaks first at 5,000 workers in a weekend."
+      }
+    ],
+    "howTitle": "Hardest evidence first. Refuse to guess.",
+    "flowLabel": "MERGE PIPELINE",
+    "flow": [
+      {
+        "t": "Ingest 3 CSVs",
+        "d": "sha256 per file · raw rows kept"
+      },
+      {
+        "t": "Normalise",
+        "d": "Phones, email aliases, city → metro"
+      },
+      {
+        "t": "Pass 1 · email identity",
+        "d": "Deterministic · confidence 1.0"
+      },
+      {
+        "t": "Pass 2 · exact phone",
+        "d": "Deterministic · confidence 1.0"
+      },
+      {
+        "t": "Pass 3 · name + metro",
+        "d": "Only if each source has exactly one candidate"
+      },
+      {
+        "t": "Golden record + audit views",
+        "d": "v_person_full · v_merge_audit"
+      }
+    ],
+    "steps": [
+      {
+        "n": "01",
+        "t": "Normalised before joining",
+        "d": "Five phone formats reduced to the bare 10-digit number. Email aliases collapsed. Bangalore and Bengaluru, Gurgaon and Gurugram unified, with Delhi, Noida and Gurugram grouped into a Delhi NCR metro."
+      },
+      {
+        "n": "02",
+        "t": "Matched with exact keys first",
+        "d": "Email and phone joins do most of the work. A union-find merges clusters transitively, so one person on the job portal pulls their other two rows in without any fuzzy matching."
+      },
+      {
+        "n": "03",
+        "t": "Replaced a similarity score with a uniqueness gate",
+        "d": "Name + metro only merges when each source contributes exactly one candidate. Otherwise the ambiguity is logged. Zero tuning parameters, and every decision can be explained row by row."
+      },
+      {
+        "n": "04",
+        "t": "Caught the trap",
+        "d": "Three Arjun Mehtas in Noida, two with different phones in the same file. The pipeline keeps them as separate records and logs homonym_ambiguous_match. The two Deepak Nairs stay apart too."
+      },
+      {
+        "n": "05",
+        "t": "Made survivorship explicit",
+        "d": "Longest name wins, city by majority vote, pay fields from the source that owns them, skills unioned. Where sources disagree, both values go to field_conflict first."
+      },
+      {
+        "n": "06",
+        "t": "Tested both failure directions",
+        "d": "Tests assert that the homonyms stay apart and that the same person comes together across all three files, that no person holds two phones, and that every usable row is claimed exactly once."
+      }
+    ],
+    "decisions": [
+      {
+        "q": "Uniqueness gate instead of a fuzzy threshold",
+        "a": "A handful of genuinely ambiguous people stay unmerged. In exchange, two real people are never fused into one record."
+      },
+      {
+        "q": "Keep both values on conflict",
+        "a": "More rows in the database. In exchange, no silent data loss, and every merge can be reversed."
+      },
+      {
+        "q": "Derived, rebuildable golden record",
+        "a": "The build must stay deterministic. In exchange, matching rules can change and re-run without re-ingesting anything."
+      },
+      {
+        "q": "SQLite and a stdlib-only pipeline",
+        "a": "SQLite breaks under concurrency and stdlib means more code. In exchange, zero dependency risk and the whole thing clones and runs in one command."
+      }
+    ],
+    "results": [
+      {
+        "k": "Source rows → unique people",
+        "v": "105 → 56",
+        "c": "#ffb547"
+      },
+      {
+        "k": "People matched across all three files",
+        "v": "15",
+        "c": "#dce3e8"
+      },
+      {
+        "k": "Data-quality issues logged",
+        "v": "296 across 22 types",
+        "c": "#dce3e8"
+      },
+      {
+        "k": "Homonym traps caught instead of merged",
+        "v": "Arjun Mehta ×3 · Deepak Nair ×2",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "People tagged by n8n (v2.35.3)",
+        "v": "56 · still_untagged 0",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Automated tests",
+        "v": "73 passing",
+        "c": "#3ddc84"
+      }
+    ],
+    "conclusionTitle": "Integration without losing or inventing data.",
+    "conclusion": [
+      "Three systems that shared no key were resolved into 56 audited people. Every merge can be traced to the rule that made it, every conflict keeps both values, every data problem is logged with what was done about it, and the entire database can be rebuilt byte-for-byte from the raw rows.",
+      "On top of that sit an LLM automation that tagged every person and an audio app that writes into the same schema. It is a small version of a Solution Engineer engagement: messy systems in, one trustworthy source of truth out."
+    ],
+    "proves": [
+      "I pick the rule that is safe for the customer’s data over the one that looks clever.",
+      "I design for audit and reversibility, so a merge can be explained to whoever owns the data.",
+      "I can wire LLM automation into a real pipeline with a deterministic fallback, not a demo that fails without an API key."
+    ],
+    "next": [
+      "Move from SQLite to PostgreSQL for concurrency",
+      "Queue-based audio processing",
+      "Review UI for ambiguous matches"
+    ],
+    "tech": [
+      "Python 3.11",
+      "SQLite",
+      "n8n",
+      "LLM structured output",
+      "Flask",
+      "ffmpeg",
+      "pytest",
+      "Docker"
+    ]
+  };
+  renderVals() {
+    const d = this.DATA;
+    const n = d.flow.length;
+    return { ...d, flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
+  }
+}
+</script>
+</body>
+</html>

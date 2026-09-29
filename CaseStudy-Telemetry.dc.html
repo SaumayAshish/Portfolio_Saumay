@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing:border-box; scrollbar-color:#2c3a44 transparent; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#dce3e8; font-family:'IBM Plex Sans',sans-serif; min-height:100vh;" data-screen-label="Case file">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(20px,5vw,56px); background:rgba(7,9,11,0.92); backdrop-filter:blur(8px); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#aab4bc; white-space:nowrap;">MISSION: DISCOVER SAUMAY · CASE FILE {{ fileId }}</span>
+  </nav>
+
+  <header style="padding:84px clamp(20px,5vw,56px) 52px; border-bottom:1px solid #1f2a33;">
+    <div style="max-width:920px;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:6px 12px;">{{ tag }}</span>
+        <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ statusColor }}; border:1px solid #2c3a44; padding:6px 12px;"><span style="width:7px; height:7px; background:{{ statusColor }};"></span>{{ status }}</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.05; margin:0 0 18px; text-wrap:balance;">{{ title }}</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; margin-bottom:18px;">{{ role }}</div>
+      <p style="font-size:18px; line-height:1.65; color:#c3ccd3; max-width:760px; margin:0 0 28px; text-wrap:pretty;">{{ intro }}</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="2">
+          <a href="{{ l.href }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:0.05em; padding:12px 18px; border:1px solid #3a4852; color:#dce3e8; text-decoration:none;" style-hover="border-color:#ffb547; color:#ffb547;">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid #1f2a33;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 18px; border-right:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; color:{{ s.c }};">{{ s.n }}</div>
+            <div style="font-size:12.5px; color:#8b97a1; margin-top:6px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
+        <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">{{ s.k }}</div>
+            <div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">01 — WHY</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ whyTitle }}</h2>
+      <sc-for list="{{ why }}" as="p" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">02 — WHAT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ whatTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px;">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="6">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ w.t }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ w.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">03 — HOW</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ howTitle }}</h2>
+      <div style="border:1px solid #1f2a33; background:rgba(10,13,16,0.85); padding:20px; margin-bottom:26px; overflow-x:auto;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:14px;">{{ flowLabel }}</div>
+        <div style="display:flex; flex-direction:column; align-items:stretch; gap:0; min-width:300px;">
+          <sc-for list="{{ flow }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:100%; max-width:560px; border:1px solid {{ f.border }}; background:#0c1014; padding:11px 14px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#dce3e8;">{{ f.t }}</span>
+                <span style="font-size:12.5px; color:#8b97a1;">{{ f.d }}</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; line-height:1.4; display:{{ f.arrow }};">↓</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; padding:20px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:#ffb547;">{{ s.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:16.5px; margin-bottom:6px;">{{ s.t }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">04 — DECISIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">Calls I made, and what they cost.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px 20px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ d.q }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc;">{{ d.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">05 — RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">What came out of it.</h2>
+      <div style="border:1px solid #1f2a33;">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <span style="font-size:14.5px; color:#c3ccd3;">{{ r.k }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:{{ r.c }}; text-align:right;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">06 — CONCLUSION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ conclusionTitle }}</h2>
+      <sc-for list="{{ conclusion }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <sc-for list="{{ proves }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:18px 1fr; gap:10px; border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:14px 16px;">
+            <span style="color:#3ddc84; font-family:'IBM Plex Mono',monospace;">✓</span>
+            <span style="font-size:15px; line-height:1.65; color:#dce3e8;">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.12em; padding:6px 0; margin-right:6px;">NEXT BURN</span>
+        <sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dce3e8; border:1px solid #2c3a44; padding:6px 12px;">{{ n }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="8">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aab4bc; border:1px solid #2c3a44; padding:5px 10px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:36px clamp(20px,5vw,56px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; text-decoration:none;">View repository ↗</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = {
+    "fileId": "PL-01",
+    "tag": "Java · Kafka · Event Streaming",
+    "status": "ONGOING",
+    "statusColor": "#ffb547",
+    "title": "Real-Time Telemetry Anomaly Detection Platform",
+    "role": "Solo · architecture, Kafka topology, Java services, infrastructure",
+    "intro": "A streaming platform that ingests sensor telemetry through Kafka, scores every reading for anomalies in real time with Kafka Streams, persists alerts to TimescaleDB, and serves them through a Spring Boot API. Built as a multi-module Maven project targeting Java 26.",
+    "repo": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform",
+    "links": [
+      {
+        "label": "REPOSITORY ↗",
+        "href": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform"
+      },
+      {
+        "label": "ADR-0001 ↗",
+        "href": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform/blob/main/docs/adr/0001-telemetry-topic-partition-key.md"
+      }
+    ],
+    "stats": [
+      {
+        "n": "5",
+        "label": "Maven modules / services",
+        "c": "#ffb547"
+      },
+      {
+        "n": "6",
+        "label": "Partitions, keyed by sensorId",
+        "c": "#dce3e8"
+      },
+      {
+        "n": "z ≥ 3.0",
+        "label": "Anomaly threshold after 30 samples",
+        "c": "#dce3e8"
+      },
+      {
+        "n": "Ongoing",
+        "label": "Throughput & latency not yet measured",
+        "c": "#8b97a1"
+      }
+    ],
+    "summary": [
+      {
+        "k": "WHY",
+        "v": "Sensor faults cost money every minute they go unseen. Batch jobs find them after the damage. Detection has to happen per sensor, in order, as the data arrives."
+      },
+      {
+        "k": "WHAT",
+        "v": "A producer, a Kafka Streams scoring service, an alerting consumer into TimescaleDB, and a Spring Boot query API, running on Kafka 3.8 in KRaft mode."
+      },
+      {
+        "k": "HOW",
+        "v": "Contract first (ADR-0001): versioned topic, sensorId partition key, 6 partitions. Then a stateful per-sensor processor that scores z-scores and re-baselines."
+      },
+      {
+        "k": "CONCLUSION",
+        "v": "The end-to-end pipeline runs locally. Remaining: the served ML model, natural-language alert queries, and measured throughput and latency."
+      }
+    ],
+    "whyTitle": "Anomalies are only useful while they are happening.",
+    "why": [
+      "Industrial sensors report continuously. A temperature that drifts out of its normal band is a signal for minutes, not days; if detection runs as a nightly batch, the alert arrives after the equipment has already failed.",
+      "Doing this in real time has two hard parts. Readings from the same sensor must be processed in order, because a rolling baseline is meaningless if events arrive shuffled. And each sensor needs its own state, because what is normal for one is an anomaly for another.",
+      "It is also the most direct way to show the stack I want to work in: Java services communicating through Kafka, stateful stream processing, a relational time-series store, and a Spring Boot API on top."
+    ],
+    "whatTitle": "Five modules, one event contract.",
+    "what": [
+      {
+        "t": "common-models",
+        "d": "Shared event types: AnomalyEvent and an AnomalySeverity enum mapped from z-score (LOW, MEDIUM ≥ 5, HIGH ≥ 10, CRITICAL ≥ 15)."
+      },
+      {
+        "t": "ingestion-service",
+        "d": "A Kafka producer emitting readings for five sensors with per-sensor sequence numbers and delivery callbacks that log partition and offset."
+      },
+      {
+        "t": "stream-processing-service",
+        "d": "Kafka Streams: 30-second windows with 5-second grace for rolling stats, plus a stateful processor that emits anomalies to telemetry.sensor.anomalies.v1."
+      },
+      {
+        "t": "alerting-service",
+        "d": "Consumes anomalies and writes them to TimescaleDB through HikariCP. Also holds 35 standalone harnesses I wrote to master the Java concurrency, JDBC and I/O it depends on."
+      },
+      {
+        "t": "api-service",
+        "d": "Spring Boot: GET /api/alerts with optional sensorId, severity and time-range filters, through a controller, service and repository chain."
+      },
+      {
+        "t": "Infrastructure",
+        "d": "Docker Compose running Kafka 3.8 in KRaft mode (no ZooKeeper) and TimescaleDB 2.29 on PostgreSQL 16."
+      }
+    ],
+    "howTitle": "Decide the contract, then write the code.",
+    "flowLabel": "EVENT FLOW",
+    "flow": [
+      {
+        "t": "SensorTelemetryProducer",
+        "d": "5 sensors · key = sensorId"
+      },
+      {
+        "t": "telemetry.sensor.readings.v1",
+        "d": "6 partitions · ordered per sensor"
+      },
+      {
+        "t": "AnomalyDetectionStreamApp",
+        "d": "Per-sensor state store · z ≥ 3.0"
+      },
+      {
+        "t": "telemetry.sensor.anomalies.v1",
+        "d": "Scored events with severity"
+      },
+      {
+        "t": "AlertConsumer → TimescaleDB",
+        "d": "HikariCP · PostgreSQL 16"
+      },
+      {
+        "t": "Spring Boot /api/alerts",
+        "d": "Filter by sensor, severity, time"
+      }
+    ],
+    "steps": [
+      {
+        "n": "01",
+        "t": "Wrote the architecture decision before the producer",
+        "d": "ADR-0001 fixes the topic name (domain.entity.purpose.version), the partition key and the partition count, because changing any of them later breaks ordering for consumers already running."
+      },
+      {
+        "n": "02",
+        "t": "Keyed every reading by sensorId",
+        "d": "Kafka hashes the key to choose a partition, so all readings from one sensor land on one partition in order. That is what makes a per-sensor rolling baseline correct."
+      },
+      {
+        "n": "03",
+        "t": "Built rolling statistics as a pure, tested value",
+        "d": "RollingStats updates mean and standard deviation incrementally and has its own verification harness, so the maths is checked independently of Kafka."
+      },
+      {
+        "n": "04",
+        "t": "Put the decision logic in one pure function",
+        "d": "AnomalyDecisionEngine.decide takes a reading and current stats and returns new stats plus an optional event. No Kafka inside, so every branch has a harness test."
+      },
+      {
+        "n": "05",
+        "t": "Handled the new-normal problem",
+        "d": "After 10 consecutive anomalies the engine re-baselines, treating a sustained shift as the new normal instead of alerting on every reading forever."
+      },
+      {
+        "n": "06",
+        "t": "Exposed alerts through Spring Boot",
+        "d": "A REST controller with optional filters over a repository layer, verified against TimescaleDB on startup."
+      }
+    ],
+    "decisions": [
+      {
+        "q": "Why version the topic name with .v1?",
+        "a": "A breaking change to the message shape ships as a new .v2 topic while existing consumers keep reading .v1. The cost is running two topics during a migration."
+      },
+      {
+        "q": "Why 6 partitions?",
+        "a": "Enough parallelism for local workloads without extra complexity. Partition count also caps useful consumer parallelism, and raising it later remaps keys, so it is treated as a planned migration rather than a config change."
+      },
+      {
+        "q": "Why a pure decision function instead of logic inside the processor?",
+        "a": "It makes the anomaly rules testable without a broker. The cost is one more layer between the stream and the rule."
+      },
+      {
+        "q": "Why TimescaleDB instead of a separate time-series store?",
+        "a": "It is PostgreSQL, so it keeps SQL, JDBC and HikariCP while adding time-series partitioning. One less technology to operate."
+      }
+    ],
+    "results": [
+      {
+        "k": "End-to-end pipeline",
+        "v": "Running locally",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Services in the build",
+        "v": "5 Maven modules",
+        "c": "#dce3e8"
+      },
+      {
+        "k": "Architecture decisions recorded",
+        "v": "ADR-0001",
+        "c": "#dce3e8"
+      },
+      {
+        "k": "Throughput (events/sec)",
+        "v": "Not yet measured",
+        "c": "#8b97a1"
+      },
+      {
+        "k": "End-to-end latency",
+        "v": "Not yet measured",
+        "c": "#8b97a1"
+      },
+      {
+        "k": "Served ML model · plain-English alert queries",
+        "v": "Planned",
+        "c": "#ffb547"
+      }
+    ],
+    "conclusionTitle": "Where it stands, and what it shows.",
+    "conclusion": [
+      "The platform already does the hard part of streaming: ordered, per-sensor, stateful scoring that turns raw readings into severity-graded anomaly events, persisted and queryable through an API. The contract that makes it correct is written down before the code.",
+      "What remains is the layer on top: a served ML model to replace the z-score rule, natural-language querying of alerts, a load test to put real numbers on throughput and latency, and a cloud deployment."
+    ],
+    "proves": [
+      "I can design an event-driven system in Java from the contract up: topics, keys, partitions, state.",
+      "I separate business rules from infrastructure so they can be tested without a running broker.",
+      "I record architecture decisions and their trade-offs, which is what makes a system operable by a team."
+    ],
+    "next": [
+      "Served ML anomaly model",
+      "Plain-English alert queries",
+      "Load test + latency numbers",
+      "Deploy on AWS"
+    ],
+    "tech": [
+      "Java 26",
+      "Maven multi-module",
+      "Apache Kafka 3.8 (KRaft)",
+      "Kafka Streams",
+      "Spring Boot",
+      "TimescaleDB · PostgreSQL 16",
+      "HikariCP",
+      "Jackson",
+      "Docker Compose"
+    ]
+  };
+  renderVals() {
+    const d = this.DATA;
+    const n = d.flow.length;
+    return { ...d, flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
+  }
+}
+</script>
+</body>
+</html>

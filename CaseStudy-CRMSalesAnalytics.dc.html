@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing: border-box; }
+    ::selection { background:#ffb547; color:#07090b; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#eceeec; font-family:'IBM Plex Sans',sans-serif; letter-spacing:-0.006em; width:100%; overflow-x:hidden;" data-screen-label="Case Study — CRM Sales Analytics">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px clamp(20px,5vw,64px); backdrop-filter:blur(10px); background:rgba(18,16,12,0.85); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none; display:flex; align-items:center; gap:8px;">← Return to Mission Control</a>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#aab4bc;">MISSION: DISCOVER SAUMAY · CASE FILE</div>
+  </nav>
+
+  <header style="padding:100px clamp(20px,5vw,64px) 56px; border-bottom:1px solid #1f2a33; background:#0a0d10;">
+    <div style="max-width:900px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; border:1px solid rgba(255,181,71,0.35); padding:6px 14px;">BA · Full-Stack CRM</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8b97a1; border:1px solid #2c3a44; padding:6px 14px;">Built BRD→UAT · CI-green · containerized</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(clamp(17px,2.6vw,32px) * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.45; margin:0 0 20px; letter-spacing:-0.02em;">A CRM built from BRD to deployment.</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; margin-bottom:18px;">My role — Business Analyst &amp; project owner · solo, BRD through UAT</div>
+      <p style="font-size:18px; line-height:1.65; color:#c4c7c9; max-width:720px; margin:0 0 28px;">I built a full-stack CRM the way a real engagement runs it — business requirements first, every requirement traced BR→FR→US→UAT, then a working, tested, containerized app with lead scoring, a guarded pipeline, RBAC, and 4 Power BI dashboards. Then I executed all 44 UAT cases against the live app and fixed the 5 bugs that surfaced.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:36px;">
+        <a href="{{ resumeLink }}" target="_blank" style="background:#ffb547; color:#07090b; padding:14px 28px; text-decoration:none; font-weight:700; font-size:14px; display:inline-block;">Download Resume ↓</a>
+        <a href="https://github.com/SaumayAshish/CRM-Sales-Analytics" target="_blank" style="border:1px solid rgba(255,255,255,0.2); color:#eceeec; padding:14px 28px; text-decoration:none; font-weight:600; font-size:14px; display:inline-block;">View Repository →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:20px; max-width:640px;">
+        <sc-for list="{{ outcomeStats }}" as="s" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:#ffb547;">{{ s.n }}</div>
+            <div style="font-size:12px; color:#8b97a1; margin-top:4px;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+  <section style="max-width:920px; margin:0 auto; padding:48px clamp(20px,5vw,56px) 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY · WHY / WHAT / HOW / CONCLUSION</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;"><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHY</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">Small sales teams run on spreadsheets: leads go unscored, pipeline stages drift, and win-rate reporting is a manual chore.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">WHAT</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">A multi-tenant CRM with lead scoring and auto-assignment, a guarded pipeline, Account/Contact 360, workflow automation, RBAC with an audit log, and 4 dashboards.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">HOW</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">FastAPI with 71 endpoints, React + TypeScript, PostgreSQL, Docker and CI. Every requirement traced to an acceptance test.</div></div><div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">CONCLUSION</div><div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">44 of 44 acceptance cases passed against the live app, and the testing found and fixed 5 real bugs.</div></div></div>
+  </section>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px clamp(20px,5vw,64px);">
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">01 — THE SITUATION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">There was a problem worth solving.</h2>
+      <sc-for list="{{ situation }}" as="para" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.8; color:#c4c7c9; margin:0 0 18px;">{{ para }}</p>
+      </sc-for>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">02 — STAKEHOLDERS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Who was affected.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;">
+        <sc-for list="{{ stakeholders }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; padding:18px 20px;">
+            <div style="font-weight:600; font-size:15px; margin-bottom:6px;">{{ s.who }}</div>
+            <div style="font-size:13.5px; color:#aab4bc; line-height:1.55;">{{ s.need }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">03 — OBJECTIVES</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">What success had to look like.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ objectives }}" as="o" hint-placeholder-count="4">
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-size:14px; padding-top:2px;">✓</span>
+            <span style="font-size:16px; line-height:1.65; color:#c4c7c9;">{{ o }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">04 — WHAT I DID</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 28px;">The steps I took.</h2>
+      <div style="display:flex; flex-direction:column; gap:0;">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:64px 1fr; gap:24px; padding:24px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:20px; color:#ffb547;">{{ step.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:17px; margin-bottom:8px;">{{ step.title }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ step.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">05 — THE SOLUTION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What I delivered.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
+        <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#eceeec;">{{ f.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ f.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">06 — CHALLENGES → HOW I RESOLVED THEM</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">When things broke, I fixed them.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ challenges }}" as="c" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:12px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffaa3c; border:1px solid rgba(255,170,60,0.4); padding:3px 8px; flex:0 0 auto;">CHALLENGE</span>
+              <span style="font-size:15px; line-height:1.6; color:#c4c7c9;">{{ c.problem }}</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:3px 8px; flex:0 0 auto;">RESOLVED</span>
+              <span style="font-size:15px; line-height:1.6; color:#aab4bc;">{{ c.resolution }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">07 — BUSINESS VALUE &amp; IMPACT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">Why it matters to the business.</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-bottom:20px;">
+        <sc-for list="{{ value }}" as="v" hint-placeholder-count="3">
+          <div style="border:1px solid #1f2a33; padding:24px;">
+            <div style="font-weight:700; font-size:16px; margin-bottom:8px; color:#ffb547;">{{ v.title }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ v.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-left:3px solid #ffb547; padding:14px 20px; background:rgba(255,181,71,0.05);">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#ffb547; margin-bottom:6px;">HONEST MEASUREMENT</div>
+        <p style="font-size:14.5px; line-height:1.65; color:#c4c7c9; margin:0;">{{ valueNote }}</p>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">08 — TECHNOLOGY (BRIEF)</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">The tools behind it.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="10">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#8b97a1; background:rgba(255,255,255,0.05); padding:8px 14px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:72px;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">09 — WHY THIS MAKES ME AN ASSET</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 24px;">What an organization gets in me.</h2>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <sc-for list="{{ asset }}" as="a" hint-placeholder-count="3">
+          <div style="display:flex; gap:14px; align-items:flex-start; border:1px solid #1f2a33; background:#0c1014; padding:22px;">
+            <span style="color:#ffb547; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16px; padding-top:2px;">▸</span>
+            <span style="font-size:16px; line-height:1.7; color:#c4c7c9;">{{ a }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-bottom:0;">
+      <div style="font-family:'IBM Plex Mono',monospace; color:#ffb547; font-size:13px; margin-bottom:12px;">10 — FUTURE ENHANCEMENTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-size:calc(15px * 1.6); font-weight:700; letter-spacing:0.01em; line-height:1.5; margin:0 0 20px;">Where it goes next.</h2>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <sc-for list="{{ future }}" as="f" hint-placeholder-count="5">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#eceeec; border:1px solid #2c3a44; padding:8px 16px;">{{ f }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="padding:48px clamp(20px,5vw,64px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; align-items:center;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#aab4bc; text-decoration:none;">← Return to Mission Control</a>
+    <a href="https://github.com/SaumayAshish/CRM-Sales-Analytics" target="_blank" style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; text-decoration:none; border-bottom:1px solid #ffb547;">View Repository →</a>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;resumeLink&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Links&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      resumeLink: this.props.resumeLink ?? 'https://drive.google.com/uc?export=download&id=1cbuFFyrch7f8rwvziK6EwBnrj9nzGOms',
+      outcomeStats: [
+        { n: '44/44', label: 'UAT Cases Passed' },
+        { n: '71', label: 'REST Endpoints' },
+        { n: '22', label: 'Tables · 15 Views' },
+        { n: '4', label: 'Power BI Dashboards' }
+      ],
+      situation: [
+        'Small-to-mid sales teams routinely run on spreadsheets or an under-configured free CRM tier. Leads go unscored, pipeline stages are tracked inconsistently across reps, and a question like "what\u2019s our win rate by source this quarter" turns into a Friday afternoon of manual Excel work instead of a dashboard click.',
+        'A team of ~10–50 reps needs lead scoring, consistent pipeline visibility, and manager-level analytics — but without the cost and configuration overhead of Salesforce. I set out to deliver exactly that, and to run it as a disciplined engagement rather than a code-first hack.'
+      ],
+      stakeholders: [
+        { who: 'Sales Reps', need: 'Scored, auto-assigned leads and a clear pipeline to work.' },
+        { who: 'Sales Managers', need: 'Pipeline health, rep performance, and control over stage rules.' },
+        { who: 'Admins', need: 'Role control, workflow configuration, and an auditable trail.' },
+        { who: 'Viewers / Leadership', need: 'Read-only executive analytics without touching operations.' }
+      ],
+      objectives: [
+        'Deliver the 7 core modules a real sales org needs, end to end.',
+        'Trace every requirement forward: BR → FR → User Story → UAT.',
+        'Enforce roles at the API layer and keep an immutable audit trail.',
+        'Prove it works by executing UAT against the live app, not reading code.'
+      ],
+      steps: [
+        { n: '01', title: 'Wrote the BRD first', desc: 'Authored a Business Requirements Document — business objectives, scope, and 24 numbered business rules — as the single source of truth every later document traces back to.' },
+        { n: '02', title: 'Specified 66 functional requirements', desc: 'Turned business rules into an FRD of 66 functional requirements, each with an acceptance criterion and a BR trace, plus user stories in an Epic → Feature → Story structure.' },
+        { n: '03', title: 'Designed data & KPIs', desc: 'Modeled a 22-table schema (ERD + data dictionary) and catalogued 23 KPIs — each with an owner role, refresh cadence, and target — before building the analytics.' },
+        { n: '04', title: 'Built the full stack', desc: 'Implemented a FastAPI + PostgreSQL backend and a React + TypeScript SPA: lead scoring & auto-assignment, a guarded Kanban pipeline, Account/Contact 360, activity tracking, workflow automation, and RBAC with a trigger-enforced audit log.' },
+        { n: '05', title: 'Built the analytics layer', desc: 'Created 4 Power BI dashboards (Executive Summary, Pipeline Health, Rep Performance, Lead Funnel), every visual tracing to a documented KPI and a tested SQL query.' },
+        { n: '06', title: 'Executed 44 UAT cases live', desc: 'Ran all 44 documented UAT cases against the running app — not a checklist from memory — recording real results, finding and fixing 5 genuine bugs, and reaching 44/44 pass with CI green on main.' }
+      ],
+      features: [
+        { title: 'Lead management', desc: 'Automated scoring (attribute/behavior/recency/negative-signal), hot-lead auto-assignment to the least-loaded rep, and lead conversion.' },
+        { title: 'Guarded opportunity pipeline', desc: 'Kanban board with an admin-configurable allowed-transition graph; non-standard jumps need a logged manager override + reason.' },
+        { title: 'Account & Contact 360', desc: 'Unified contacts, opportunities, and activity timeline per account, with duplicate-domain detection.' },
+        { title: '4 Power BI dashboards', desc: 'Executive, Pipeline Health, Rep Performance, and Lead Funnel — every visual traced to a KPI and a SQL query.' },
+        { title: 'Workflow automation', desc: 'Configurable event → condition → action rules, toggleable without a deploy, with a separate execution log.' },
+        { title: 'RBAC + immutable audit log', desc: '4 roles enforced at the API layer (not just hidden in UI); audit log enforced by a Postgres trigger.' }
+      ],
+      challenges: [
+        { problem: 'It is easy for pipeline stage rules to become inconsistent hacks scattered across the UI.', resolution: 'Modeled an admin-configurable allowed-transition graph server-side; illegal jumps require a manager override with a logged reason.' },
+        { problem: 'RBAC hidden only in the UI is not real security.', resolution: 'Enforced all 4 roles at the API layer and backed the audit log with a Postgres trigger, independent of any app-layer check.' },
+        { problem: 'A "passing" UAT checklist filled from memory proves nothing.', resolution: 'Actually executed all 44 UAT cases against the live app — which surfaced 5 real bugs I then fixed and re-verified.' },
+        { problem: 'Scope creep toward trendy infra (Kafka, microservices, K8s).', resolution: 'Wrote architecture decision records that explicitly exclude them; adding any requires a new ADR — keeping the build honest to its scope.' }
+      ],
+      value: [
+        { title: 'Salesforce-style capability, no Salesforce cost', desc: 'Lead scoring, pipeline visibility, and manager analytics sized for a 10–50-rep team.' },
+        { title: 'Full requirement traceability', desc: 'Every feature traces BR→FR→US→UAT — auditable delivery, not vibes.' },
+        { title: 'Proven, not just built', desc: '44/44 UAT executed live, 79% backend coverage, CI green on main.' }
+      ],
+      valueNote: 'Live-hosted metrics (real user adoption, production performance) are not claimed — the app is containerized and CI-green with Render/Vercel configs ready, and account-creation is the one remaining deploy step. Every count here (71 endpoints, 22 tables, 44/44 UAT, 79% coverage, ~11,200 seed records) is taken from the repository, not estimated.',
+      tech: ['Python 3.11 · FastAPI', 'React 18 · TypeScript · Tailwind', 'PostgreSQL 16', 'JWT + RBAC (4 roles)', 'Power BI + SQL layer', 'pytest · Vitest', 'Docker · docker-compose', 'GitHub Actions CI'],
+      asset: [
+        'I am an engineering-literate Business Analyst: I wrote the BRD, FRD, ERD, KPI catalog, and UAT scripts — and then implemented them across a real full stack.',
+        'I prove delivery, not just claim it. Executing 44 UAT cases against the live app and logging 5 real bug fixes is the discipline that de-risks an engagement.',
+        'I keep scope honest. Architecture decision records that deliberately exclude trendy infrastructure show I optimize for the business need, not résumé keywords.'
+      ],
+      future: ['One-click live deployment (Render + Vercel)', 'App-screen screenshots/GIFs for the README', 'Pipeline-coverage & time-to-assignment KPIs', 'True Power BI row-level security on a Service tenant', 'Real email/SMS workflow delivery']
+    };
+  }
+}
+</script>
+</body>
+</html>
