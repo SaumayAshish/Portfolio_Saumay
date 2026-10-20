@@ -184,11 +184,11 @@ class Component extends DCLogic {
   DATA = {
     "fileId": "PL-01",
     "tag": "Java · Kafka · Event Streaming",
-    "status": "ONGOING",
-    "statusColor": "#ffb547",
+    "status": "COMPLETE · v1.0.0",
+    "statusColor": "#3ddc84",
     "title": "Real-Time Telemetry Anomaly Detection Platform",
-    "role": "Solo · architecture, Kafka topology, Java services, infrastructure",
-    "intro": "A streaming platform that ingests sensor telemetry through Kafka, scores every reading for anomalies in real time with Kafka Streams, persists alerts to TimescaleDB, and serves them through a Spring Boot API. Built as a multi-module Maven project targeting Java 26.",
+    "role": "Solo · architecture, Kafka topology, Java services, security, testing, infrastructure",
+    "intro": "A streaming platform that ingests sensor telemetry through Kafka, flags statistical anomalies in real time, persists alerts durably, and serves them through a secured Spring Boot API. Every number on this page is measured from a real run of the containerised pipeline against a seeded ground-truth simulator, and reproduces with one command.",
     "repo": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform",
     "links": [
       {
@@ -196,48 +196,48 @@ class Component extends DCLogic {
         "href": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform"
       },
       {
-        "label": "ADR-0001 ↗",
-        "href": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform/blob/main/docs/adr/0001-telemetry-topic-partition-key.md"
+        "label": "ADRs ↗",
+        "href": "https://github.com/SaumayAshish/telemetry-anomaly-detection-platform/tree/main/docs/adr"
       }
     ],
     "stats": [
       {
-        "n": "5",
-        "label": "Maven modules / services",
+        "n": "9 / 10",
+        "label": "Injected faults detected",
+        "c": "#3ddc84"
+      },
+      {
+        "n": "0.35%",
+        "label": "False positives (0.27% expected from noise)",
         "c": "#ffb547"
       },
       {
-        "n": "6",
-        "label": "Partitions, keyed by sensorId",
-        "c": "#dce3e8"
+        "n": "0",
+        "label": "Lost, duplicated or dead-lettered alerts",
+        "c": "#3ddc84"
       },
       {
-        "n": "z ≥ 3.0",
-        "label": "Anomaly threshold after 30 samples",
+        "n": "78 / 78",
+        "label": "Alerts reproduced by an independent replay",
         "c": "#dce3e8"
-      },
-      {
-        "n": "Ongoing",
-        "label": "Throughput & latency not yet measured",
-        "c": "#8b97a1"
       }
     ],
     "summary": [
       {
         "k": "WHY",
-        "v": "Sensor faults cost money every minute they go unseen. Batch jobs find them after the damage. Detection has to happen per sensor, in order, as the data arrives."
+        "v": "Sensor faults cost money every minute they go unseen. Detection has to happen per sensor, in order, as the data arrives, and an alert must never be lost or doubled."
       },
       {
         "k": "WHAT",
-        "v": "A producer, a Kafka Streams scoring service, an alerting consumer into TimescaleDB, and a Spring Boot query API, running on Kafka 3.8 in KRaft mode."
+        "v": "Producer, Kafka Streams detector, idempotent alerting consumer into TimescaleDB, and a JWT-secured Spring Boot API, plus a seeded fault simulator that writes ground truth."
       },
       {
         "k": "HOW",
-        "v": "Contract first (ADR-0001): versioned topic, sensorId partition key, 6 partitions. Then a stateful per-sensor processor that scores z-scores and re-baselines."
+        "v": "Contract first (six ADRs). Welford baseline with hysteresis, (partition, offset) idempotency, retry plus dead-letter, Testcontainers CI on every push."
       },
       {
         "k": "CONCLUSION",
-        "v": "The end-to-end pipeline runs locally. Remaining: the served ML model, natural-language alert queries, and measured throughput and latency."
+        "v": "v1.0.0 shipped. 9 of 10 faults caught, the one miss below threshold by design, false positives matching the maths, zero alerts lost."
       }
     ],
     "whyTitle": "Anomalies are only useful while they are happening.",
@@ -249,166 +249,167 @@ class Component extends DCLogic {
     "whatTitle": "Five modules, one event contract.",
     "what": [
       {
-        "t": "common-models",
-        "d": "Shared event types: AnomalyEvent and an AnomalySeverity enum mapped from z-score (LOW, MEDIUM ≥ 5, HIGH ≥ 10, CRITICAL ≥ 15)."
+        "t": "Per-sensor streaming detection",
+        "d": "Welford running mean and variance per sensor, z-score threshold of 3 after 30 samples, severity LOW / MEDIUM / HIGH / CRITICAL from the z-score."
       },
       {
-        "t": "ingestion-service",
-        "d": "A Kafka producer emitting readings for five sensors with per-sensor sequence numbers and delivery callbacks that log partition and offset."
+        "t": "Self-masking resistance",
+        "d": "Anomalous readings never update the baseline. After 10 consecutive anomalies it re-baselines, so a permanent shift produces exactly 10 alerts, not an endless stream."
       },
       {
-        "t": "stream-processing-service",
-        "d": "Kafka Streams: 30-second windows with 5-second grace for rolling stats, plus a stateful processor that emits anomalies to telemetry.sensor.anomalies.v1."
+        "t": "Exactly-once alert storage",
+        "d": "Kafka (partition, offset) is the idempotency key. Transient database errors retry with backoff; permanent failures go to a dead-letter table."
       },
       {
-        "t": "alerting-service",
-        "d": "Consumes anomalies and writes them to TimescaleDB through HikariCP. Also holds 35 standalone harnesses I wrote to master the Java concurrency, JDBC and I/O it depends on."
+        "t": "Secured API",
+        "d": "Spring Boot 4.1: GET /api/alerts with filters and paging, RS256 bearer JWTs, role ALERT_READER, RFC 9457 errors, correlation id on every response, 503 + Retry-After on DB outage."
       },
       {
-        "t": "api-service",
-        "d": "Spring Boot: GET /api/alerts with optional sensorId, severity and time-range filters, through a controller, service and repository chain."
+        "t": "Ground-truth simulator",
+        "d": "A seeded, stateless simulator injects spikes, level shifts and drifts at known timestamps and writes ground-truth.csv, so detection is scored, not eyeballed."
       },
       {
-        "t": "Infrastructure",
-        "d": "Docker Compose running Kafka 3.8 in KRaft mode (no ZooKeeper) and TimescaleDB 2.29 on PostgreSQL 16."
+        "t": "Operations",
+        "d": "Flyway migrations, Prometheus metrics for persisted, duplicate, dead-lettered and retried alerts, Docker Compose profiles, GitHub Actions with Testcontainers."
       }
     ],
     "howTitle": "Decide the contract, then write the code.",
     "flowLabel": "EVENT FLOW",
     "flow": [
       {
-        "t": "SensorTelemetryProducer",
-        "d": "5 sensors · key = sensorId"
+        "t": "ingestion-service",
+        "d": "Kafka producer · key = sensorId"
       },
       {
         "t": "telemetry.sensor.readings.v1",
-        "d": "6 partitions · ordered per sensor"
+        "d": "Ordered per sensor (ADR 0001)"
       },
       {
-        "t": "AnomalyDetectionStreamApp",
-        "d": "Per-sensor state store · z ≥ 3.0"
+        "t": "stream-processing-service",
+        "d": "Welford z-score · hysteresis rebaseline"
       },
       {
         "t": "telemetry.sensor.anomalies.v1",
-        "d": "Scored events with severity"
+        "d": "Severity-graded events"
       },
       {
-        "t": "AlertConsumer → TimescaleDB",
-        "d": "HikariCP · PostgreSQL 16"
+        "t": "alerting-service → TimescaleDB",
+        "d": "Retry · idempotent insert · dead-letter"
       },
       {
-        "t": "Spring Boot /api/alerts",
-        "d": "Filter by sensor, severity, time"
+        "t": "api-service (Spring Boot 4.1)",
+        "d": "RS256 JWT · paging · RFC 9457"
       }
     ],
     "steps": [
       {
         "n": "01",
-        "t": "Wrote the architecture decision before the producer",
-        "d": "ADR-0001 fixes the topic name (domain.entity.purpose.version), the partition key and the partition count, because changing any of them later breaks ordering for consumers already running."
+        "t": "Wrote the decisions before the code",
+        "d": "Six ADRs: topic and partition key, JWT bearer auth, alerting failure handling, idempotency key, baseline hysteresis, and the seeded simulator."
       },
       {
         "n": "02",
-        "t": "Keyed every reading by sensorId",
-        "d": "Kafka hashes the key to choose a partition, so all readings from one sensor land on one partition in order. That is what makes a per-sensor rolling baseline correct."
+        "t": "Kept each sensor ordered",
+        "d": "Keying by sensorId puts one sensor on one partition, which is what makes a per-sensor running baseline correct."
       },
       {
         "n": "03",
-        "t": "Built rolling statistics as a pure, tested value",
-        "d": "RollingStats updates mean and standard deviation incrementally and has its own verification harness, so the maths is checked independently of Kafka."
+        "t": "Stopped outliers hiding themselves",
+        "d": "Anomalous readings are excluded from the baseline update. Without that, a large spike inflates the variance and masks the readings after it."
       },
       {
         "n": "04",
-        "t": "Put the decision logic in one pure function",
-        "d": "AnomalyDecisionEngine.decide takes a reading and current stats and returns new stats plus an optional event. No Kafka inside, so every branch has a harness test."
+        "t": "Made alert storage idempotent",
+        "d": "Using (partition, offset) as the key means a redelivery after a rebalance can never write a second row."
       },
       {
         "n": "05",
-        "t": "Handled the new-normal problem",
-        "d": "After 10 consecutive anomalies the engine re-baselines, treating a sustained shift as the new normal instead of alerting on every reading forever."
+        "t": "Secured and hardened the API",
+        "d": "RS256 JWTs with roles, bounded paging, standard error bodies, correlation ids, and an honest 503 when the database is down."
       },
       {
         "n": "06",
-        "t": "Exposed alerts through Spring Boot",
-        "d": "A REST controller with optional filters over a repository layer, verified against TimescaleDB on startup."
+        "t": "Scored it against ground truth",
+        "d": "Injected 10 known faults across 5 sensors and 3,000 readings, then checked every alert against ground-truth.csv. A separate Python re-implementation reproduced all 78 alerts exactly."
       }
     ],
     "decisions": [
       {
-        "q": "Why version the topic name with .v1?",
-        "a": "A breaking change to the message shape ships as a new .v2 topic while existing consumers keep reading .v1. The cost is running two topics during a migration."
+        "q": "Why does the detector miss the +2.5σ spike?",
+        "a": "The threshold is 3σ by design. Lowering it to catch that one fault would raise false positives across every sensor. The miss is documented as correct behaviour."
       },
       {
-        "q": "Why 6 partitions?",
-        "a": "Enough parallelism for local workloads without extra complexity. Partition count also caps useful consumer parallelism, and raising it later remaps keys, so it is treated as a planned migration rather than a config change."
+        "q": "Why (partition, offset) as the idempotency key?",
+        "a": "It is unique per record and stable across redelivery, with no extra id to generate. The cost is that the key is tied to Kafka, so replays from another source need their own key."
       },
       {
-        "q": "Why a pure decision function instead of logic inside the processor?",
-        "a": "It makes the anomaly rules testable without a broker. The cost is one more layer between the stream and the rule."
+        "q": "Why a cumulative baseline?",
+        "a": "Simple, exact and cheap per sensor. The cost: it adapts slowly to gradual process change. A windowed or exponentially weighted baseline is the next step."
       },
       {
-        "q": "Why TimescaleDB instead of a separate time-series store?",
-        "a": "It is PostgreSQL, so it keeps SQL, JDBC and HikariCP while adding time-series partitioning. One less technology to operate."
+        "q": "Why a seeded simulator instead of real sensor data?",
+        "a": "Real data has no answer key. Seeded faults at known timestamps turn \"it seems to work\" into a scored result anyone can reproduce."
       }
     ],
     "results": [
       {
-        "k": "End-to-end pipeline",
-        "v": "Running locally",
+        "k": "Injected faults detected",
+        "v": "9 of 10",
         "c": "#3ddc84"
       },
       {
-        "k": "Services in the build",
-        "v": "5 Maven modules",
+        "k": "False positives in 2,584 quiet readings",
+        "v": "9 · 0.348% (0.27% expected)",
+        "c": "#ffb547"
+      },
+      {
+        "k": "Alerts persisted",
+        "v": "78 · LOW 50 · MED 24 · HIGH 3 · CRIT 1",
         "c": "#dce3e8"
       },
       {
-        "k": "Architecture decisions recorded",
-        "v": "ADR-0001",
-        "c": "#dce3e8"
+        "k": "Duplicates · lost commits · dead letters",
+        "v": "0 · 0 · 0",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Independent Python replay",
+        "v": "78 / 78 alerts reproduced",
+        "c": "#3ddc84"
       },
       {
         "k": "Throughput (events/sec)",
         "v": "Not yet measured",
         "c": "#8b97a1"
-      },
-      {
-        "k": "End-to-end latency",
-        "v": "Not yet measured",
-        "c": "#8b97a1"
-      },
-      {
-        "k": "Served ML model · plain-English alert queries",
-        "v": "Planned",
-        "c": "#ffb547"
       }
     ],
-    "conclusionTitle": "Where it stands, and what it shows.",
+    "conclusionTitle": "Shipped, scored and reproducible.",
     "conclusion": [
-      "The platform already does the hard part of streaming: ordered, per-sensor, stateful scoring that turns raw readings into severity-graded anomaly events, persisted and queryable through an API. The contract that makes it correct is written down before the code.",
-      "What remains is the layer on top: a served ML model to replace the z-score rule, natural-language querying of alerts, a load test to put real numbers on throughput and latency, and a cloud deployment."
+      "The platform is complete and closed at v1.0.0. It detects anomalies per sensor in real time, refuses to let an outlier mask itself, stores every alert exactly once, and serves them through a secured API. The scorecard came from a real run against known faults, and a second implementation in another language reproduced it alert for alert.",
+      "Known limitations are written down rather than hidden: a single static JWT key with no JWKS rotation, no distributed tracing, no shipped Grafana dashboard, and a baseline that adapts slowly to gradual change."
     ],
     "proves": [
-      "I can design an event-driven system in Java from the contract up: topics, keys, partitions, state.",
-      "I separate business rules from infrastructure so they can be tested without a running broker.",
-      "I record architecture decisions and their trade-offs, which is what makes a system operable by a team."
+      "I can design and ship an event-driven Java system end to end: Kafka topology, stateful streaming, durable storage, secured API.",
+      "I engineer for failure: idempotency, retries, dead-lettering and metrics, measured at zero lost alerts.",
+      "I prove results against ground truth and publish the misses, which is what makes the numbers trustworthy."
     ],
     "next": [
-      "Served ML anomaly model",
-      "Plain-English alert queries",
-      "Load test + latency numbers",
-      "Deploy on AWS"
+      "Windowed / EWMA baseline",
+      "JWKS key rotation",
+      "Distributed tracing",
+      "Throughput load test"
     ],
     "tech": [
       "Java 26",
-      "Maven multi-module",
-      "Apache Kafka 3.8 (KRaft)",
-      "Kafka Streams",
-      "Spring Boot",
+      "Spring Boot 4.1",
+      "Kafka (KRaft) + Kafka Streams",
       "TimescaleDB · PostgreSQL 16",
-      "HikariCP",
-      "Jackson",
-      "Docker Compose"
+      "Flyway",
+      "RS256 JWT",
+      "Prometheus",
+      "JUnit 5 + Testcontainers",
+      "Docker Compose",
+      "GitHub Actions"
     ]
   };
   renderVals() {

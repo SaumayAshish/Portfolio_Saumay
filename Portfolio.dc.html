@@ -301,12 +301,12 @@
             <div style="border:1px solid #2c3a44; background:#0a0d10; margin-bottom:28px;">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; padding:18px 20px; border-bottom:1px solid #1f2a33;">
                 <div style="min-width:0;">
-                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">PL-01 · FEATURED PAYLOAD · ONGOING</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">PL-01 · FEATURED PAYLOAD · COMPLETE · v1.0.0</div>
                   <div style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:22px;">Real-Time Telemetry Anomaly Detection Platform</div>
-                  <div style="font-size:14px; color:#aab4bc; margin-top:6px; max-width:640px; line-height:1.6;">Java 26 multi-module Maven build: an ingestion producer, a Kafka Streams scoring service, an alerting consumer and a Spring Boot query API, over Kafka 3.8 (KRaft) and TimescaleDB.</div>
+                  <div style="font-size:14px; color:#aab4bc; margin-top:6px; max-width:640px; line-height:1.6;">Java 26 + Spring Boot 4.1 over Kafka Streams and TimescaleDB. On a seeded 5-sensor scenario with 10 injected faults it caught 9, with 0.35% false positives and zero dead letters, reproducible with one command.</div>
                 </div>
                 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--acc,#ffb547); border:1px solid color-mix(in srgb, var(--acc,#ffb547) 45%, transparent); padding:5px 10px;">ONGOING</span>
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--acc,#ffb547); border:1px solid color-mix(in srgb, var(--acc,#ffb547) 45%, transparent); padding:5px 10px; color:#3ddc84; border-color:rgba(61,220,132,0.45);">COMPLETE</span>
                   <a href="https://github.com/SaumayAshish/telemetry-anomaly-detection-platform" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; border:1px solid #3a4852; padding:5px 10px; text-decoration:none;" style-hover="border-color:var(--acc,#ffb547);">REPO ↗</a>
                   <a href="CaseStudy-Telemetry.dc.html" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:var(--acc,#ffb547); padding:6px 11px; text-decoration:none;">CASE STUDY →</a>
                   <button onClick="{{ toggleSim }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:#dce3e8; border:none; padding:6px 11px; cursor:pointer;">{{ simBtn }}</button>
@@ -314,7 +314,7 @@
               </div>
               <div style="display:flex; gap:10px; align-items:center; padding:9px 20px; background:rgba(255,90,79,0.08); border-bottom:1px solid rgba(255,90,79,0.3); font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ff8a80; line-height:1.5;">
                 <span style="width:7px; height:7px; background:#ff5a4f; flex:0 0 auto;"></span>
-                <span>SIMULATED DEMO DATA. Modeled on the repo's contract (topic telemetry.sensor.readings.v1, 6 partitions, key = sensorId, z ≥ 3.0 after 30 samples). Not connected to a live cluster.</span>
+                <span>SIMULATED DEMO DATA in this panel, modeled on the repo's contract (telemetry.sensor.readings.v1, 6 partitions, key = sensorId, Welford baseline, z ≥ 3 after 30 samples). Measured results from the real run: 9/10 faults caught · 0.35% false positives · 78 alerts · 0 duplicates · 0 dead letters.</span>
               </div>
 
               <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); border-bottom:1px solid #1f2a33;">
@@ -749,13 +749,14 @@ class Component extends DCLogic {
     { k: 'ORBIT INSERTION', d: 'JAN 2023', s: 'done', note: 'Analyst, IS/IT Consultant on the Nestlé account. 30+ incidents a month root-caused.' },
     { k: 'STAGE SEP', d: 'JUL 2024', s: 'done', note: 'HCLTech mission complete. Highest Productivity Rating 2023–24.' },
     { k: 'TRANS-LUNAR BURN', d: 'AUG 2024 → MAY 2026', s: 'done', note: 'MCA (AI & ML) at Bennett University, 5 Aug 2024 to 22 May 2026. CGPA 9.7, 3rd University Rank, 2x Gold Medalist.' },
-    { k: 'OUTBOUND COAST', d: '2026 · NOW', s: 'now', note: 'Bluestock Fintech internship, RiemannLab shipped, Kafka telemetry platform ongoing.' },
+    { k: 'OUTBOUND COAST', d: '2026 · NOW', s: 'now', note: 'Bluestock Fintech internship. RiemannLab and the Kafka telemetry platform shipped. Now building a payments reconciliation engine in Java.' },
     { k: 'DOCKING', d: 'TARGET 2026', s: 'next', note: 'Goal: a Java backend / DevOps role building event-driven services.' },
     { k: 'NEW ORBIT', d: 'LONG-TERM', s: 'future', note: 'Solution Engineer: sit with the customer, design the system, and ship it into their environment.' }
   ];
 
   PLANS = {
-    stream: { label: 'Real-time data pipeline', principle: 'Order and state are the whole problem. Key by the entity, keep per-key state local, and make every event replayable.', ev: ['Kafka 3.8 + Kafka Streams telemetry platform, keyed by sensorId across 6 partitions', 'Stateful z-score processor that re-baselines after 10 consecutive anomalies', 'Topic contract versioned (.v1) and recorded in ADR-0001'], go: 'Target module: Payloads · live telemetry', mod: 'payloads' },
+    fintech: { label: 'Payments / fintech backend', principle: 'Money never touches floating point, and every action has to be explainable to an auditor. Design for that before writing code.', ev: ['Payments reconciliation engine: signed minor units + ISO 4217 currency (ADR-0001)', 'Idempotent ingestion by content hash, deterministic matching, hash-chained audit log', 'BRD, FRD and 5 approved ADRs before production code'], go: 'Target module: Payloads', mod: 'payloads' },
+    stream: { label: 'Real-time data pipeline', principle: 'Order and state are the whole problem. Key by the entity, keep per-key state local, and make every event replayable.', ev: ['Kafka Streams telemetry platform: 9 of 10 injected faults caught, 0.35% false positives', 'Idempotency on (partition, offset): 0 duplicates, 0 dead letters across 3,000 readings', 'Six ADRs; an independent Python replay reproduces all 78 alerts exactly'], go: 'Target module: Payloads · live telemetry', mod: 'payloads' },
     reliab: { label: 'Production reliability', principle: 'Most outages are the same failure seen twice. Find the root cause once, write it down, and make the second one boring.', ev: ['30+ production incidents a month root-caused at HCLTech (Nestlé account)', 'SLA compliance ~92% → ~96%; repeat escalations down ~10–15% via 10–15 runbooks', 'Highest Productivity Rating 2023–24 · Certificate of Excellence'], go: 'Target module: Telemetry · experience', mod: 'telemetry' },
     cloud: { label: 'Cloud infrastructure', principle: 'The network decides what can talk to what. Get subnets, routes and NAT right first; compute is the easy part.', ev: ['AWS labs: VPC, public and private subnets, route tables, NAT Gateway, VPC peering', 'EC2 with EBS, S3, all driven and debugged through the AWS CLI', 'RHEL 10.2, Ubuntu, WSL and VMware systems work'], go: 'Target module: Engineering systems', mod: 'systems' },
     java: { label: 'Java backend service', principle: 'Correctness you can prove beats speed you assume. Test it, benchmark it, measure it before and after.', ev: ['RiemannLab: 466 tests passing in CI, JMH benchmarks, Micrometer metrics', 'Spring Boot alert API with sensor, severity and time-range filters', '35 concurrency and JDBC harnesses: virtual threads, ForkJoin, isolation levels'], go: 'Target module: Payloads', mod: 'payloads' },
@@ -784,7 +785,7 @@ class Component extends DCLogic {
     this.onMqW = () => this.setState({ wide: this.mqW.matches });
     this.onMqW();
     this.mqW.addEventListener('change', this.onMqW);
-    try { const cfg = JSON.parse(localStorage.getItem('mc-settings') || 'null'); if (cfg) this.setState({ theme: this.THEMES[cfg.theme] ? cfg.theme : 'AMBER', view: this.VIEWS.indexOf(cfg.view) >= 0 ? cfg.view : 'STATION WINDOW', motion: this.MOTIONS.indexOf(cfg.motion) >= 0 ? cfg.motion : 'FULL' }, () => this.initStars()); else this.initStars(); } catch (e) { this.initStars(); }
+    try { const cfg = JSON.parse(localStorage.getItem('mc-settings-v2') || 'null'); if (cfg) this.setState({ theme: this.THEMES[cfg.theme] ? cfg.theme : 'AMBER', view: this.VIEWS.indexOf(cfg.view) >= 0 ? cfg.view : 'STATION WINDOW', motion: this.MOTIONS.indexOf(cfg.motion) >= 0 ? cfg.motion : 'FULL' }, () => this.initStars()); else this.initStars(); } catch (e) { this.initStars(); }
 
     this.initSim();
     this.timer = setInterval(() => this.tick(), 1000);
@@ -811,7 +812,7 @@ class Component extends DCLogic {
 
   saveSettings(patch) {
     this.setState(patch, () => {
-      try { localStorage.setItem('mc-settings', JSON.stringify({ theme: this.state.theme, view: this.state.view, motion: this.state.motion })); } catch (e) {}
+      try { localStorage.setItem('mc-settings-v2', JSON.stringify({ theme: this.state.theme, view: this.state.view, motion: this.state.motion })); } catch (e) {}
       this.initStars();
     });
   }
@@ -830,7 +831,7 @@ class Component extends DCLogic {
       this.stars = [];
       for (let i = 0; i < 280; i++) this.stars.push({ x: Math.random(), y: Math.random(), z: Math.random(), ph: Math.random() * 6.28, sp: 0.4 + Math.random() * 1.6 });
     }
-    const still = this.reduced || this.state.motion === 'CALM';
+    const still = this.state.motion === 'CALM';
     if (!this.drift) this.drift = { x: 0, y: 1, r: 0 };
     if (!this.driftT) this.driftT = (this.LEG[this.state.active] || this.LEG.brief).drift;
     const draw = (t) => {
@@ -902,7 +903,7 @@ class Component extends DCLogic {
   warpRef = React.createRef();
   portalRef = React.createRef();
 
-  canAnimate() { return !this.reduced && this.state.motion === 'FULL' && !document.hidden; }
+  canAnimate() { return this.state.motion === 'FULL' && !document.hidden; }
 
   go = (id) => {
     if (this.warping) return;
@@ -1225,6 +1226,10 @@ class Component extends DCLogic {
     const partitions = sim.pRate.map((r, i) => ({ i, rate: String(r), pct: Math.round((r / maxP) * 100), color: r ? 'var(--acc,#ffb547)' : '#24303a', key: keyFor(i) }));
 
     const payloads = [
+      { id: 'PL-00', name: 'Payments Reconciliation & Exceptions Engine', status: 'ONGOING · PHASE 0 OF 11', statusColor: 'var(--acc,#ffb547)', date: 'Started Oct 2026', metric: 'No engineering numbers yet · Phase 1 next', metricColor: '#8b97a1',
+        desc: 'Java 25 service that ingests bank statements and ledger entries, auto-matches them with a deterministic four-tier engine, and routes the rest to an exceptions queue with maker-checker approval, SLA tracking and a hash-chained audit trail. Built docs-first: BRD, FRD, five approved ADRs and a traceability matrix before any production code.',
+        stack: ['Java 25', 'PostgreSQL', 'Flyway', 'Kafka + outbox', 'Docker', 'GitHub Actions'],
+        links: [{ label: 'REPO ↗', href: 'https://github.com/SaumayAshish/payments-reconciliation-engine', target: '_blank' }, { label: 'ADRs ↗', href: 'https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/adr/README.md', target: '_blank' }, { label: 'CASE STUDY →', href: 'CaseStudy-PaymentsRecon.dc.html', target: '_self' }] },
       { id: 'PL-02', name: 'RiemannLab', status: 'LATEST COMPLETE', statusColor: '#3ddc84', date: '2026 · 8 of 8 phases', metric: '466 tests passing · CI on main', metricColor: 'var(--acc,#ffb547)',
         desc: 'Plain-JVM platform that evaluates the Riemann zeta function and locates its non-trivial zeros. Three independent evaluators cross-checked against each other, sequential and parallel critical-line scanners with identical output, Newton-Raphson and secant refinement, three validation passes, JMH benchmarks, MDC-tagged logging and Micrometer metrics. Fully documented: architecture, math background, contributing guide. Makes no claim about the Riemann Hypothesis.',
         stack: ['Java 25', 'Maven', 'JUnit 5', 'JMH', 'Micrometer', 'SLF4J / Logback', 'GitHub Actions'],
@@ -1257,9 +1262,9 @@ class Component extends DCLogic {
 
     const G = '#3ddc84', A = 'var(--acc,#ffb547)';
     const sysRaw = [
-      { name: 'Java', c: G, status: 'NOMINAL', evidence: 'Five-module Maven build targeting Java 26 for the telemetry platform. RiemannLab on Java 25 with no framework: complex arithmetic, root finders, parallel scanning. 35 standalone harnesses covering virtual threads, ForkJoin, CompletableFuture, locks and atomics, JDBC transactions and isolation levels.', used: 'Telemetry Platform · RiemannLab' },
-      { name: 'Spring Boot', c: G, status: 'NOMINAL', evidence: 'api-service exposes GET /api/alerts with sensorId, severity and time-range filters through a controller → service → repository chain. Earlier Spring MVC + ORM graded project.', used: 'Telemetry Platform · Spring-MVC-ORM' },
-      { name: 'Apache Kafka', c: G, status: 'NOMINAL', evidence: 'Kafka 3.8 in KRaft mode. Topic telemetry.sensor.readings.v1: 6 partitions, keyed by sensorId for per-sensor ordering (ADR-0001). Kafka Streams: 30 s windows with 5 s grace, plus a stateful processor that emits z ≥ 3.0 anomalies to telemetry.sensor.anomalies.v1 and re-baselines after 10 consecutive hits.', used: 'Telemetry Platform' },
+      { name: 'Java', c: G, status: 'NOMINAL', evidence: 'Now building a Java 25 payments reconciliation engine with plain-Java domain and matching layers enforced by architecture tests. Five-module Maven build targeting Java 26 for the telemetry platform. RiemannLab on Java 25 with no framework: complex arithmetic, root finders, parallel scanning. 35 standalone harnesses covering virtual threads, ForkJoin, CompletableFuture, locks and atomics, JDBC transactions and isolation levels.', used: 'Telemetry Platform · RiemannLab' },
+      { name: 'Spring Boot', c: G, status: 'NOMINAL', evidence: 'Spring Boot 4.1 api-service with RS256 JWT, role-based access, paging and RFC 9457 error bodies. api-service exposes GET /api/alerts with sensorId, severity and time-range filters through a controller → service → repository chain. Earlier Spring MVC + ORM graded project.', used: 'Telemetry Platform · Spring-MVC-ORM' },
+      { name: 'Apache Kafka', c: G, status: 'NOMINAL', evidence: 'Idempotent alerting keyed on Kafka (partition, offset), retry with backoff and a dead-letter table: 0 lost, 0 duplicated alerts in the measured run. Kafka 3.8 in KRaft mode. Topic telemetry.sensor.readings.v1: 6 partitions, keyed by sensorId for per-sensor ordering (ADR-0001). Kafka Streams: 30 s windows with 5 s grace, plus a stateful processor that emits z ≥ 3.0 anomalies to telemetry.sensor.anomalies.v1 and re-baselines after 10 consecutive hits.', used: 'Telemetry Platform' },
       { name: 'PostgreSQL', c: G, status: 'NOMINAL', evidence: 'TimescaleDB 2.29 on PostgreSQL 16 with HikariCP pooling for telemetry alerts. Alembic-migrated PostgreSQL behind Helpdesk-AI and the CRM platform.', used: 'Telemetry · Helpdesk-AI · CRM · Obsidian_OS' },
       { name: 'Linux / RHEL', c: G, status: 'NOMINAL', evidence: 'RHEL 10.2 plus Ubuntu, WSL and VMware for systems work. Certified through the Linux Foundation (Linux Tools for Developers, Git for Distributed Development) and Google (Operating Systems power user, Computer Networking).', used: 'RHEL 10.2 · Ubuntu · WSL · VMware' },
       { name: 'Docker', c: G, status: 'NOMINAL', evidence: 'Compose stack for Kafka + TimescaleDB. Two ML serving stacks side by side on separate ports. Live Dockerized deploy for Helpdesk-AI; containerized CRM.', used: 'Telemetry · Helpdesk-AI · CRM · Industrial ML' },
@@ -1340,7 +1345,8 @@ class Component extends DCLogic {
       portalOpen: st.portalOpen, portalUiOpacity: st.portalEngage ? '0' : '1',
       openPortal: this.openPortal, closePortal: this.closePortal,
       destinations: this.MODS.map((m) => ({ code: '0' + m.n + ' · MODULE', name: m.name, sub: (this.LEG[m.id] || {}).place || m.sub, pick: () => this.engagePortal(m.id), hover: () => this.setPortalCfg(m.id) })).concat([
-        { code: 'CS · TELEMETRY', name: 'KAFKA ANOMALY PLATFORM', sub: 'Case study · ongoing', hover: () => this.setPortalCfg(null), pick: () => this.engagePortal(null, 'CaseStudy-Telemetry.dc.html') },
+        { code: 'CS · PAYMENTS', name: 'RECONCILIATION ENGINE', sub: 'Case study · ongoing', hover: () => this.setPortalCfg(null), pick: () => this.engagePortal(null, 'CaseStudy-PaymentsRecon.dc.html') },
+        { code: 'CS · TELEMETRY', name: 'KAFKA ANOMALY PLATFORM', sub: 'Case study · complete', hover: () => this.setPortalCfg(null), pick: () => this.engagePortal(null, 'CaseStudy-Telemetry.dc.html') },
         { code: 'CS · RIEMANNLAB', name: 'ZETA ZERO HUNTER', sub: 'Case study · latest complete', hover: () => this.setPortalCfg(null), pick: () => this.engagePortal(null, 'CaseStudy-RiemannLab.dc.html') },
         { code: 'CS · DATA INTEGRATION', name: 'THREE SYSTEMS → ONE RECORD', sub: 'Case study', hover: () => this.setPortalCfg(null), pick: () => this.engagePortal(null, 'CaseStudy-DataIntegration.dc.html') },
         { code: 'CS · HELPDESK-AI', name: 'ITSM PLATFORM', sub: 'Case study', hover: () => this.setPortalCfg(null), pick: () => this.engagePortal(null, 'CaseStudy-HelpdeskAI.dc.html') },
@@ -1363,8 +1369,8 @@ class Component extends DCLogic {
       planOpen: () => this.go(this.PLANS[st.plan].mod),
       trajTiles: [
         { k: 'CAREER MET', v: 'T+' + yrs + 'y ' + mos + 'm ' + dys + 'd', sub: 'Since first launch, Aug 2022', c: '#dce3e8' },
-        { k: 'PAYLOADS FLOWN', v: '4', sub: 'Shipped or complete: RiemannLab, Helpdesk-AI, CRM, Industrial ML', c: 'var(--acc,#ffb547)' },
-        { k: 'CURRENT BURN', v: 'JAVA · KAFKA', sub: 'Telemetry platform, ongoing', c: '#dce3e8' },
+        { k: 'PAYLOADS FLOWN', v: '5', sub: 'Telemetry platform, RiemannLab, Helpdesk-AI, CRM, Industrial ML', c: 'var(--acc,#ffb547)' },
+        { k: 'CURRENT BURN', v: 'JAVA · PAYMENTS', sub: 'Reconciliation engine · Phase 0 approved', c: '#dce3e8' },
         { k: 'NEXT MANEUVER', v: 'DOCKING', sub: 'Java backend / DevOps role · 2026 → Solution Engineer', c: '#3ddc84' }
       ],
       desktop: !mobile, mobile: mobile,

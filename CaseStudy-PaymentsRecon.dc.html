@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing:border-box; scrollbar-color:#2c3a44 transparent; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#dce3e8; font-family:'IBM Plex Sans',sans-serif; min-height:100vh;" data-screen-label="Case file">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(20px,5vw,56px); background:rgba(7,9,11,0.92); backdrop-filter:blur(8px); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#aab4bc; white-space:nowrap;">MISSION: DISCOVER SAUMAY · CASE FILE {{ fileId }}</span>
+  </nav>
+
+  <header style="padding:84px clamp(20px,5vw,56px) 52px; border-bottom:1px solid #1f2a33;">
+    <div style="max-width:920px;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:6px 12px;">{{ tag }}</span>
+        <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ statusColor }}; border:1px solid #2c3a44; padding:6px 12px;"><span style="width:7px; height:7px; background:{{ statusColor }};"></span>{{ status }}</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.05; margin:0 0 18px; text-wrap:balance;">{{ title }}</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; margin-bottom:18px;">{{ role }}</div>
+      <p style="font-size:18px; line-height:1.65; color:#c3ccd3; max-width:760px; margin:0 0 28px; text-wrap:pretty;">{{ intro }}</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="2">
+          <a href="{{ l.href }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:0.05em; padding:12px 18px; border:1px solid #3a4852; color:#dce3e8; text-decoration:none;" style-hover="border-color:#ffb547; color:#ffb547;">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid #1f2a33;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 18px; border-right:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; color:{{ s.c }};">{{ s.n }}</div>
+            <div style="font-size:12.5px; color:#8b97a1; margin-top:6px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
+        <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">{{ s.k }}</div>
+            <div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">01 — WHY</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ whyTitle }}</h2>
+      <sc-for list="{{ why }}" as="p" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">02 — WHAT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ whatTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px;">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="6">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ w.t }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ w.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">03 — HOW</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ howTitle }}</h2>
+      <div style="border:1px solid #1f2a33; background:rgba(10,13,16,0.85); padding:20px; margin-bottom:26px; overflow-x:auto;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:14px;">{{ flowLabel }}</div>
+        <div style="display:flex; flex-direction:column; align-items:stretch; gap:0; min-width:300px;">
+          <sc-for list="{{ flow }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:100%; max-width:560px; border:1px solid {{ f.border }}; background:#0c1014; padding:11px 14px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#dce3e8;">{{ f.t }}</span>
+                <span style="font-size:12.5px; color:#8b97a1;">{{ f.d }}</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; line-height:1.4; display:{{ f.arrow }};">↓</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; padding:20px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:#ffb547;">{{ s.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:16.5px; margin-bottom:6px;">{{ s.t }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">04 — DECISIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">Calls I made, and what they cost.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px 20px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ d.q }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc;">{{ d.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">05 — RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">What came out of it.</h2>
+      <div style="border:1px solid #1f2a33;">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <span style="font-size:14.5px; color:#c3ccd3;">{{ r.k }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:{{ r.c }}; text-align:right;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">06 — CONCLUSION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ conclusionTitle }}</h2>
+      <sc-for list="{{ conclusion }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <sc-for list="{{ proves }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:18px 1fr; gap:10px; border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:14px 16px;">
+            <span style="color:#3ddc84; font-family:'IBM Plex Mono',monospace;">✓</span>
+            <span style="font-size:15px; line-height:1.65; color:#dce3e8;">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.12em; padding:6px 0; margin-right:6px;">NEXT BURN</span>
+        <sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dce3e8; border:1px solid #2c3a44; padding:6px 12px;">{{ n }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="8">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aab4bc; border:1px solid #2c3a44; padding:5px 10px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:36px clamp(20px,5vw,56px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; text-decoration:none;">View repository ↗</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = {
+    "fileId": "PL-00",
+    "tag": "Java · Payments · Fintech",
+    "status": "ONGOING · PHASE 0 COMPLETE",
+    "statusColor": "#ffb547",
+    "title": "Payments Reconciliation & Exceptions Engine",
+    "role": "Solo · requirements, architecture, ADRs, then Java implementation",
+    "intro": "A Java 25 service that ingests bank statements and ledger entries, auto-matches them with a deterministic four-tier engine, and routes everything else to an auditable exceptions queue with maker-checker approval, SLA tracking and a tamper-evident audit trail. Phase 0 (requirements and architecture) is complete; production code starts in Phase 1.",
+    "repo": "https://github.com/SaumayAshish/payments-reconciliation-engine",
+    "links": [
+      {
+        "label": "REPOSITORY ↗",
+        "href": "https://github.com/SaumayAshish/payments-reconciliation-engine"
+      },
+      {
+        "label": "BRD ↗",
+        "href": "https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/BRD.md"
+      },
+      {
+        "label": "ADRs ↗",
+        "href": "https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/adr/README.md"
+      }
+    ],
+    "stats": [
+      {
+        "n": "Phase 0",
+        "label": "Complete · 11 build phases planned",
+        "c": "#ffb547"
+      },
+      {
+        "n": "5",
+        "label": "ADRs approved 2026-10-07",
+        "c": "#dce3e8"
+      },
+      {
+        "n": "4-tier",
+        "label": "Deterministic matching (planned)",
+        "c": "#dce3e8"
+      },
+      {
+        "n": "—",
+        "label": "Tests, match rate, throughput: not yet measured",
+        "c": "#8b97a1"
+      }
+    ],
+    "summary": [
+      {
+        "k": "WHY",
+        "v": "Banks lose analyst hours every day matching statement lines to ledger entries, chasing breaks and proving to auditors who did what."
+      },
+      {
+        "k": "WHAT",
+        "v": "Ingestion, four-tier matching, an exceptions queue with maker-checker approval and SLAs, a hash-chained audit log, reporting and a thin dashboard."
+      },
+      {
+        "k": "HOW",
+        "v": "Docs-first: BRD, FRD and ADRs before code. Plain-Java domain and matching layers, PostgreSQL as the system of record, Kafka through a transactional outbox."
+      },
+      {
+        "k": "CONCLUSION",
+        "v": "In progress. Requirements and architecture are approved; Phase 1 (domain model, Money, Flyway schema) is next. No results are claimed yet."
+      }
+    ],
+    "whyTitle": "Reconciliation is where money and audit meet.",
+    "why": [
+      "Every bank reconciles what its statement says against what its own ledger says. The routine matches are tedious, and the remaining breaks are where the risk lives: a missing payment, a duplicate, a fee nobody booked.",
+      "Most of that work is manual, and the hard part is not only matching but proving afterwards what was matched, by whom, and why. Auditors ask for exactly that.",
+      "This project automates the routine matches and makes the remainder fast to resolve, traceable and measured against SLAs. It is the backend I want to build for a living: correct money handling, idempotency, audit and event-driven integration in one system."
+    ],
+    "whatTitle": "What the engine will do.",
+    "what": [
+      {
+        "t": "Idempotent ingestion",
+        "d": "CSV and camt.053 bank statements plus ledger entries, deduplicated by content hash so a re-sent file can never double-count (ADR-0002)."
+      },
+      {
+        "t": "Deterministic four-tier matching",
+        "d": "Matching and claim resolution that always give the same result for the same input, with deterministic replay over a labelled corpus (ADR-0003)."
+      },
+      {
+        "t": "Exceptions management",
+        "d": "Unmatched items go to a queue with manual match, split and unmatch, SLA tracking and maker-checker approval."
+      },
+      {
+        "t": "Tamper-evident audit",
+        "d": "An append-only, hash-chained audit log, so any edit to history breaks the chain (ADR-0004)."
+      },
+      {
+        "t": "Event integration",
+        "d": "PostgreSQL as system of record over JDBC, with a transactional outbox publishing to Kafka (ADR-0005)."
+      },
+      {
+        "t": "Operations",
+        "d": "Reporting, metrics, structured logs, RBAC, a thin dashboard, and performance and reliability runs in later phases."
+      }
+    ],
+    "howTitle": "Requirements first, then code that traces back to them.",
+    "flowLabel": "PLANNED FLOW",
+    "flow": [
+      {
+        "t": "Ingest statements + ledger",
+        "d": "CSV · camt.053 · content-hash idempotency"
+      },
+      {
+        "t": "Normalise to Money",
+        "d": "Signed minor units + ISO 4217"
+      },
+      {
+        "t": "Four-tier matching",
+        "d": "Deterministic · replayable"
+      },
+      {
+        "t": "Exceptions queue",
+        "d": "Manual match · split · SLA · maker-checker"
+      },
+      {
+        "t": "Hash-chained audit log",
+        "d": "Append-only, tamper-evident"
+      },
+      {
+        "t": "PostgreSQL + outbox → Kafka",
+        "d": "Reporting · metrics · dashboard"
+      }
+    ],
+    "steps": [
+      {
+        "n": "00",
+        "t": "Wrote the BRD and FRD",
+        "d": "Business requirements, scope, non-functional requirements and build plan, then acceptance criteria, edge cases, a data dictionary and open questions."
+      },
+      {
+        "n": "01",
+        "t": "Recorded five architecture decisions",
+        "d": "Money representation, idempotent ingestion, deterministic matching, the hash-chained audit log, and PostgreSQL with a transactional outbox. Each lists alternatives rejected and consequences."
+      },
+      {
+        "n": "02",
+        "t": "Built a traceability matrix",
+        "d": "BRD → FRD → code → test → evidence, so every feature that ships points back to the requirement it satisfies."
+      },
+      {
+        "n": "03",
+        "t": "Specified the synthetic data",
+        "d": "A labelled corpus with hard negatives, so the matching engine can be scored against known answers rather than eyeballed."
+      },
+      {
+        "n": "04",
+        "t": "Prepared operations up front",
+        "d": "A runbook for stuck ingestion and a blameless RCA template, written before there is an incident to need them."
+      },
+      {
+        "n": "→",
+        "t": "Next: Phase 1",
+        "d": "Domain model, the Money type and the Flyway schema, followed by ingestion and matching."
+      }
+    ],
+    "decisions": [
+      {
+        "q": "Why signed minor units instead of floating point?",
+        "a": "Floating point cannot represent money exactly. Integers in minor units plus an ISO 4217 currency make arithmetic and comparison unambiguous. ADR-0001 records the alternatives."
+      },
+      {
+        "q": "Why deterministic matching?",
+        "a": "Every match must be explainable to an auditor and reproducible on replay. Cases a deterministic rule cannot settle go to the exceptions queue instead of being guessed."
+      },
+      {
+        "q": "Why a transactional outbox for Kafka?",
+        "a": "Writing to the database and publishing an event as two steps can half-fail. The outbox makes the event part of the same database transaction."
+      },
+      {
+        "q": "Why build docs-first?",
+        "a": "It delays the first commit. In exchange, every line of code traces to a requirement, which is how regulated systems are delivered."
+      }
+    ],
+    "results": [
+      {
+        "k": "Phase 0: BRD, FRD, ADRs, architecture, runbook",
+        "v": "Complete · approved 2026-10-07",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Production code",
+        "v": "Not started (Phase 1 next)",
+        "c": "#ffb547"
+      },
+      {
+        "k": "Tests and coverage",
+        "v": "Not yet measured",
+        "c": "#8b97a1"
+      },
+      {
+        "k": "Match rate by tier · false auto-matches",
+        "v": "Not yet measured",
+        "c": "#8b97a1"
+      },
+      {
+        "k": "Throughput",
+        "v": "Not yet measured",
+        "c": "#8b97a1"
+      }
+    ],
+    "conclusionTitle": "Where it stands.",
+    "conclusion": [
+      "The engine is designed and the design is approved. The repository holds business and functional requirements, five decision records, the architecture, a glossary, the synthetic-data spec, a traceability matrix and an operations runbook. It holds no production code yet, and the project rule is that no number appears until it has been measured.",
+      "This page fills in phase by phase: ingestion, matching accuracy against the labelled corpus, audit-chain verification, and throughput with the hardware named."
+    ],
+    "proves": [
+      "I scope a regulated problem properly before coding: requirements, decisions and traceability.",
+      "I design money handling, idempotency and audit in from the start rather than retrofitting them.",
+      "I report status honestly, phase by phase, with nothing claimed before it is measured."
+    ],
+    "next": [
+      "Phase 1: domain model + Money + Flyway",
+      "Phase 2: CSV + camt.053 ingestion",
+      "Phase 3: four-tier matching",
+      "Phase 5: audit chain + maker-checker"
+    ],
+    "tech": [
+      "Java 25",
+      "Maven",
+      "PostgreSQL",
+      "Flyway",
+      "JDBC",
+      "Kafka + transactional outbox",
+      "Docker Compose",
+      "GitHub Actions"
+    ]
+  };
+  renderVals() {
+    const d = this.DATA;
+    const n = d.flow.length;
+    return { ...d, flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
+  }
+}
+</script>
+</body>
+</html>
