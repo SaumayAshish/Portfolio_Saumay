@@ -54,6 +54,72 @@
   <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
 
     <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:14px;">00 — LIVE MATCHING DEMO</div>
+      <div style="border:1px solid #2c3a44; background:#0a0d10; margin-bottom:28px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; padding:18px 20px; border-bottom:1px solid #1f2a33;">
+                <div style="min-width:0;">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">PL-00 · CURRENT BUILD · LIVE DEMO</div>
+                  <div style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:22px;">Payments Reconciliation &amp; Exceptions Engine</div>
+                  <div style="font-size:14px; color:#aab4bc; margin-top:6px; max-width:640px; line-height:1.6;">Java 25 + Spring Boot 4.1 on PostgreSQL 17. Ingests CSV and camt.053 bank statements plus ledger entries, matches them through a deterministic four-tier engine, and routes the rest to exception cases with routing and SLA policy. Built docs-first; ingestion, matching and case intake are in code and benchmarked.</div>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--acc,#ffb547); border:1px solid color-mix(in srgb, var(--acc,#ffb547) 45%, transparent); padding:5px 10px;">ONGOING · CURRENT BUILD</span>
+                  <a href="https://github.com/SaumayAshish/payments-reconciliation-engine" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; border:1px solid #3a4852; padding:5px 10px; text-decoration:none;" style-hover="border-color:var(--acc,#ffb547);">REPO ↗</a>
+                  
+                  <button onClick="{{ toggleRec }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:#dce3e8; border:none; padding:6px 11px; cursor:pointer;">{{ recBtn }}</button>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px; align-items:center; padding:9px 20px; background:rgba(255,90,79,0.08); border-bottom:1px solid rgba(255,90,79,0.3); font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ff8a80; line-height:1.5;">
+                <span style="width:7px; height:7px; background:#ff5a4f; flex:0 0 auto;"></span>
+                <span>SIMULATED DEMO DATA in this panel, modeled on MatchingConfig.defaults() (auto ≥ 0.95, review ≥ 0.70, 3-business-day window, ≤ 8 one-to-many candidates). Tier split is illustrative. Measured on the synthetic corpus (docs/benchmarks.md): 92.4% auto-confirmed · 1M statement lines in 12.8 s, one cold run · identical output hash on every repeat.</span>
+              </div>
+              <div style="padding:16px 20px; border-bottom:1px solid #1f2a33;">
+                <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 14px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:12px;"><span>MATCHING PIPELINE · A LINE LEAVES AT THE FIRST TIER THAT CLAIMS IT</span><span style="color:#dce3e8;">RUN {{ recRunId }} · {{ recProg }}%</span></div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr)); gap:8px;">
+                  <sc-for list="{{ recTiers }}" as="t" hint-placeholder-count="5">
+                    <div style="border:1px solid {{ t.border }}; background:{{ t.bg }}; padding:12px; display:flex; flex-direction:column; gap:7px; min-width:0; transition:background 0.5s ease, border-color 0.5s ease;">
+                      <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.08em; color:{{ t.codeColor }}; transition:color 0.5s ease;">{{ t.code }} · {{ t.name }}</span>
+                      <span style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; color:#dce3e8;">{{ t.count }}</span>
+                      <span style="height:5px; background:#161f26; display:block;"><span style="display:block; height:5px; width:{{ t.pct }}%; background:{{ t.barColor }}; transition:width 0.6s ease;"></span></span>
+                      <span style="font-size:11.5px; color:#8b97a1; line-height:1.4;">{{ t.rule }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="height:3px; background:#161f26; margin-top:14px;"><div style="height:3px; width:{{ recProg }}%; background:#4fd8ff; transition:width 0.9s linear;"></div></div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; margin-top:7px; overflow-wrap:anywhere;">{{ recHash }}</div>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); border-bottom:1px solid #1f2a33;">
+                <sc-for list="{{ recGauges }}" as="g" hint-placeholder-count="4">
+                  <div style="padding:16px 14px 14px; border-right:1px solid #1f2a33; display:flex; flex-direction:column; align-items:center;">
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; align-self:flex-start;">{{ g.label }}</div>
+                    <svg width="120" height="70" viewBox="0 0 120 70" aria-hidden="true" style="margin-top:6px;">
+                      <path d="M16 62 A44 44 0 0 1 104 62" fill="none" stroke="#1f2a33" stroke-width="7"></path>
+                      <path d="M16 62 A44 44 0 0 1 104 62" fill="none" stroke-width="7" stroke-dasharray="138.2" stroke-dashoffset="{{ g.off }}" style="stroke:{{ g.color }}; transition:stroke-dashoffset 0.6s ease;"></path>
+                    </svg>
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:21px; font-weight:600; color:#dce3e8; margin-top:-18px;">{{ g.value }}</div>
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; margin-top:2px;">{{ g.unit }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="padding:16px 20px;">
+                <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:10px;"><span>MATCH LOG · SAMPLED STATEMENT LINES</span><span>{{ recTotal }} LINES</span></div>
+                <div role="log" aria-live="off" style="font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.4; display:flex; flex-direction:column; gap:3px; min-height:216px; overflow-x:auto;">
+                  <sc-for list="{{ recLog }}" as="e" hint-placeholder-count="9">
+                    <div style="display:grid; grid-template-columns:70px 96px 128px 76px 1fr 82px; gap:10px; white-space:nowrap; color:{{ e.color }}; min-width:600px;">
+                      <span style="color:#8b97a1;">{{ e.t }}</span><span>{{ e.id }}</span><span style="color:#c3ccd3;">{{ e.amt }}</span><span>{{ e.tier }}</span><span>{{ e.score }}</span><span style="text-align:right;">{{ e.band }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px; padding:0 20px 18px;">
+                <sc-for list="{{ recStack }}" as="t" hint-placeholder-count="10">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aab4bc; border:1px solid #2c3a44; padding:4px 9px;">{{ t }}</span>
+                </sc-for>
+              </div>
+            </div>
+    </section>
+
+    <section>
       <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
         <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
@@ -184,11 +250,11 @@ class Component extends DCLogic {
   DATA = {
     "fileId": "PL-00",
     "tag": "Java · Payments · Fintech",
-    "status": "ONGOING · PHASE 0 COMPLETE",
+    "status": "ONGOING · CURRENT BUILD",
     "statusColor": "#ffb547",
     "title": "Payments Reconciliation & Exceptions Engine",
     "role": "Solo · requirements, architecture, ADRs, then Java implementation",
-    "intro": "A Java 25 service that ingests bank statements and ledger entries, auto-matches them with a deterministic four-tier engine, and routes everything else to an auditable exceptions queue with maker-checker approval, SLA tracking and a tamper-evident audit trail. Phase 0 (requirements and architecture) is complete; production code starts in Phase 1.",
+    "intro": "A Java 25 service that ingests bank statements and ledger entries, auto-matches them with a deterministic four-tier engine, and routes everything else to an auditable exceptions queue with routing and SLA tracking. Requirements and architecture were approved first (Phase 0). Ingestion, the four-tier matcher and exception-case intake are now in code, tested and benchmarked; audit chain, maker-checker, Kafka and RBAC are still ahead.",
     "repo": "https://github.com/SaumayAshish/payments-reconciliation-engine",
     "links": [
       {
@@ -196,34 +262,38 @@ class Component extends DCLogic {
         "href": "https://github.com/SaumayAshish/payments-reconciliation-engine"
       },
       {
-        "label": "BRD ↗",
-        "href": "https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/BRD.md"
+        "label": "BENCHMARKS ↗",
+        "href": "https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/benchmarks.md"
       },
       {
         "label": "ADRs ↗",
         "href": "https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/adr/README.md"
+      },
+      {
+        "label": "BRD ↗",
+        "href": "https://github.com/SaumayAshish/payments-reconciliation-engine/blob/main/docs/BRD.md"
       }
     ],
     "stats": [
       {
-        "n": "Phase 0",
-        "label": "Complete · 11 build phases planned",
+        "n": "184",
+        "label": "Automated tests at the Phase 2 gate (152 unit · 32 integration)",
         "c": "#ffb547"
       },
       {
-        "n": "5",
-        "label": "ADRs approved 2026-10-07",
+        "n": "92.4%",
+        "label": "Statement lines auto-confirmed, synthetic corpus",
+        "c": "#3ddc84"
+      },
+      {
+        "n": "12.8 s",
+        "label": "1M statement lines, one cold run, laptop CPU",
         "c": "#dce3e8"
       },
       {
-        "n": "4-tier",
-        "label": "Deterministic matching (planned)",
+        "n": "8",
+        "label": "Architecture decision records",
         "c": "#dce3e8"
-      },
-      {
-        "n": "—",
-        "label": "Tests, match rate, throughput: not yet measured",
-        "c": "#8b97a1"
       }
     ],
     "summary": [
@@ -233,7 +303,7 @@ class Component extends DCLogic {
       },
       {
         "k": "WHAT",
-        "v": "Ingestion, four-tier matching, an exceptions queue with maker-checker approval and SLAs, a hash-chained audit log, reporting and a thin dashboard."
+        "v": "Ingestion, four-tier matching, exception cases with routing and SLAs, then a hash-chained audit log, maker-checker, reporting and a thin dashboard."
       },
       {
         "k": "HOW",
@@ -241,7 +311,7 @@ class Component extends DCLogic {
       },
       {
         "k": "CONCLUSION",
-        "v": "In progress. Requirements and architecture are approved; Phase 1 (domain model, Money, Flyway schema) is next. No results are claimed yet."
+        "v": "In progress. Ingestion, matching and case intake are built and measured. Audit chain, maker-checker, Kafka outbox and RBAC are next."
       }
     ],
     "whyTitle": "Reconciliation is where money and audit meet.",
@@ -250,35 +320,35 @@ class Component extends DCLogic {
       "Most of that work is manual, and the hard part is not only matching but proving afterwards what was matched, by whom, and why. Auditors ask for exactly that.",
       "This project automates the routine matches and makes the remainder fast to resolve, traceable and measured against SLAs. It is the backend I want to build for a living: correct money handling, idempotency, audit and event-driven integration in one system."
     ],
-    "whatTitle": "What the engine will do.",
+    "whatTitle": "What the engine does.",
     "what": [
       {
-        "t": "Idempotent ingestion",
-        "d": "CSV and camt.053 bank statements plus ledger entries, deduplicated by content hash so a re-sent file can never double-count (ADR-0002)."
+        "t": "Idempotent ingestion · built",
+        "d": "CSV and camt.053 (ISO 20022) bank statements plus ledger JSON, normalised to Money and deduplicated by content hash so a re-sent file can never double-count (ADR-0002)."
       },
       {
-        "t": "Deterministic four-tier matching",
-        "d": "Matching and claim resolution that always give the same result for the same input, with deterministic replay over a labelled corpus (ADR-0003)."
+        "t": "Deterministic four-tier matching · built",
+        "d": "Exact, tolerance, fuzzy and one-to-many tiers in order. The same input always gives the same result and the same SHA-256 output hash (ADR-0003, ADR-0006)."
       },
       {
-        "t": "Exceptions management",
-        "d": "Unmatched items go to a queue with manual match, split and unmatch, SLA tracking and maker-checker approval."
+        "t": "Exception cases · intake built",
+        "d": "Unmatched and ambiguous lines become cases with a state machine, routing rules, priorities and SLA policy on business-day calendars (ADR-0007, ADR-0008)."
       },
       {
-        "t": "Tamper-evident audit",
-        "d": "An append-only, hash-chained audit log, so any edit to history breaks the chain (ADR-0004)."
+        "t": "Tamper-evident audit · next",
+        "d": "An append-only, hash-chained audit log, so any edit to history breaks the chain (ADR-0004), plus maker-checker approval."
       },
       {
-        "t": "Event integration",
+        "t": "Event integration · planned",
         "d": "PostgreSQL as system of record over JDBC, with a transactional outbox publishing to Kafka (ADR-0005)."
       },
       {
-        "t": "Operations",
-        "d": "Reporting, metrics, structured logs, RBAC, a thin dashboard, and performance and reliability runs in later phases."
+        "t": "Operations · partly built",
+        "d": "Correlation IDs, structured API errors, Actuator and a Prometheus registry today. Reporting, RBAC and a thin dashboard in later phases."
       }
     ],
     "howTitle": "Requirements first, then code that traces back to them.",
-    "flowLabel": "PLANNED FLOW",
+    "flowLabel": "FLOW · BUILT THROUGH EXCEPTION-CASE INTAKE",
     "flow": [
       {
         "t": "Ingest statements + ledger",
@@ -290,19 +360,19 @@ class Component extends DCLogic {
       },
       {
         "t": "Four-tier matching",
-        "d": "Deterministic · replayable"
+        "d": "Exact → tolerance → fuzzy → one-to-many"
       },
       {
-        "t": "Exceptions queue",
-        "d": "Manual match · split · SLA · maker-checker"
+        "t": "Band by score",
+        "d": "auto ≥ 0.95 · review ≥ 0.70 · else exception"
       },
       {
-        "t": "Hash-chained audit log",
-        "d": "Append-only, tamper-evident"
+        "t": "Exception cases",
+        "d": "Routing · priority · SLA (next: maker-checker)"
       },
       {
         "t": "PostgreSQL + outbox → Kafka",
-        "d": "Reporting · metrics · dashboard"
+        "d": "Audit chain · reporting · dashboard (planned)"
       }
     ],
     "steps": [
@@ -313,28 +383,33 @@ class Component extends DCLogic {
       },
       {
         "n": "01",
-        "t": "Recorded five architecture decisions",
-        "d": "Money representation, idempotent ingestion, deterministic matching, the hash-chained audit log, and PostgreSQL with a transactional outbox. Each lists alternatives rejected and consequences."
+        "t": "Recorded the architecture decisions",
+        "d": "Money representation, idempotent ingestion, deterministic matching, the hash-chained audit log, PostgreSQL with a transactional outbox, the one-to-many candidate bound, the exception-case model, and routing and SLA. Each lists alternatives rejected and consequences."
       },
       {
         "n": "02",
-        "t": "Built a traceability matrix",
-        "d": "BRD → FRD → code → test → evidence, so every feature that ships points back to the requirement it satisfies."
+        "t": "Built a traceability matrix and data spec",
+        "d": "BRD → FRD → code → test → evidence, plus a labelled synthetic corpus with hard negatives so matching is scored against known answers."
       },
       {
         "n": "03",
-        "t": "Specified the synthetic data",
-        "d": "A labelled corpus with hard negatives, so the matching engine can be scored against known answers rather than eyeballed."
+        "t": "Built ingestion",
+        "d": "CSV, camt.053 and ledger JSON parsers, normalisation to Money, content-hash idempotency and four Flyway migrations on PostgreSQL. 184 automated tests at the Phase 2 gate, integration tests on Testcontainers."
       },
       {
         "n": "04",
-        "t": "Prepared operations up front",
-        "d": "A runbook for stuck ingestion and a blameless RCA template, written before there is an incident to need them."
+        "t": "Built the four-tier matcher",
+        "d": "A line leaves at the first tier that claims it, so it is never reported twice. Every threshold lives in one validated MatchingConfig: 0.95 auto, 0.70 review, 3 business days, 8 one-to-many candidates."
+      },
+      {
+        "n": "05",
+        "t": "Benchmarked it and proved determinism",
+        "d": "JMH steady state: 49.4 ms per 10,000-line run. Cold runner: 1,000,000 lines in 12.8 s. Every repeat produced an identical output hash. A thread dump found the corpus generator looping forever at 1M lines; the fix left every earlier corpus byte-identical."
       },
       {
         "n": "→",
-        "t": "Next: Phase 1",
-        "d": "Domain model, the Money type and the Flyway schema, followed by ingestion and matching."
+        "t": "Next",
+        "d": "Hash-chained audit log and maker-checker, Kafka through the transactional outbox, authentication and RBAC, then a thin dashboard."
       }
     ],
     "decisions": [
@@ -344,15 +419,15 @@ class Component extends DCLogic {
       },
       {
         "q": "Why deterministic matching?",
-        "a": "Every match must be explainable to an auditor and reproducible on replay. Cases a deterministic rule cannot settle go to the exceptions queue instead of being guessed."
+        "a": "Every match must be explainable to an auditor and reproducible on replay. The output is hashed, so a replay that differs is caught immediately. Cases a rule cannot settle go to the exceptions queue instead of being guessed."
+      },
+      {
+        "q": "Why one config object for every threshold?",
+        "a": "No threshold, window or weight appears as a literal anywhere else in the matching code. Changing a threshold is a new validated instance, which is what makes it auditable later."
       },
       {
         "q": "Why a transactional outbox for Kafka?",
         "a": "Writing to the database and publishing an event as two steps can half-fail. The outbox makes the event part of the same database transaction."
-      },
-      {
-        "q": "Why build docs-first?",
-        "a": "It delays the first commit. In exchange, every line of code traces to a requirement, which is how regulated systems are delivered."
       }
     ],
     "results": [
@@ -362,57 +437,158 @@ class Component extends DCLogic {
         "c": "#3ddc84"
       },
       {
-        "k": "Production code",
-        "v": "Not started (Phase 1 next)",
+        "k": "Automated tests at the Phase 2 gate",
+        "v": "184 · 152 unit, 32 integration",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Auto-confirmed share, synthetic corpus (10K, 100K, 1M)",
+        "v": "92.4% at every size",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Steady-state matching, 10K lines (JMH)",
+        "v": "49.4 ms/op",
         "c": "#ffb547"
       },
       {
-        "k": "Tests and coverage",
-        "v": "Not yet measured",
-        "c": "#8b97a1"
+        "k": "1M statement lines, one cold run",
+        "v": "12.8 s · ~156K lines/s",
+        "c": "#ffb547"
       },
       {
-        "k": "Match rate by tier · false auto-matches",
-        "v": "Not yet measured",
-        "c": "#8b97a1"
+        "k": "Determinism across repeats",
+        "v": "Identical output hash",
+        "c": "#3ddc84"
       },
       {
-        "k": "Throughput",
+        "k": "Coverage gate on domain + matching",
+        "v": "CI fails below 85% line",
+        "c": "#dce3e8"
+      },
+      {
+        "k": "False auto-matches · DB-backed end-to-end timing",
         "v": "Not yet measured",
         "c": "#8b97a1"
       }
     ],
     "conclusionTitle": "Where it stands.",
     "conclusion": [
-      "The engine is designed and the design is approved. The repository holds business and functional requirements, five decision records, the architecture, a glossary, the synthetic-data spec, a traceability matrix and an operations runbook. It holds no production code yet, and the project rule is that no number appears until it has been measured.",
-      "This page fills in phase by phase: ingestion, matching accuracy against the labelled corpus, audit-chain verification, and throughput with the hardware named."
+      "The design was approved before any code, and the code now covers ingestion, matching and exception-case intake. The matcher is measured on a labelled synthetic corpus on one named laptop CPU, and the repository states its limits: one machine, a single cold 1M run, synthetic data only, and no database-backed timing yet.",
+      "This page fills in phase by phase: audit-chain verification, maker-checker, the Kafka outbox, and throughput through the API with the hardware named."
     ],
     "proves": [
       "I scope a regulated problem properly before coding: requirements, decisions and traceability.",
-      "I design money handling, idempotency and audit in from the start rather than retrofitting them.",
+      "I design money handling, idempotency and determinism in from the start rather than retrofitting them.",
       "I report status honestly, phase by phase, with nothing claimed before it is measured."
     ],
     "next": [
-      "Phase 1: domain model + Money + Flyway",
-      "Phase 2: CSV + camt.053 ingestion",
-      "Phase 3: four-tier matching",
-      "Phase 5: audit chain + maker-checker"
+      "Phase 5: audit chain + maker-checker",
+      "Phase 7: Kafka + outbox",
+      "Phase 8: auth + RBAC",
+      "Phase 9: thin dashboard"
     ],
     "tech": [
       "Java 25",
-      "Maven",
-      "PostgreSQL",
+      "Spring Boot 4.1 · Web MVC · Actuator",
+      "Bean Validation",
+      "PostgreSQL 17",
       "Flyway",
       "JDBC",
-      "Kafka + transactional outbox",
+      "camt.053 · ISO 20022",
+      "Micrometer · Prometheus",
+      "OpenAPI",
+      "JUnit 5",
+      "Testcontainers",
+      "ArchUnit",
+      "JMH",
+      "JaCoCo",
       "Docker Compose",
       "GitHub Actions"
     ]
   };
+  state = { simOn: true, rec: null, now: Date.now() };
+  componentDidMount() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) this.setState({ simOn: false });
+    this.initRec();
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  initRec() { this.setState({ rec: { total: 0, auto: 0, review: 0, exc: 0, tiers: [0, 0, 0, 0], log: [], run: 42, prog: 0, sweep: 0, hash: this.hex(16), lastHash: null } }); }
+  hex(n) { let s = ''; for (let i = 0; i < n; i++) s += '0123456789abcdef'[Math.floor(Math.random() * 16)]; return s; }
+  stepRec(prev) {
+    const s = { ...prev, tiers: prev.tiers.slice(), log: prev.log.slice() };
+    const ts = new Date().toISOString().slice(11, 19);
+    const CUR = ['GBP', 'EUR', 'INR', 'USD'];
+    const TL = ['T1 EXACT', 'T2 TOLER.', 'T3 FUZZY', 'T4 1:N'];
+    const out = [];
+    const n = 36 + Math.floor(Math.random() * 24);
+    for (let i = 0; i < n; i++) {
+      const r = Math.random() * 100;
+      let tier = -1, band = 'EXCEPTION', score = 0;
+      if (r < 78) { tier = 0; band = 'AUTO'; score = 1; }
+      else if (r < 86) { tier = 1; band = 'AUTO'; score = 0.95 + Math.random() * 0.045; }
+      else if (r < 91) { tier = 2; band = 'AUTO'; score = 0.95 + Math.random() * 0.03; }
+      else if (r < 92.4) { tier = 3; band = 'AUTO'; score = 0.95 + Math.random() * 0.05; }
+      else if (r < 96.9) { tier = Math.random() < 0.6 ? 2 : 1; band = 'REVIEW'; score = 0.70 + Math.random() * 0.249; }
+      s.total += 1;
+      if (band === 'AUTO') s.auto += 1; else if (band === 'REVIEW') s.review += 1; else s.exc += 1;
+      if (tier >= 0) s.tiers[tier] += 1;
+      const take = band === 'AUTO' ? (out.length < 2 && Math.random() < 0.12) : (out.length < 4 && Math.random() < 0.6);
+      if (take) {
+        const minor = Math.floor(500 + Math.random() * 2500000);
+        const amt = CUR[Math.floor(Math.random() * 4)] + ' ' + (minor / 100).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        out.push({ t: ts, id: 'STL-' + String(100000 + s.total), amt: amt, tier: tier >= 0 ? TL[tier] : '—', score: band === 'EXCEPTION' ? (Math.random() < 0.3 ? 'ambiguous group' : 'no candidate ≥ 0.700') : 'score ' + score.toFixed(3), band: band, color: band === 'AUTO' ? '#3ddc84' : band === 'REVIEW' ? 'var(--acc,#ffb547)' : '#ff8a80' });
+      }
+    }
+    s.prog = prev.prog + n / 6;
+    if (s.prog >= 100) {
+      out.unshift({ t: ts, id: 'r-' + String(s.run).padStart(4, '0'), amt: 'RUN COMPLETE', tier: 'sha-256', score: s.hash + '…', band: 'REPLAY ✓', color: '#4fd8ff' });
+      s.lastHash = s.hash; s.run += 1; s.prog = 0; s.hash = this.hex(16);
+    }
+    s.sweep = (prev.sweep + 1) % 5;
+    s.log = out.concat(s.log).slice(0, 9);
+    return s;
+  }
+  recVals() {
+    const st = this.state;
+    const rec = st.rec || { total: 0, auto: 0, review: 0, exc: 0, tiers: [0, 0, 0, 0], log: [], run: 42, prog: 0, sweep: 0, hash: '', lastHash: null };
+    const pc = (x) => (rec.total ? (x / rec.total) * 100 : 0);
+    const L = 138.2;
+    const g = (label, value, unit, frac, color) => ({ label, value, unit, color, off: (L * (1 - Math.max(0, Math.min(1, frac)))).toFixed(1) });
+    const TN = [['T1', 'EXACT', 'amount + date + reference'], ['T2', 'TOLERANCE', 'date window, 3 business days'], ['T3', 'FUZZY', 'narrative + counterparty similarity'], ['T4', 'ONE-TO-MANY', 'split payments, ≤ 8 candidates']];
+    const maxT = Math.max(1, ...rec.tiers);
+    const lit = (i) => rec.sweep === i;
+    const tiers = TN.map((t, i) => ({ code: t[0], name: t[1], rule: t[2], count: rec.tiers[i].toLocaleString('en-US'), pct: Math.round((rec.tiers[i] / maxT) * 100), barColor: 'var(--acc,#ffb547)' }));
+    tiers.push({ code: 'OUT', name: 'BANDED', rule: 'auto ≥ 0.95 · review ≥ 0.70 · else exception case', count: rec.total.toLocaleString('en-US'), pct: Math.round(pc(rec.auto)), barColor: '#3ddc84' });
+    return {
+      recTiers: tiers.map((t, i) => ({ ...t, border: lit(i) ? 'var(--acc,#ffb547)' : '#1f2a33', bg: lit(i) ? 'color-mix(in srgb, var(--acc,#ffb547) 10%, #0a0d10)' : '#0a0d10', codeColor: lit(i) ? 'var(--acc,#ffb547)' : '#8b97a1' })),
+      recGauges: [
+        g('AUTO-CONFIRMED', pc(rec.auto).toFixed(1) + '%', 'of statement lines', pc(rec.auto) / 100, '#3ddc84'),
+        g('REVIEW', pc(rec.review).toFixed(1) + '%', 'to an analyst', pc(rec.review) / 10, 'var(--acc,#ffb547)'),
+        g('EXCEPTIONS', pc(rec.exc).toFixed(1) + '%', 'opened as cases', pc(rec.exc) / 10, '#ff5a4f'),
+        g('LINES MATCHED', rec.total.toLocaleString('en-US'), 'this session', rec.prog / 100, '#4fd8ff')
+      ],
+      recRunId: 'r-' + String(rec.run).padStart(4, '0'),
+      recProg: String(Math.min(100, Math.round(rec.prog))),
+      recHash: rec.lastHash ? 'LAST RUN OUTPUT HASH ' + rec.lastHash + '… · REPLAY IDENTICAL (DEMO VALUE)' : 'FIRST RUN IN PROGRESS · OUTPUT HASH ON COMPLETION',
+      recLog: rec.log,
+      recTotal: rec.total.toLocaleString('en-US'),
+      recBtn: st.simOn ? 'PAUSE ❚❚' : 'RESUME ▶',
+      toggleRec: () => this.setState({ simOn: !st.simOn }),
+      recStack: ['Java 25', 'Spring Boot 4.1', 'PostgreSQL 17', 'Flyway', 'JDBC', 'camt.053 · ISO 20022', 'Testcontainers', 'ArchUnit', 'JMH', 'JaCoCo', 'Micrometer · Prometheus', 'GitHub Actions']
+    };
+  }
+  tick() {
+    const upd = { now: Date.now() };
+    if (this.state.simOn && this.state.rec) upd.rec = this.stepRec(this.state.rec);
+    this.setState(upd);
+  }
   renderVals() {
     const d = this.DATA;
     const n = d.flow.length;
-    return { ...d, flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
+    return { ...d, ...this.recVals(), flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
   }
 }
 </script>

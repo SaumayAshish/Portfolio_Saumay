@@ -54,6 +54,88 @@
   <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
 
     <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:14px;">00 — LIVE CONSOLE</div>
+      <div style="border:1px solid #2c3a44; background:#0a0d10; margin-bottom:28px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; padding:18px 20px; border-bottom:1px solid #1f2a33;">
+                <div style="min-width:0;">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">PL-01 · LATEST COMPLETE · v1.0.0 · LIVE CONSOLE</div>
+                  <div style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:22px;">Real-Time Telemetry Anomaly Detection Platform</div>
+                  <div style="font-size:14px; color:#aab4bc; margin-top:6px; max-width:640px; line-height:1.6;">Java 26 + Spring Boot 4.1 over Kafka Streams and TimescaleDB. On a seeded 5-sensor scenario with 10 injected faults it caught 9, with 0.35% false positives and zero dead letters, reproducible with one command.</div>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--acc,#ffb547); border:1px solid color-mix(in srgb, var(--acc,#ffb547) 45%, transparent); padding:5px 10px; color:#3ddc84; border-color:rgba(61,220,132,0.45);">LATEST COMPLETE</span>
+                  <a href="https://github.com/SaumayAshish/telemetry-anomaly-detection-platform" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; border:1px solid #3a4852; padding:5px 10px; text-decoration:none;" style-hover="border-color:var(--acc,#ffb547);">REPO ↗</a>
+                  <button onClick="{{ toggleSim }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:#dce3e8; border:none; padding:6px 11px; cursor:pointer;">{{ simBtn }}</button>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px; align-items:center; padding:9px 20px; background:rgba(255,90,79,0.08); border-bottom:1px solid rgba(255,90,79,0.3); font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ff8a80; line-height:1.5;">
+                <span style="width:7px; height:7px; background:#ff5a4f; flex:0 0 auto;"></span>
+                <span>SIMULATED DEMO DATA in this panel, modeled on the repo's contract (telemetry.sensor.readings.v1, 6 partitions, key = sensorId, Welford baseline, z ≥ 3 after 30 samples). Measured results from the real run: 9/10 faults caught · 0.35% false positives · 78 alerts · 0 duplicates · 0 dead letters.</span>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); border-bottom:1px solid #1f2a33;">
+                <sc-for list="{{ gauges }}" as="g" hint-placeholder-count="4">
+                  <div style="padding:16px 14px 14px; border-right:1px solid #1f2a33; display:flex; flex-direction:column; align-items:center;">
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; align-self:flex-start;">{{ g.label }}</div>
+                    <svg width="120" height="70" viewBox="0 0 120 70" aria-hidden="true" style="margin-top:6px;">
+                      <path d="M16 62 A44 44 0 0 1 104 62" fill="none" stroke="#1f2a33" stroke-width="7"></path>
+                      <path d="M16 62 A44 44 0 0 1 104 62" fill="none" stroke-width="7" stroke-dasharray="138.2" stroke-dashoffset="{{ g.off }}" style="stroke:{{ g.color }}; transition:stroke-dashoffset 0.6s ease;"></path>
+                    </svg>
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:21px; font-weight:600; color:#dce3e8; margin-top:-18px;">{{ g.value }}</div>
+                    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; margin-top:2px;">{{ g.unit }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+                <div style="padding:16px 20px; border-right:1px solid #1f2a33; border-bottom:1px solid #1f2a33;">
+                  <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:10px;"><span>CONSUMER LAG · anomaly-detection-stream-app</span><span style="color:#dce3e8;">{{ lagNow }}</span></div>
+                  <svg viewBox="0 0 300 90" preserveAspectRatio="none" style="width:100%; height:110px; display:block;" aria-label="Consumer lag chart, last 60 seconds">
+                    <line x1="0" y1="22" x2="300" y2="22" stroke="#161f26" stroke-width="1"></line>
+                    <line x1="0" y1="45" x2="300" y2="45" stroke="#161f26" stroke-width="1"></line>
+                    <line x1="0" y1="68" x2="300" y2="68" stroke="#161f26" stroke-width="1"></line>
+                    <polyline points="{{ lagArea }}" stroke="none" style="fill:color-mix(in srgb, var(--acc,#ffb547) 10%, transparent);"></polyline>
+                    <polyline points="{{ lagLine }}" fill="none" style="stroke:var(--acc,#ffb547);" stroke-width="1.6" vector-effect="non-scaling-stroke"></polyline>
+                  </svg>
+                  <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#8b97a1; margin-top:4px;"><span>−60s</span><span>now</span></div>
+                </div>
+                <div style="padding:16px 20px; border-bottom:1px solid #1f2a33;">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:12px;">PARTITION ACTIVITY · events/s</div>
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <sc-for list="{{ partitions }}" as="p" hint-placeholder-count="6">
+                      <div style="display:grid; grid-template-columns:30px 1fr 64px 76px; gap:10px; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:11.5px;">
+                        <span style="color:#dce3e8;">p{{ p.i }}</span>
+                        <span style="height:8px; background:#161f26; display:block;"><span style="display:block; height:8px; width:{{ p.pct }}%; background:{{ p.color }}; transition:width 0.6s ease;"></span></span>
+                        <span style="color:#aab4bc; text-align:right;">{{ p.rate }}</span>
+                        <span style="color:#8b97a1; text-align:right;">{{ p.key }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; margin-top:12px; line-height:1.5;">5 sensor keys over 6 partitions leaves one idle, the trade-off ADR-0001 accepts for per-sensor ordering. Mapping shown is illustrative.</div>
+                </div>
+              </div>
+
+              <div style="padding:16px 20px;">
+                <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:10px;"><span>EVENT LOG · telemetry.sensor.anomalies.v1 + sampled readings</span><span>{{ totalEvents }} EVENTS</span></div>
+                <div role="log" aria-live="off" style="font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.4; display:flex; flex-direction:column; gap:3px; min-height:216px; overflow-x:auto;">
+                  <sc-for list="{{ eventLog }}" as="e" hint-placeholder-count="9">
+                    <div style="display:grid; grid-template-columns:78px 62px 34px 70px 1fr 78px; gap:10px; white-space:nowrap; color:{{ e.color }}; min-width:560px;">
+                      <span style="color:#8b97a1;">{{ e.t }}</span><span>{{ e.sensor }}</span><span>p{{ e.p }}</span><span>{{ e.off }}</span><span>{{ e.msg }}</span><span style="text-align:right;">{{ e.sev }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:6px; padding:0 20px 18px;">
+                <sc-for list="{{ telStack }}" as="t" hint-placeholder-count="8">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aab4bc; border:1px solid #2c3a44; padding:4px 9px;">{{ t }}</span>
+                </sc-for>
+              </div>
+            </div>
+
+    </section>
+
+    <section>
       <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
         <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
@@ -184,7 +266,7 @@ class Component extends DCLogic {
   DATA = {
     "fileId": "PL-01",
     "tag": "Java · Kafka · Event Streaming",
-    "status": "COMPLETE · v1.0.0",
+    "status": "LATEST COMPLETE · v1.0.0",
     "statusColor": "#3ddc84",
     "title": "Real-Time Telemetry Anomaly Detection Platform",
     "role": "Solo · architecture, Kafka topology, Java services, security, testing, infrastructure",
@@ -412,10 +494,105 @@ class Component extends DCLogic {
       "GitHub Actions"
     ]
   };
+  SENSORS = [
+    { id: 'S-1001', p: 2 }, { id: 'S-1002', p: 5 }, { id: 'S-1003', p: 0 }, { id: 'S-1004', p: 3 }, { id: 'S-1005', p: 1 }
+  ];
+  state = { simOn: true, sim: null, now: Date.now() };
+  componentDidMount() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) this.setState({ simOn: false });
+    this.initSim();
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  initSim() {
+    this.stats = {};
+    this.SENSORS.forEach((s) => {
+      const st = { n: 0, mean: 0, m2: 0, streak: 0 };
+      for (let i = 0; i < 40; i++) this.welford(st, 65 + Math.random() * 20);
+      this.stats[s.id] = st;
+    });
+    const lag = [];
+    let l = 120;
+    for (let i = 0; i < 60; i++) { l = Math.max(8, Math.min(380, l + (Math.random() - 0.5) * 50)); lag.push(l); }
+    this.setState({ sim: { rate: 0, p99: 0, anomalies: 0, total: 0, lag: lag, offsets: [48210, 51877, 50342, 49920, 0, 52016], pRate: [0, 0, 0, 0, 0, 0], log: [] } });
+  }
+
+  welford(st, x) { st.n += 1; const d = x - st.mean; st.mean += d / st.n; st.m2 += d * (x - st.mean); }
+  std(st) { return st.n > 1 ? Math.sqrt(st.m2 / (st.n - 1)) : 0; }
+
+  tick() {
+    const upd = { now: Date.now() };
+    if (this.state.simOn && this.state.sim && this.props.telemetryAutoplay !== false) upd.sim = this.stepSim(this.state.sim);
+    this.setState(upd);
+  }
+
+  stepSim(prev) {
+    const s = { ...prev, offsets: prev.offsets.slice(), lag: prev.lag.slice(), log: prev.log.slice() };
+    const rate = Math.round(470 + (Math.random() - 0.5) * 90);
+    const pRate = [0, 0, 0, 0, 0, 0];
+    const per = rate / this.SENSORS.length;
+    this.SENSORS.forEach((x) => { const r = Math.round(per * (0.85 + Math.random() * 0.3)); pRate[x.p] += r; s.offsets[x.p] += r; });
+    s.pRate = pRate; s.rate = rate; s.total = prev.total + rate;
+    const ts = new Date().toISOString().slice(11, 19);
+    const lines = [];
+    let spike = false;
+    this.SENSORS.forEach((x) => {
+      const st = this.stats[x.id];
+      let v = 65 + Math.random() * 20;
+      if (Math.random() < 0.035) { spike = true; const zT = 3.2 + Math.pow(Math.random(), 1.6) * 14; v = st.mean + zT * this.std(st) * (Math.random() < 0.85 ? 1 : -1); }
+      const sd = this.std(st);
+      const z = sd > 0 ? (v - st.mean) / sd : 0;
+      if (st.n >= 30 && Math.abs(z) >= 3.0) {
+        st.streak += 1;
+        const a = Math.abs(z);
+        const sev = a >= 15 ? 'CRITICAL' : a >= 10 ? 'HIGH' : a >= 5 ? 'MEDIUM' : 'LOW';
+        s.anomalies += 1;
+        lines.push({ t: ts, sensor: x.id, p: x.p, off: s.offsets[x.p], msg: 'ANOMALY value=' + v.toFixed(1) + ' z=' + z.toFixed(2) + ' base=' + st.mean.toFixed(1), sev: sev, color: sev === 'CRITICAL' || sev === 'HIGH' ? '#ff8a80' : 'var(--acc,#ffb547)' });
+        if (st.streak >= 10) { st.n = 0; st.mean = 0; st.m2 = 0; st.streak = 0; this.welford(st, v); }
+      } else {
+        st.streak = 0;
+        this.welford(st, v);
+        if (Math.random() < 0.34) lines.push({ t: ts, sensor: x.id, p: x.p, off: s.offsets[x.p], msg: 'reading temperature=' + v.toFixed(1), sev: 'OK', color: '#aab4bc' });
+      }
+    });
+    s.log = lines.concat(s.log).slice(0, 9);
+    const last = s.lag[s.lag.length - 1];
+    s.lag.push(Math.max(6, Math.min(400, last + (Math.random() - 0.5) * 55 + (spike ? 60 : 0))));
+    s.lag = s.lag.slice(-60);
+    s.p99 = +(16 + Math.random() * 8 + (spike ? 14 : 0)).toFixed(1);
+    return s;
+  }
+
   renderVals() {
+    const st = this.state;
     const d = this.DATA;
     const n = d.flow.length;
-    return { ...d, flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
+    const sim = st.sim || { rate: 0, p99: 0, anomalies: 0, total: 0, lag: [], offsets: [0, 0, 0, 0, 0, 0], pRate: [0, 0, 0, 0, 0, 0], log: [] };
+    const L = 138.2;
+    const lagNowV = sim.lag.length ? Math.round(sim.lag[sim.lag.length - 1]) : 0;
+    const gauge = (label, value, unit, frac, color) => ({ label, value, unit, color, off: (L * (1 - Math.max(0, Math.min(1, frac)))).toFixed(1) });
+    const gauges = [
+      gauge('THROUGHPUT', String(sim.rate), 'events / s', sim.rate / 700, '#3ddc84'),
+      gauge('P99 LATENCY', sim.p99.toFixed(1), 'ms end-to-end', sim.p99 / 60, sim.p99 > 30 ? '#ff5a4f' : 'var(--acc,#ffb547)'),
+      gauge('CONSUMER LAG', String(lagNowV), 'records', lagNowV / 400, lagNowV > 300 ? '#ff5a4f' : 'var(--acc,#ffb547)'),
+      gauge('ANOMALIES', String(sim.anomalies), 'since load', Math.min(1, sim.anomalies / 40), '#ff5a4f')
+    ];
+    const pts = sim.lag.map((v, i) => ((i / 59) * 300).toFixed(1) + ',' + (88 - (v / 400) * 82).toFixed(1));
+    const maxP = Math.max(1, ...sim.pRate);
+    const keyFor = (i) => { const s = this.SENSORS.find((x) => x.p === i); return s ? s.id : 'idle'; };
+    const partitions = sim.pRate.map((r, i) => ({ i, rate: String(r), pct: Math.round((r / maxP) * 100), color: r ? 'var(--acc,#ffb547)' : '#24303a', key: keyFor(i) }));
+
+    return { ...d,
+      simBtn: st.simOn ? 'PAUSE ❚❚' : 'RESUME ▶',
+      toggleSim: () => this.setState({ simOn: !st.simOn }),
+      gauges, lagNow: lagNowV + ' records',
+      lagLine: pts.join(' '),
+      lagArea: pts.length ? '0,90 ' + pts.join(' ') + ' 300,90' : '',
+      partitions,
+      eventLog: sim.log,
+      totalEvents: sim.total.toLocaleString('en-US'),
+      telStack: ['Java 26', 'Kafka 3.8 · KRaft', 'Kafka Streams', 'Spring Boot', 'TimescaleDB · PG16', 'HikariCP', 'Jackson', 'Docker Compose'],
+      flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })) };
   }
 }
 </script>
