@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing:border-box; scrollbar-color:#2c3a44 transparent; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#dce3e8; font-family:'IBM Plex Sans',sans-serif; min-height:100vh;" data-screen-label="Case file">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(20px,5vw,56px); background:rgba(7,9,11,0.92); backdrop-filter:blur(8px); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#aab4bc; white-space:nowrap;">MISSION: DISCOVER SAUMAY · CASE FILE {{ fileId }}</span>
+  </nav>
+
+  <header style="padding:84px clamp(20px,5vw,56px) 52px; border-bottom:1px solid #1f2a33;">
+    <div style="max-width:920px;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:6px 12px;">{{ tag }}</span>
+        <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ statusColor }}; border:1px solid #2c3a44; padding:6px 12px;"><span style="width:7px; height:7px; background:{{ statusColor }};"></span>{{ status }}</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.05; margin:0 0 18px; text-wrap:balance;">{{ title }}</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; margin-bottom:18px;">{{ role }}</div>
+      <p style="font-size:18px; line-height:1.65; color:#c3ccd3; max-width:760px; margin:0 0 28px; text-wrap:pretty;">{{ intro }}</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="2">
+          <a href="{{ l.href }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:0.05em; padding:12px 18px; border:1px solid #3a4852; color:#dce3e8; text-decoration:none;" style-hover="border-color:#ffb547; color:#ffb547;">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid #1f2a33;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 18px; border-right:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; color:{{ s.c }};">{{ s.n }}</div>
+            <div style="font-size:12.5px; color:#8b97a1; margin-top:6px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:14px;">00 — LIVE ORBIT LAB</div>
+      <div style="border:1px solid #2c3a44; background:#0a0d10;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; padding:18px 20px; border-bottom:1px solid #1f2a33;">
+          <div style="min-width:0; max-width:620px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">PL-01 · LATEST COMPLETE · RUNS IN YOUR BROWSER</div>
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:22px;">Is it physics, or is it the numerics?</div>
+            <div style="font-size:14px; color:#aab4bc; margin-top:6px; line-height:1.6;">Pick a system and an integrator. The solid bodies are the run you chose, the dashed curve is a high-accuracy reference, and the violet rings are a twin start moved by one part in a million.</div>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button onClick="{{ clToggle }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:#dce3e8; border:none; padding:7px 12px; cursor:pointer;">{{ clBtn }}</button>
+            <button onClick="{{ clRestart }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; background:none; border:1px solid #3a4852; padding:6px 11px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#ffb547;">RESTART ↺</button>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px 26px; padding:12px 20px; border-bottom:1px solid #1f2a33;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-right:4px;">SYSTEM</span><sc-for list="{{ clPresets }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:6px 11px; border:1px solid {{ o.border }}; background:{{ o.bg }}; color:{{ o.color }}; cursor:pointer; white-space:nowrap;">{{ o.label }}</button></sc-for></div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-right:4px;">INTEGRATOR</span><sc-for list="{{ clInts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:6px 11px; border:1px solid {{ o.border }}; background:{{ o.bg }}; color:{{ o.color }}; cursor:pointer; white-space:nowrap;">{{ o.label }}</button></sc-for></div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));">
+          <div style="position:relative; aspect-ratio:1 / 1; min-height:280px; border-right:1px solid #1f2a33; border-bottom:1px solid #1f2a33;">
+            <canvas ref="{{ orbitRef }}" role="img" aria-label="Animated three-body orbits: chosen integrator, reference trajectory and twin start" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
+          </div>
+          <div style="display:flex; flex-direction:column; border-bottom:1px solid #1f2a33;">
+            <sc-for list="{{ clReadouts }}" as="r" hint-placeholder-count="5">
+              <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:baseline; padding:12px 18px; border-bottom:1px solid #161f26;">
+                <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.08em; white-space:nowrap;"><span style="width:8px; height:8px; background:{{ r.c }}; flex:0 0 auto;"></span>{{ r.k }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:{{ r.vc }};">{{ r.v }}</span>
+              </div>
+            </sc-for>
+            <div style="padding:14px 18px; display:flex; flex-direction:column; gap:8px; flex:1;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em;">EXPLANATION · WRITTEN FROM THE NUMBERS ABOVE</span>
+              <sc-for list="{{ clVerdict }}" as="v" hint-placeholder-count="3"><span style="font-size:14px; line-height:1.55; color:#c3ccd3; text-wrap:pretty;">{{ v }}</span></sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 20px 16px;">
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 16px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.08em; margin-bottom:8px;">
+            <span>DIVERGENCE OVER TIME · LOG SCALE</span>
+            <span style="display:flex; gap:14px; flex-wrap:wrap;"><span style="color:#ff7a59;">■ GAP TO REFERENCE</span><span style="color:#a78bfa;">■ TWIN SEPARATION</span><span style="color:#ffb547;">■ ENERGY DRIFT</span></span>
+          </div>
+          <div style="position:relative; height:180px;"><canvas ref="{{ plotRef }}" role="img" aria-label="Log-scale plot of gap to reference, twin separation and energy drift over time" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas></div>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; padding:10px 20px; background:rgba(255,90,79,0.08); border-top:1px solid rgba(255,90,79,0.3); font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ff8a80; line-height:1.5;"><span style="width:7px; height:7px; background:#ff5a4f; flex:0 0 auto;"></span><span>A BROWSER RE-IMPLEMENTATION FOR ILLUSTRATION, not the Java app. Here the reference is RK4 at a tenth of the step; ChaosLab uses Dormand-Prince 5(4) at tolerance 1e-13, checked against a second reference at 1e-14. Numbers in the header strip and results table come from the repository.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
+        <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">{{ s.k }}</div>
+            <div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">01 — WHY</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ whyTitle }}</h2>
+      <sc-for list="{{ why }}" as="p" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">02 — WHAT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ whatTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px;">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="6">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ w.t }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ w.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">03 — HOW</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ howTitle }}</h2>
+      <div style="border:1px solid #1f2a33; background:rgba(10,13,16,0.85); padding:20px; margin-bottom:26px; overflow-x:auto;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:14px;">{{ flowLabel }}</div>
+        <div style="display:flex; flex-direction:column; align-items:stretch; gap:0; min-width:300px;">
+          <sc-for list="{{ flow }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:100%; max-width:560px; border:1px solid {{ f.border }}; background:#0c1014; padding:11px 14px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#dce3e8;">{{ f.t }}</span>
+                <span style="font-size:12.5px; color:#8b97a1;">{{ f.d }}</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; line-height:1.4; display:{{ f.arrow }};">↓</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; padding:20px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:#ffb547;">{{ s.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:16.5px; margin-bottom:6px;">{{ s.t }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">04 — DECISIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">Calls I made, and what they cost.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px 20px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ d.q }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc;">{{ d.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">05 — RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">What came out of it.</h2>
+      <div style="border:1px solid #1f2a33;">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <span style="font-size:14.5px; color:#c3ccd3;">{{ r.k }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:{{ r.c }}; text-align:right;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">06 — CONCLUSION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ conclusionTitle }}</h2>
+      <sc-for list="{{ conclusion }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <sc-for list="{{ proves }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:18px 1fr; gap:10px; border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:14px 16px;">
+            <span style="color:#3ddc84; font-family:'IBM Plex Mono',monospace;">✓</span>
+            <span style="font-size:15px; line-height:1.65; color:#dce3e8;">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.12em; padding:6px 0; margin-right:6px;">NEXT BURN</span>
+        <sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dce3e8; border:1px solid #2c3a44; padding:6px 12px;">{{ n }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="8">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aab4bc; border:1px solid #2c3a44; padding:5px 10px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:36px clamp(20px,5vw,56px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; text-decoration:none;">View repository ↗</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = {
+    "fileId": "PL-01",
+    "tag": "Java 25 · JavaFX · Computational physics",
+    "status": "LATEST COMPLETE",
+    "statusColor": "#3ddc84",
+    "title": "ChaosLab: the three-body problem, told honestly",
+    "role": "Solo · physics engine, integrators, JavaFX interface, tests and ADRs",
+    "intro": "A desktop laboratory for the Newtonian N-body problem and deterministic chaos, written in Java 25 and JavaFX. It runs the same system with several integrators, compares each against a high-accuracy reference, and keeps two things apart on screen: numerical error, which is the integrator’s fault, and physical sensitivity, which belongs to the motion itself.",
+    "repo": "https://github.com/SaumayAshish/ChaosLab",
+    "links": [
+      {
+        "label": "REPOSITORY ↗",
+        "href": "https://github.com/SaumayAshish/ChaosLab"
+      },
+      {
+        "label": "REPRODUCIBILITY ↗",
+        "href": "https://github.com/SaumayAshish/ChaosLab/blob/main/docs/REPRODUCIBILITY.md"
+      },
+      {
+        "label": "ADRs ↗",
+        "href": "https://github.com/SaumayAshish/ChaosLab/tree/main/docs/adr"
+      },
+      {
+        "label": "ROADMAP ↗",
+        "href": "https://github.com/SaumayAshish/ChaosLab/blob/main/docs/ROADMAP.md"
+      }
+    ],
+    "stats": [
+      {
+        "n": "480",
+        "label": "Automated tests in 38 classes, mutation-checked",
+        "c": "#3ddc84"
+      },
+      {
+        "n": "4.06",
+        "label": "Measured RK4 convergence order (Euler 0.99 · Verlet 2.00)",
+        "c": "#ffb547"
+      },
+      {
+        "n": "11 / 11",
+        "label": "CI runs passed on Ubuntu and Windows",
+        "c": "#dce3e8"
+      },
+      {
+        "n": "8",
+        "label": "Architecture decision records",
+        "c": "#dce3e8"
+      }
+    ],
+    "summary": [
+      {
+        "k": "WHY",
+        "v": "In a chaotic system every numerical error grows, so most three-body plots quietly mix integrator error with real sensitivity."
+      },
+      {
+        "k": "WHAT",
+        "v": "A JavaFX lab for 2 to 8 bodies: four integrators, a reference trajectory, a Lyapunov exponent with a rule, a twin run and a compare window."
+      },
+      {
+        "k": "HOW",
+        "v": "An engine with no UI dependency, deterministic simulated time, every quoted number pinned by a test, and tests checked by mutation."
+      },
+      {
+        "k": "CONCLUSION",
+        "v": "Complete as a research prototype. 480 tests pass, CI is green on two operating systems, and the limits are written down."
+      }
+    ],
+    "whyTitle": "I wanted to know which wobbles were real.",
+    "why": [
+      "Every three-body simulation I had seen looked convincing, and I could not tell which parts were physics and which were the computer. In a chaotic system every numerical error grows, so a plot of “distance from the truth” mixes the integrator’s mistakes with the motion’s own sensitivity.",
+      "I wanted a tool that refuses to blur the two. When an orbit looks wrong, it should be able to say whether that is physics or numerics, and show the number it based that on.",
+      "It is the same habit I bring to production systems: separate the signal from the measurement error before explaining anything."
+    ],
+    "whatTitle": "What the lab does.",
+    "what": [
+      {
+        "t": "Four integrators",
+        "d": "Explicit Euler, classical RK4, velocity Verlet (symplectic) and Dormand-Prince 5(4) with fixed or adaptive steps, for 2 to 8 bodies in normalised or SI units."
+      },
+      {
+        "t": "A reference with its own error bar",
+        "d": "Dormand-Prince at tolerance 1e-13 with quintic Hermite interpolation, and a second reference at 1e-14, so the window knows when a gap is below what it can resolve."
+      },
+      {
+        "t": "Two colours, two meanings",
+        "d": "Coral is numerical error: the gap to the reference. Violet is physical sensitivity: the Lyapunov exponent and a twin run moved by 1e-6 of the system size."
+      },
+      {
+        "t": "An exponent that has to earn it",
+        "d": "The Benettin estimate is only claimed under a stated rule. Otherwise the window says why no exponent is claimed."
+      },
+      {
+        "t": "Compare integrators",
+        "d": "All five methods on the same scenario against the reference, with a table, two log-scale plots and sentences that refuse to rank runs whose energy has left the true motion."
+      },
+      {
+        "t": "Experiments you can repeat",
+        "d": "Ten presets, from Kepler orbits to the Pythagorean 3-4-5 problem. Save and load experiments as JSON with an exact round trip; export curves as CSV."
+      }
+    ],
+    "howTitle": "The engine never sees the window.",
+    "flowLabel": "FLOW · SCENARIO TO EXPLANATION",
+    "flow": [
+      {
+        "t": "Scenario",
+        "d": "2–8 bodies · normalised or SI units"
+      },
+      {
+        "t": "Integrator step",
+        "d": "Euler · RK4 · Verlet · Dormand-Prince 5(4)"
+      },
+      {
+        "t": "Immutable snapshot",
+        "d": "Engine has no UI dependency"
+      },
+      {
+        "t": "Reference track",
+        "d": "DP 5(4) at 1e-13 · quintic Hermite"
+      },
+      {
+        "t": "Divergence monitors",
+        "d": "Gap · twin · Lyapunov · conservation"
+      },
+      {
+        "t": "Explanation panel",
+        "d": "Measured numbers and conditional claims only"
+      }
+    ],
+    "steps": [
+      {
+        "n": "00",
+        "t": "Pinned the toolchain",
+        "d": "Java 25 with --release pinning, JavaFX 25.0.1 and Maven, every lint warning switched on and no preview features."
+      },
+      {
+        "n": "01",
+        "t": "Kept the engine apart from the UI",
+        "d": "Flat arrays inside, immutable snapshots outside. Simulated time is deterministic, so a run does not depend on playback speed or pauses."
+      },
+      {
+        "n": "02",
+        "t": "Measured the integrators",
+        "d": "Convergence orders came out at Euler 0.99, RK4 4.06, Verlet 2.00 and Dormand-Prince fixed step 5.15 to 5.34, matching the theory."
+      },
+      {
+        "n": "03",
+        "t": "Built a reference that reports its own limits",
+        "d": "Two references at 1e-13 and 1e-14. On the Pythagorean problem they agree to 8.4e-11 at t = 10 and differ by 2.1 at t = 70, and the window says so."
+      },
+      {
+        "n": "04",
+        "t": "Made the Lyapunov exponent earn its claim",
+        "d": "An exponent is claimed only with at least 10 renormalisations and a late slope of at least 0.75 of the running mean. At 0.5, Sun–Earth–Moon was wrongly claimed in 24 of 41 samples."
+      },
+      {
+        "n": "05",
+        "t": "Tested the tests",
+        "d": "Deliberate faults were put into the code and the suite had to fail. Faults that survived led to stronger tests or to dead code being removed."
+      },
+      {
+        "n": "06",
+        "t": "Shipped",
+        "d": "CI on Temurin 25 across Ubuntu and Windows, 11 runs green, and every number in the docs traced to the test that pins it."
+      }
+    ],
+    "decisions": [
+      {
+        "q": "Why keep numerical error and sensitivity in separate colours?",
+        "a": "Mixing them is the most common way to misread a three-body simulation. Sensitivity is measured on the reference integrator only, so it does not change when you switch integrators. (ADR-0004)"
+      },
+      {
+        "q": "Why is the app allowed to refuse to report a Lyapunov exponent?",
+        "a": "Early versions reported 0.0049 per day for the regular Sun–Earth system. The rule now screens that out; 3 of 205 regular samples still pass, and the window words it as a screen, not a proof. (ADR-0005)"
+      },
+      {
+        "q": "Why fail loudly at a singularity?",
+        "a": "If an interaction becomes non-finite, the run rolls back to the last valid state and reports FAILED with an explanation. A head-on collision ends at t = π/4 instead of continuing with infinities. (ADR-0006)"
+      },
+      {
+        "q": "Why ship a preset where fixed steps fail?",
+        "a": "The binary flyby is not chaotic: moving the impact parameter by 1e-6 changes the final semi-major axis by only 2e-6. Fixed steps fail there because of the close pass, which is a time-scale problem. Showing that keeps the tool honest."
+      }
+    ],
+    "results": [
+      {
+        "k": "Automated tests",
+        "v": "480 in 38 classes",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Convergence orders",
+        "v": "Euler 0.99 · RK4 4.06 · Verlet 2.00 · DP 5.15–5.34",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Figure-eight, Verlet h = 0.005, t = 24.20",
+        "v": "Gap 1.51e-04 of system size",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Figure-eight, Euler h = 0.005, t = 24.78",
+        "v": "Gap 0.28 · energy drift 3.0e-01",
+        "c": "#ff7a59"
+      },
+      {
+        "k": "Lagrange triangle exponent (analytic)",
+        "v": "0.5372850",
+        "c": "#ffb547"
+      },
+      {
+        "k": "Pythagorean problem, two references at t = 70",
+        "v": "Differ by 2.1",
+        "c": "#ffb547"
+      },
+      {
+        "k": "Continuous integration",
+        "v": "11 of 11 runs passed · Ubuntu + Windows",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "JavaFX classes · benchmark timings",
+        "v": "Checked by hand · not claimed",
+        "c": "#8b97a1"
+      }
+    ],
+    "conclusionTitle": "What I took from it.",
+    "conclusion": [
+      "ChaosLab is finished as a research prototype. The suite fails when a deliberate bug is introduced, every number in the docs is pinned by a test, and the limits are written down: an x–y projection only, a reference with its own horizon, and JavaFX classes checked by hand rather than by tests.",
+      "The idea I keep from it is the rule behind the exponent: claim a result only when the data supports it, and when it does not, say why."
+    ],
+    "proves": [
+      "I build numerical software whose accuracy is measured, not assumed.",
+      "I design for testability: the engine has no dependency on the window.",
+      "I write down limits and refuse claims the data cannot support."
+    ],
+    "next": [
+      "Control bar in narrow windows",
+      "AdaptiveIntegrator interface",
+      "Poincaré sections, with a measured reason"
+    ],
+    "tech": [
+      "Java 25",
+      "JavaFX 25.0.1",
+      "Maven",
+      "JUnit 5.14",
+      "Dormand-Prince 5(4)",
+      "Velocity Verlet",
+      "RK4",
+      "Benettin Lyapunov",
+      "Quintic Hermite",
+      "JSON · CSV",
+      "GitHub Actions · Ubuntu + Windows"
+    ]
+  };
+  orbitRef = React.createRef();
+  plotRef = React.createRef();
+  state = { preset: 'fig8', integ: 'verlet', playing: true, ro: null };
+  PRESETS = {
+    fig8: { label: 'FIGURE-EIGHT', tMax: 30, view: 1.35, build: () => { const vx = 0.46620368, vy = 0.43236573; return { m: [1, 1, 1], p: [0.97000436, -0.24308753, -0.97000436, 0.24308753, 0, 0], v: [vx, vy, vx, vy, -0.93240737, -0.86473146] }; } },
+    lagr: { label: 'LAGRANGE +0.01', tMax: 40, view: 2.4, build: () => { const w = Math.pow(3, -0.25), s3 = Math.sqrt(3) / 2; const p = [0, 1, -s3, -0.5, s3, -0.5]; const v = []; for (let i = 0; i < 3; i++) v.push(-w * p[2 * i + 1], w * p[2 * i]); p[0] += 0.01; return { m: [1, 1, 1], p, v }; } }
+  };
+  INTS = { euler: 'EULER', rk4: 'RK4', verlet: 'VERLET' };
+  H = 0.005;
+  componentDidMount() {
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (this.reduced) this.setState({ playing: false });
+    this.reset();
+    this.frameN = 0;
+    const loop = () => { this.frame(); this.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.rt); }
+  acc(m, p, a) {
+    a.fill(0);
+    const n = m.length;
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      const dx = p[2 * j] - p[2 * i], dy = p[2 * j + 1] - p[2 * i + 1];
+      const r2 = dx * dx + dy * dy, r = Math.sqrt(r2), f = 1 / (r2 * r);
+      if (r < this.minR) this.minR = r;
+      a[2 * i] += m[j] * dx * f; a[2 * i + 1] += m[j] * dy * f;
+      a[2 * j] -= m[i] * dx * f; a[2 * j + 1] -= m[i] * dy * f;
+    }
+  }
+  mk(b) { const r = { m: b.m, p: Float64Array.from(b.p), v: Float64Array.from(b.v), a: new Float64Array(b.p.length) }; this.acc(r.m, r.p, r.a); return r; }
+  euler(r, h) { this.acc(r.m, r.p, r.a); for (let i = 0; i < r.p.length; i++) { r.p[i] += r.v[i] * h; r.v[i] += r.a[i] * h; } }
+  verlet(r, h) { const n = r.p.length; for (let i = 0; i < n; i++) { r.v[i] += r.a[i] * h / 2; r.p[i] += r.v[i] * h; } this.acc(r.m, r.p, r.a); for (let i = 0; i < n; i++) r.v[i] += r.a[i] * h / 2; }
+  rk4(r, h) {
+    const n = r.p.length, p0 = r.p.slice(), v0 = r.v.slice();
+    const k1v = new Float64Array(n), k2v = new Float64Array(n), k3v = new Float64Array(n), k4v = new Float64Array(n);
+    const p1 = new Float64Array(n), p2 = new Float64Array(n), p3 = new Float64Array(n);
+    this.acc(r.m, p0, k1v);
+    for (let i = 0; i < n; i++) p1[i] = p0[i] + h / 2 * v0[i];
+    this.acc(r.m, p1, k2v);
+    for (let i = 0; i < n; i++) p2[i] = p0[i] + h / 2 * (v0[i] + h / 2 * k1v[i]);
+    this.acc(r.m, p2, k3v);
+    for (let i = 0; i < n; i++) p3[i] = p0[i] + h * (v0[i] + h / 2 * k2v[i]);
+    this.acc(r.m, p3, k4v);
+    for (let i = 0; i < n; i++) {
+      const k2p = v0[i] + h / 2 * k1v[i], k3p = v0[i] + h / 2 * k2v[i], k4p = v0[i] + h * k3v[i];
+      r.p[i] = p0[i] + h / 6 * (v0[i] + 2 * k2p + 2 * k3p + k4p);
+      r.v[i] = v0[i] + h / 6 * (k1v[i] + 2 * k2v[i] + 2 * k3v[i] + k4v[i]);
+    }
+  }
+  energy(r) {
+    let e = 0; const n = r.m.length;
+    for (let i = 0; i < n; i++) e += 0.5 * r.m[i] * (r.v[2 * i] ** 2 + r.v[2 * i + 1] ** 2);
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) e -= r.m[i] * r.m[j] / Math.hypot(r.p[2 * j] - r.p[2 * i], r.p[2 * j + 1] - r.p[2 * i + 1]);
+    return e;
+  }
+  dist(a, b) { let d = 0; for (let i = 0; i < a.p.length; i += 2) d = Math.max(d, Math.hypot(a.p[i] - b.p[i], a.p[i + 1] - b.p[i + 1])); return d / this.size; }
+  reset() {
+    clearTimeout(this.rt);
+    const P = this.PRESETS[this.state.preset], b = P.build();
+    this.run = this.mk(b); this.ref = this.mk(b); this.twin = this.mk(b);
+    this.size = 0; for (let i = 0; i < b.p.length; i += 2) this.size = Math.max(this.size, Math.hypot(b.p[i], b.p[i + 1]));
+    this.twin.p[0] += 1e-6 * this.size; this.acc(this.twin.m, this.twin.p, this.twin.a);
+    this.E0 = this.energy(this.run); this.t = 0; this.failed = null; this.done = false;
+    this.trails = { run: [[], [], []], ref: [[], [], []], twin: [[], [], []] };
+    this.samples = [[0, 1e-16, 1e-6, 1e-16]];
+    this.setState({ ro: { t: 0, gap: 0, sep: 1e-6, dE: 0, failed: null } });
+    this.draw();
+  }
+  frame() {
+    const st = this.state;
+    if (!st.playing || this.failed || this.done || !this.run) return;
+    const P = this.PRESETS[st.preset];
+    this.minR = Infinity;
+    for (let k = 0; k < 8; k++) {
+      this[st.integ](this.run, this.H);
+      for (let s = 0; s < 10; s++) { this.rk4(this.ref, this.H / 10); this.rk4(this.twin, this.H / 10); }
+      this.t += this.H;
+    }
+    const ok = Array.from(this.run.p).concat(Array.from(this.ref.p)).every(Number.isFinite);
+    if (!ok || this.minR < 2e-3) {
+      this.failed = 'Close encounter at t = ' + this.t.toFixed(2) + ': the forces were about to become non-finite, so the run stopped here instead of carrying on with nonsense. ChaosLab rolls back and reports FAILED in the same situation. Restarting.';
+      this.rt = setTimeout(() => this.reset(), 2600);
+    }
+    for (let i = 0; i < 3; i++) for (const key of ['run', 'ref', 'twin']) { const tr = this.trails[key][i]; tr.push([this[key].p[2 * i], this[key].p[2 * i + 1]]); if (tr.length > 700) tr.shift(); }
+    const gap = this.dist(this.run, this.ref), sep = this.dist(this.twin, this.ref), dE = Math.abs((this.energy(this.run) - this.E0) / this.E0);
+    this.samples.push([this.t, gap, sep, dE]);
+    if (this.t >= P.tMax - 1e-9) { this.done = true; this.rt = setTimeout(() => this.reset(), 2200); }
+    this.draw();
+    this.frameN = (this.frameN + 1) % 6;
+    if (this.frameN === 0 || this.failed || this.done) this.setState({ ro: { t: this.t, gap, sep, dE, failed: this.failed } });
+  }
+  fit(c) { const dpr = window.devicePixelRatio || 1, W = c.clientWidth, H = c.clientHeight; if (c.width !== Math.round(W * dpr) || c.height !== Math.round(H * dpr)) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); } const ctx = c.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return { ctx, W, H }; }
+  draw() {
+    const c = this.orbitRef.current, pc = this.plotRef.current;
+    if (c && c.clientWidth) {
+      const { ctx, W, H } = this.fit(c);
+      const P = this.PRESETS[this.state.preset], s = Math.min(W, H) / (2 * P.view), cx = W / 2, cy = H / 2;
+      const X = (x) => cx + x * s, Y = (y) => cy - y * s;
+      ctx.fillStyle = '#0a0d10'; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = '#141c22'; ctx.lineWidth = 1;
+      for (let g = -Math.ceil(P.view); g <= Math.ceil(P.view); g += 0.5) { ctx.beginPath(); ctx.moveTo(X(g), 0); ctx.lineTo(X(g), H); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, Y(g)); ctx.lineTo(W, Y(g)); ctx.stroke(); }
+      const line = (tr, col, w, dash) => { if (tr.length < 2) return; ctx.strokeStyle = col; ctx.lineWidth = w; ctx.setLineDash(dash); ctx.beginPath(); tr.forEach((q, i) => (i ? ctx.lineTo(X(q[0]), Y(q[1])) : ctx.moveTo(X(q[0]), Y(q[1])))); ctx.stroke(); ctx.setLineDash([]); };
+      const BODY = ['#ffb547', '#4fd8ff', '#e8edf1'];
+      for (let i = 0; i < 3; i++) line(this.trails.ref[i], '#56646f', 1, [3, 4]);
+      for (let i = 0; i < 3; i++) line(this.trails.twin[i], 'rgba(167,139,250,0.55)', 1, []);
+      for (let i = 0; i < 3; i++) line(this.trails.run[i], BODY[i], 1.6, []);
+      for (let i = 0; i < 3; i++) {
+        ctx.strokeStyle = '#7d8a94'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(X(this.ref.p[2 * i]), Y(this.ref.p[2 * i + 1]), 3, 0, 7); ctx.stroke();
+        ctx.strokeStyle = '#a78bfa'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(X(this.twin.p[2 * i]), Y(this.twin.p[2 * i + 1]), 9, 0, 7); ctx.stroke();
+        ctx.fillStyle = BODY[i]; ctx.shadowColor = BODY[i]; ctx.shadowBlur = 12; ctx.beginPath(); ctx.arc(X(this.run.p[2 * i]), Y(this.run.p[2 * i + 1]), 5, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      }
+      ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.fillStyle = '#8b97a1';
+      ctx.fillText('t = ' + this.t.toFixed(2), 12, 20);
+      ctx.fillText(this.INTS[this.state.integ] + ' · h = 0.005', 12, 36);
+    }
+    if (pc && pc.clientWidth) {
+      const { ctx, W, H } = this.fit(pc);
+      const P = this.PRESETS[this.state.preset], L = 46, R = 8, T = 8, B = 20;
+      const lo = -16, hi = 1, X = (t) => L + (t / P.tMax) * (W - L - R), Y = (v) => T + (1 - (Math.log10(Math.max(v, 1e-16)) - lo) / (hi - lo)) * (H - T - B);
+      ctx.fillStyle = '#0a0d10'; ctx.fillRect(0, 0, W, H);
+      ctx.font = "10px 'IBM Plex Mono', monospace";
+      for (let e = -15; e <= 0; e += 3) { const y = Y(Math.pow(10, e)); ctx.strokeStyle = '#161f26'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(W - R, y); ctx.stroke(); ctx.fillStyle = '#6b7882'; ctx.fillText('1e' + e, 6, y + 3); }
+      ctx.fillStyle = '#6b7882'; ctx.fillText('t = 0', L, H - 5); ctx.fillText('t = ' + P.tMax, W - R - 40, H - 5);
+      const series = (idx, col, dash) => { ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.setLineDash(dash); ctx.beginPath(); this.samples.forEach((q, i) => (i ? ctx.lineTo(X(q[0]), Y(q[idx])) : ctx.moveTo(X(q[0]), Y(q[idx])))); ctx.stroke(); ctx.setLineDash([]); };
+      series(3, '#ffb547', [4, 3]); series(2, '#a78bfa', []); series(1, '#ff7a59', []);
+    }
+  }
+  renderVals() {
+    const st = this.state, d = this.DATA, n = d.flow.length;
+    const ro = st.ro || { t: 0, gap: 0, sep: 1e-6, dE: 0, failed: null };
+    const P = this.PRESETS[st.preset];
+    const fmt = (x) => (x === 0 ? '0' : x.toExponential(2));
+    const opt = (label, on, pick) => ({ label, pick, pressed: on ? 'true' : 'false', border: on ? '#ffb547' : '#2c3a44', bg: on ? 'rgba(255,181,71,0.12)' : 'transparent', color: on ? '#ffb547' : '#aab4bc' });
+    const verdict = [];
+    if (ro.failed) verdict.push(ro.failed);
+    else {
+      if (ro.t === 0) verdict.push('At t = 0 the displayed run is the reference’s starting state, so the gap is exactly zero.');
+      else if (ro.gap < 1e-2) verdict.push('The displayed run agrees with the reference to about ' + Math.max(1, Math.floor(-Math.log10(Math.max(ro.gap, 1e-16)))) + ' digits.');
+      else verdict.push('The displayed run has left the reference: the gap is ' + fmt(ro.gap) + ' of the system size.');
+      if (ro.t > 0) verdict.push(ro.dE < 1e-4 ? 'Energy is conserved to ' + fmt(ro.dE) + ' of its starting size.' : 'Energy has drifted by ' + fmt(ro.dE) + ' of its starting size. That is the integrator, not the physics.');
+      const g = ro.sep / 1e-6;
+      if (ro.t > 0) verdict.push(g > 1000 ? 'The twin start, moved by one part in a million, has separated ' + g.toExponential(1) + ' times further: this system is sensitive to where it starts.' : 'The twin start is within ' + Math.max(1, Math.round(g)) + '× its first offset: no sign of sensitivity so far.');
+    }
+    return {
+      ...d,
+      flow: d.flow.map((f, i) => ({ ...f, border: i === 0 || i === n - 1 ? '#ffb547' : '#2c3a44', arrow: i === n - 1 ? 'none' : 'block' })),
+      orbitRef: this.orbitRef, plotRef: this.plotRef,
+      clBtn: st.playing ? 'PAUSE ❚❚' : 'PLAY ▶',
+      clToggle: () => this.setState({ playing: !st.playing }),
+      clRestart: () => this.reset(),
+      clPresets: Object.keys(this.PRESETS).map((k) => opt(this.PRESETS[k].label, st.preset === k, () => this.setState({ preset: k }, () => this.reset()))),
+      clInts: Object.keys(this.INTS).map((k) => opt(this.INTS[k], st.integ === k, () => this.setState({ integ: k }, () => this.reset()))),
+      clReadouts: [
+        { k: 'SIM TIME', v: ro.t.toFixed(2) + ' / ' + P.tMax, c: '#3a4852', vc: '#dce3e8' },
+        { k: 'GAP TO REFERENCE', v: fmt(ro.gap), c: '#ff7a59', vc: '#ff7a59' },
+        { k: 'TWIN SEPARATION', v: fmt(ro.sep), c: '#a78bfa', vc: '#a78bfa' },
+        { k: 'ENERGY DRIFT', v: fmt(ro.dE), c: '#ffb547', vc: '#ffb547' }
+      ],
+      clVerdict: verdict
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090b; }
+    * { box-sizing:border-box; scrollbar-color:#2c3a44 transparent; }
+    ::selection { background:#ffb547; color:#07090b; }
+    a { color:#ffb547; }
+    a:hover { color:#ffc873; }
+  </style>
+</helmet>
+
+<div style="background-color:#07090b; background-image:linear-gradient(rgba(120,170,200,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,200,0.045) 1px, transparent 1px); background-size:32px 32px; color:#dce3e8; font-family:'IBM Plex Sans',sans-serif; min-height:100vh;" data-screen-label="Case file">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px clamp(20px,5vw,56px); background:rgba(7,9,11,0.92); backdrop-filter:blur(8px); border-bottom:1px solid #1f2a33;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; color:#aab4bc; white-space:nowrap;">MISSION: DISCOVER SAUMAY · CASE FILE {{ fileId }}</span>
+  </nav>
+
+  <header style="padding:84px clamp(20px,5vw,56px) 52px; border-bottom:1px solid #1f2a33;">
+    <div style="max-width:920px;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ffb547; border:1px solid rgba(255,181,71,0.4); padding:6px 12px;">{{ tag }}</span>
+        <span style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:{{ statusColor }}; border:1px solid #2c3a44; padding:6px 12px;"><span style="width:7px; height:7px; background:{{ statusColor }};"></span>{{ status }}</span>
+      </div>
+      <h1 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.05; margin:0 0 18px; text-wrap:balance;">{{ title }}</h1>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; margin-bottom:18px;">{{ role }}</div>
+      <p style="font-size:18px; line-height:1.65; color:#c3ccd3; max-width:760px; margin:0 0 28px; text-wrap:pretty;">{{ intro }}</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="2">
+          <a href="{{ l.href }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; letter-spacing:0.05em; padding:12px 18px; border:1px solid #3a4852; color:#dce3e8; text-decoration:none;" style-hover="border-color:#ffb547; color:#ffb547;">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid #1f2a33;">
+        <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+          <div style="padding:16px 18px; border-right:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; color:{{ s.c }};">{{ s.n }}</div>
+            <div style="font-size:12.5px; color:#8b97a1; margin-top:6px; line-height:1.4;">{{ s.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:920px; margin:0 auto; padding:64px clamp(20px,5vw,56px) 80px; display:flex; flex-direction:column; gap:64px;">
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:14px;">00 — LIVE LAB</div>
+      <div style="border:1px solid #2c3a44; background:#0a0d10;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px; padding:18px 20px; border-bottom:1px solid #1f2a33;">
+          <div style="min-width:0; max-width:600px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">PL-00Q · ONGOING · RUNS IN YOUR BROWSER</div>
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:22px;">Prepare a state. Measure it. Repeat.</div>
+            <div style="font-size:14px; color:#aab4bc; margin-top:6px; line-height:1.6;">Two of QuantumLab’s nine screens, rebuilt small enough to run here: Born-rule measurement with an interference sweep, and a wave packet meeting a barrier.</div>
+          </div>
+          <div role="tablist" style="display:flex; gap:6px; flex-wrap:wrap;"><sc-for list="{{ qTabs }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:6px 11px; border:1px solid {{ o.border }}; background:{{ o.bg }}; color:{{ o.color }}; cursor:pointer; white-space:nowrap;">{{ o.label }}</button></sc-for></div>
+        </div>
+        <sc-if value="{{ qTabMeas }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:14px 22px; padding:16px 20px; border-bottom:1px solid #1f2a33;">
+            <label style="display:flex; flex-direction:column; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.08em;">P(NOT DECAYED) = |α|² · <span style="color:#dce3e8;">{{ qPLabel }}</span>
+              <input type="range" min="0" max="1" step="0.01" value="{{ qP }}" onChange="{{ qSetP }}" style="accent-color:#ffb547; width:100%;"></input>
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.08em;">RELATIVE PHASE φ · <span style="color:#dce3e8;">{{ qPhiLabel }}</span>
+              <input type="range" min="0" max="360" step="5" value="{{ qPhi }}" onChange="{{ qSetPhi }}" style="accent-color:#ffb547; width:100%;"></input>
+            </label>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.08em;">MEASUREMENT BASIS</span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;"><sc-for list="{{ qBases }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:6px 11px; border:1px solid {{ o.border }}; background:{{ o.bg }}; color:{{ o.color }}; cursor:pointer; white-space:nowrap;">{{ o.label }}</button></sc-for></div>
+            </div>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; padding:10px 20px; border-bottom:1px solid #1f2a33; font-family:'IBM Plex Mono',monospace; font-size:12.5px;">
+            <span style="color:#dce3e8;">{{ qState }}</span>
+            <span style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;"><span style="color:#8b97a1; font-size:11px;">SEED {{ qSeed }}</span>
+              <button onClick="{{ qToggle }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:#dce3e8; border:none; padding:6px 11px; cursor:pointer;">{{ qBtn }}</button>
+              <button onClick="{{ qReplay }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; background:none; border:1px solid #3a4852; padding:6px 11px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#ffb547;">REPLAY SEED ↺</button><button onClick="{{ qNewSeed }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; background:none; border:1px solid #3a4852; padding:6px 11px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#ffb547;">NEW SEED</button>
+            </span>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); border-bottom:1px solid #1f2a33;">
+            <div style="padding:18px 20px; display:flex; flex-direction:column; gap:16px; border-right:1px solid #1f2a33;">
+              <sc-for list="{{ qOutcomes }}" as="o" hint-placeholder-count="2">
+                <div style="display:flex; flex-direction:column; gap:7px;">
+                  <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:12px;"><span style="color:{{ o.c }};">{{ o.label }}</span><span style="color:#dce3e8;">{{ o.obs }} <span style="color:#8b97a1;">· theory {{ o.th }}</span></span></div>
+                  <div style="position:relative; height:14px; background:#161f26;"><div style="height:14px; width:{{ o.obsPct }}%; background:{{ o.c }}; transition:width 0.25s ease;"></div><div style="position:absolute; top:-4px; bottom:-4px; left:{{ o.thPct }}%; width:2px; background:#dce3e8;"></div></div>
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1;">{{ o.sub }}</span>
+                </div>
+              </sc-for>
+              <div style="display:grid; grid-template-columns:1fr 1fr; border-top:1px solid #1f2a33; border-left:1px solid #1f2a33;"><sc-for list="{{ qStats }}" as="r" hint-placeholder-count="4">
+              <div style="padding:12px 16px; border-right:1px solid #1f2a33; border-bottom:1px solid #1f2a33; display:flex; flex-direction:column; gap:5px; min-width:0;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#8b97a1; letter-spacing:0.1em;">{{ r.k }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; color:{{ r.c }}; overflow-wrap:anywhere;">{{ r.v }}</span>
+              </div>
+            </sc-for></div>
+            </div>
+            <div style="padding:16px 18px; display:flex; flex-direction:column; gap:8px;">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em;">INTERFERENCE · P(FIRST OUTCOME) AS φ SWEEPS A FULL TURN</span>
+              <svg viewBox="0 0 300 170" style="width:100%; height:auto; display:block;" role="img" aria-label="Born probability against relative phase, with the classical mixture for comparison">
+                <line x1="40" y1="20" x2="290" y2="20" stroke="#161f26"></line><line x1="40" y1="80" x2="290" y2="80" stroke="#161f26"></line><line x1="40" y1="140" x2="290" y2="140" stroke="#2c3a44"></line><line x1="40" y1="20" x2="40" y2="140" stroke="#2c3a44"></line>
+                <text x="32" y="24" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">1</text><text x="32" y="84" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">0.5</text><text x="32" y="144" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">0</text>
+                <text x="40" y="156" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">0°</text><text x="165" y="156" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">180°</text><text x="290" y="156" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">360°</text>
+                <polyline points="{{ qMix }}" fill="none" stroke="#8b97a1" stroke-width="1.2" stroke-dasharray="4 4"></polyline>
+                <polyline points="{{ qFringe }}" fill="none" stroke="#ffb547" stroke-width="2"></polyline>
+                <line x1="{{ qMarkX }}" y1="20" x2="{{ qMarkX }}" y2="140" stroke="#4fd8ff" stroke-width="1" stroke-dasharray="2 3"></line>
+                <circle cx="{{ qMarkX }}" cy="{{ qMarkY }}" r="4.5" fill="#4fd8ff"></circle>
+              </svg>
+              <span style="display:flex; gap:14px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:10.5px;"><span style="color:#ffb547;">— SUPERPOSITION</span><span style="color:#8b97a1;">- - CLASSICAL MIXTURE</span><span style="color:#4fd8ff;">● YOUR φ</span></span>
+              <span style="font-size:13.5px; line-height:1.55; color:#c3ccd3;">{{ qFringeNote }}</span>
+            </div>
+          </div>
+          <div style="padding:14px 20px 16px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-bottom:6px;">RUNNING FREQUENCY OF THE FIRST OUTCOME · LOG TRIAL AXIS</div>
+            <svg viewBox="0 0 600 130" style="width:100%; height:auto; display:block;" role="img" aria-label="Running frequency converging on the Born-rule probability">
+              <line x1="40" y1="10" x2="40" y2="110" stroke="#2c3a44"></line><line x1="40" y1="110" x2="590" y2="110" stroke="#2c3a44"></line>
+              <text x="40" y="125" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">1</text><text x="150" y="125" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">10</text><text x="260" y="125" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">100</text><text x="370" y="125" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">1,000</text><text x="480" y="125" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">10,000</text><text x="590" y="125" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">100,000</text>
+              <text x="32" y="14" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">1</text><text x="32" y="113" text-anchor="end" style="font-family:'IBM Plex Mono',monospace; font-size:9px; fill:#6b7882;">0</text>
+              <line x1="40" x2="590" y1="{{ qThY }}" y2="{{ qThY }}" stroke="#dce3e8" stroke-width="1" stroke-dasharray="4 4"></line>
+              <polyline points="{{ qConv }}" fill="none" stroke="#ffb547" stroke-width="1.8"></polyline>
+            </svg>
+          </div>
+        </sc-if>
+        <sc-if value="{{ qTabWave }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px 20px; padding:12px 20px; border-bottom:1px solid #1f2a33;">
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#8b97a1; letter-spacing:0.1em; margin-right:4px;">BARRIER HEIGHT V₀</span><sc-for list="{{ wBarriers }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:6px 11px; border:1px solid {{ o.border }}; background:{{ o.bg }}; color:{{ o.color }}; cursor:pointer; white-space:nowrap;">{{ o.label }}</button></sc-for></div>
+            <div style="display:flex; gap:8px;"><button onClick="{{ wToggle }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#07090b; background:#dce3e8; border:none; padding:6px 11px; cursor:pointer;">{{ wBtn }}</button><button onClick="{{ wRestart }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#dce3e8; background:none; border:1px solid #3a4852; padding:6px 11px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#ffb547;">RESTART ↺</button></div>
+          </div>
+          <div style="position:relative; height:260px; border-bottom:1px solid #1f2a33;"><canvas ref="{{ waveRef }}" role="img" aria-label="Gaussian wave packet splitting at a rectangular barrier" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas></div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); border-left:1px solid #1f2a33;"><sc-for list="{{ wReadouts }}" as="r" hint-placeholder-count="4">
+              <div style="padding:12px 16px; border-right:1px solid #1f2a33; border-bottom:1px solid #1f2a33; display:flex; flex-direction:column; gap:5px; min-width:0;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#8b97a1; letter-spacing:0.1em;">{{ r.k }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; color:{{ r.c }}; overflow-wrap:anywhere;">{{ r.v }}</span>
+              </div>
+            </sc-for></div>
+          <div style="padding:12px 20px 16px; font-size:13.5px; line-height:1.6; color:#c3ccd3;">The time-dependent Schrödinger equation (ħ = m = 1) stepped with Crank–Nicolson, which keeps the norm at 1 to rounding. As the packet clears the barrier, the transmitted share settles near the stationary T(E) averaged over the packet’s energies. One particle in one dimension; nothing is measured.</div>
+        </sc-if>
+        <div style="display:flex; gap:10px; align-items:center; padding:10px 20px; background:rgba(255,90,79,0.08); border-top:1px solid rgba(255,90,79,0.3); font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#ff8a80; line-height:1.5;"><span style="width:7px; height:7px; background:#ff5a4f; flex:0 0 auto;"></span><span>A BROWSER RE-IMPLEMENTATION FOR ILLUSTRATION, not the Java app. It uses the same published SplitMix64 generator and inverse-CDF rule as ADR-0003, and the same Crank–Nicolson scheme. Figures in the header strip and results table come from the repository.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:16px;">MISSION SUMMARY</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px;">
+        <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; color:#ffb547; margin-bottom:10px;">{{ s.k }}</div>
+            <div style="font-size:14.5px; line-height:1.6; color:#c3ccd3;">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">01 — WHY</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ whyTitle }}</h2>
+      <sc-for list="{{ why }}" as="p" hint-placeholder-count="3">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">02 — WHAT</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ whatTitle }}</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:12px;">
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="6">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ w.t }}</div>
+            <div style="font-size:14px; line-height:1.65; color:#aab4bc;">{{ w.d }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">03 — HOW</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">{{ howTitle }}</h2>
+      <div style="border:1px solid #1f2a33; background:rgba(10,13,16,0.85); padding:20px; margin-bottom:26px; overflow-x:auto;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:#8b97a1; margin-bottom:14px;">{{ flowLabel }}</div>
+        <div style="display:flex; flex-direction:column; align-items:stretch; gap:0; min-width:300px;">
+          <sc-for list="{{ flow }}" as="f" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:100%; max-width:560px; border:1px solid {{ f.border }}; background:#0c1014; padding:11px 14px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#dce3e8;">{{ f.t }}</span>
+                <span style="font-size:12.5px; color:#8b97a1;">{{ f.d }}</span>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#ffb547; line-height:1.4; display:{{ f.arrow }};">↓</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; padding:20px 0; border-top:1px solid #1f2a33;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; color:#ffb547;">{{ s.n }}</div>
+            <div>
+              <div style="font-weight:700; font-size:16.5px; margin-bottom:6px;">{{ s.t }}</div>
+              <div style="font-size:15px; line-height:1.7; color:#aab4bc;">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">04 — DECISIONS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">Calls I made, and what they cost.</h2>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="4">
+          <div style="border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:18px 20px;">
+            <div style="font-weight:700; font-size:15.5px; margin-bottom:8px;">{{ d.q }}</div>
+            <div style="font-size:14.5px; line-height:1.7; color:#aab4bc;">{{ d.a }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">05 — RESULTS</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 20px;">What came out of it.</h2>
+      <div style="border:1px solid #1f2a33;">
+        <sc-for list="{{ results }}" as="r" hint-placeholder-count="5">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) auto; gap:16px; align-items:baseline; padding:13px 18px; border-bottom:1px solid #161f26;">
+            <span style="font-size:14.5px; color:#c3ccd3;">{{ r.k }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:{{ r.c }}; text-align:right;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb547; margin-bottom:10px;">06 — CONCLUSION</div>
+      <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:clamp(24px,3vw,32px); margin:0 0 18px;">{{ conclusionTitle }}</h2>
+      <sc-for list="{{ conclusion }}" as="p" hint-placeholder-count="2">
+        <p style="font-size:16.5px; line-height:1.75; color:#c3ccd3; margin:0 0 16px; text-wrap:pretty;">{{ p }}</p>
+      </sc-for>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <sc-for list="{{ proves }}" as="p" hint-placeholder-count="3">
+          <div style="display:grid; grid-template-columns:18px 1fr; gap:10px; border:1px solid #1f2a33; background:rgba(12,16,20,0.8); padding:14px 16px;">
+            <span style="color:#3ddc84; font-family:'IBM Plex Mono',monospace;">✓</span>
+            <span style="font-size:15px; line-height:1.65; color:#dce3e8;">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:26px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8b97a1; letter-spacing:0.12em; padding:6px 0; margin-right:6px;">NEXT BURN</span>
+        <sc-for list="{{ next }}" as="n" hint-placeholder-count="4">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dce3e8; border:1px solid #2c3a44; padding:6px 12px;">{{ n }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <sc-for list="{{ tech }}" as="t" hint-placeholder-count="8">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aab4bc; border:1px solid #2c3a44; padding:5px 10px;">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:36px clamp(20px,5vw,56px); border-top:1px solid #1f2a33; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#aab4bc; text-decoration:none;" style-hover="color:#ffb547;">← Return to Mission Control</a>
+    <a href="{{ repo }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#ffb547; text-decoration:none;">View repository ↗</a>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  DATA = {
+    "fileId": "PL-00Q",
+    "tag": "Java 25 · JavaFX · Quantum mechanics",
+    "status": "ONGOING · CURRENT BUILD",
+    "statusColor": "#ffb547",
+    "title": "QuantumLab: what a measurement actually does",
+    "role": "Solo · mathematics, physics engine, JavaFX desktop, independent validation",
+    "intro": "A Java desktop application and library for building intuition about quantum measurement. Nine screens run from a classical decay thought experiment through superposition, interference, entanglement, decoherence and tunnelling. Every number on screen comes from tested code, every experiment replays exactly from its seed, and every screen says what it models and what it does not.",
+    "repo": "https://github.com/SaumayAshish/QuantumLab",
+    "links": [
+      {
+        "label": "REPOSITORY ↗",
+        "href": "https://github.com/SaumayAshish/QuantumLab"
+      },
+      {
+        "label": "PROGRESS ↗",
+        "href": "https://github.com/SaumayAshish/QuantumLab/blob/main/PROGRESS.md"
+      },
+      {
+        "label": "VALIDATION ↗",
+        "href": "https://github.com/SaumayAshish/QuantumLab/tree/main/docs/validation"
+      },
+      {
+        "label": "SCHRÖDINGER NOTES ↗",
+        "href": "https://github.com/SaumayAshish/QuantumLab/blob/main/docs/mathematics/schrodinger-1d.md"
+      }
+    ],
+    "stats": [
+      {
+        "n": "553",
+        "label": "Tests across four Maven modules, no failures",
+        "c": "#3ddc84"
+      },
+      {
+        "n": "9",
+        "label": "Screens in the JavaFX desktop app",
+        "c": "#ffb547"
+      },
+      {
+        "n": "64 / 64",
+        "label": "Independent NumPy comparisons agree",
+        "c": "#3ddc84"
+      },
+      {
+        "n": "6 / 8",
+        "label": "Build phases done; release quality in progress",
+        "c": "#dce3e8"
+      }
+    ],
+    "summary": [
+      {
+        "k": "WHY",
+        "v": "I wanted to see quantum measurement statistics for myself, not take them on trust from a popular explanation."
+      },
+      {
+        "k": "WHAT",
+        "v": "Nine screens: classical decay, superposition and measurement, interference, a composite system with CHSH, decoherence, a wave packet, a quantum well, convergence and tunnelling."
+      },
+      {
+        "k": "HOW",
+        "v": "Four modules (math → physics → simulation → desktop), seeded randomness, presenters without JavaFX types, and NumPy scripts that re-derive the numbers."
+      },
+      {
+        "k": "CONCLUSION",
+        "v": "In progress. Six of eight phases are done; release quality is under way and an optional Spring Boot service has not started."
+      }
+    ],
+    "whyTitle": "I wanted to watch the Born rule happen.",
+    "why": [
+      "Popular explanations of Schrödinger’s cat left me with more questions than answers. I wanted to prepare a state, measure it a thousand times, and watch the frequencies settle where the theory says they should.",
+      "So I built the lab I wanted, starting from the mathematics and refusing to let any screen claim more than its model supports. “Superposition” here means a normalised vector of complex amplitudes and nothing more. The app does not model a whole cat, and consciousness plays no part in anything it computes.",
+      "It also trains a habit I use everywhere: make randomness reproducible, so any result can be checked by replaying it."
+    ],
+    "whatTitle": "Nine screens, one rule: say what is modelled.",
+    "what": [
+      {
+        "t": "Classical decay",
+        "d": "A nucleus decays with probability 1 − e^(−λt); a detector, trigger and cat follow deterministically. The randomness is ignorance of the outcome, not a superposition."
+      },
+      {
+        "t": "Superposition and measurement",
+        "d": "Prepare α|0⟩ + β|1⟩, choose the Z, X or Y basis, and measure repeatedly against the Born rule with standard errors and deviation in σ."
+      },
+      {
+        "t": "Interference",
+        "d": "Sweep the relative phase through a full turn. In X and Y the probability oscillates with a fringe of height 2|α||β|; the classical mixture stays flat."
+      },
+      {
+        "t": "Composite system and CHSH",
+        "d": "Nucleus and idealised detector as α|00⟩ + β|11⟩, with concurrence, entropy, purity, and a CHSH value up to 2√2 against the classical bound of 2."
+      },
+      {
+        "t": "Decoherence",
+        "d": "Pure dephasing at a chosen rate γ: coherence decays as e^(−γt) while the Z-basis chances stay put, so the statistics approach a classical mixture."
+      },
+      {
+        "t": "Waves, wells and tunnelling",
+        "d": "Crank–Nicolson wave packets, a finite-difference eigen-solver with a convergence study, and transfer-matrix tunnelling through one or two barriers."
+      }
+    ],
+    "howTitle": "Mathematics first, then physics, then a thin window.",
+    "flowLabel": "FLOW · FOUR MAVEN MODULES",
+    "flow": [
+      {
+        "t": "quantumlab-math",
+        "d": "Complex numbers, vectors, matrices, tridiagonal eigen-solver"
+      },
+      {
+        "t": "quantumlab-physics",
+        "d": "Qubits, Born rule, Schrödinger solver, scattering, two-qubit states"
+      },
+      {
+        "t": "quantumlab-simulation",
+        "d": "Sessions, statistics, JSON/CSV export, explanation catalogue"
+      },
+      {
+        "t": "Presenters",
+        "d": "All screen logic, no JavaFX types, unit-tested"
+      },
+      {
+        "t": "quantumlab-desktop",
+        "d": "JavaFX 25 views on one shared worker thread"
+      }
+    ],
+    "steps": [
+      {
+        "n": "00",
+        "t": "Fixed the conventions",
+        "d": "|0⟩ is “not decayed” and |1⟩ is “decayed”, the Z, X and Y bases are a closed set, and a state is a ray, so a global phase has no effect. (ADR-0002)"
+      },
+      {
+        "n": "01",
+        "t": "Made randomness repeatable",
+        "d": "All randomness comes from SplittableRandom (SplitMix64) through one factory. A regression test pins the first twenty outcomes for seed 2026, computed independently from the published algorithm. (ADR-0003)"
+      },
+      {
+        "n": "02",
+        "t": "Built the Schrödinger solver",
+        "d": "Finite differences on a symmetric tridiagonal matrix. The infinite well matches the exact discrete formula, and the error falls by four when the grid spacing halves."
+      },
+      {
+        "n": "03",
+        "t": "Added barriers, packets, entanglement and decoherence",
+        "d": "Transfer-matrix tunnelling checked against the closed form, Crank–Nicolson wave packets, two-qubit states with CHSH, and single-qubit dephasing."
+      },
+      {
+        "n": "04",
+        "t": "Kept the views thin",
+        "d": "One presenter per screen holds the logic and is unit-tested; the JavaFX views only lay out controls. Duplicated worker code became one shared Worker for all nine views. (ADR-0005)"
+      },
+      {
+        "n": "05",
+        "t": "Checked the numbers a second way",
+        "d": "NumPy scripts re-derive what the Java tests assert: infinite well 18 of 18, barrier transmission 12 of 12, dephasing 34 of 34."
+      },
+      {
+        "n": "→",
+        "t": "Next",
+        "d": "Finish release quality and the docs review, add NumPy checks for CHSH and the wave packet, then decide on the optional Spring Boot service."
+      }
+    ],
+    "decisions": [
+      {
+        "q": "Why SplitMix64 instead of the JDK default generator?",
+        "a": "RandomGenerator.getDefault() may change its algorithm between JDK releases, so a seed would not mean the same thing everywhere. SplittableRandom’s algorithm is part of the specification."
+      },
+      {
+        "q": "Why presenters without JavaFX types?",
+        "a": "JavaFX code is slow to test and easy to get subtly wrong. Pulling the logic out means screen behaviour is covered by ordinary unit tests; layout is still checked by hand."
+      },
+      {
+        "q": "Why draw the classical mixture next to every superposition?",
+        "a": "It is the only honest way to show what coherence adds. In the Z basis the two are identical; in X and Y they differ, and that difference is the whole point."
+      },
+      {
+        "q": "Why does every screen carry a scope note?",
+        "a": "Quantum mechanics attracts overclaiming. The scope wording comes from one tested catalogue, so no view can make a claim the tests have not agreed to."
+      }
+    ],
+    "results": [
+      {
+        "k": "Tests on commit c2c9fe7 (2026-10-31)",
+        "v": "553 · math 71, physics 193, simulation 109, desktop 180",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "NumPy cross-checks",
+        "v": "18/18 · 12/12 · 34/34",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Interference fringe at P = 0.1",
+        "v": "0.6000 = 2|α||β|",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Finite-difference order, infinite well",
+        "v": "2",
+        "c": "#ffb547"
+      },
+      {
+        "k": "Continuous integration",
+        "v": "Passed on Ubuntu and Windows · Temurin 25",
+        "c": "#3ddc84"
+      },
+      {
+        "k": "Wave packet tab checked by hand",
+        "v": "Not yet",
+        "c": "#8b97a1"
+      },
+      {
+        "k": "Optional Spring Boot service",
+        "v": "Not started",
+        "c": "#8b97a1"
+      }
+    ],
+    "conclusionTitle": "Where it stands.",
+    "conclusion": [
+      "Six of eight phases are done and the desktop app starts with nine tabs. What is left is release quality, a final pass over the docs, and an optional Spring Boot service. The repository keeps a list of what has not been checked by hand yet, and this page follows it."
+    ],
+    "proves": [
+      "I can turn mathematics into tested, layered Java code: math, physics, simulation, UI.",
+      "I make randomness reproducible, so every result can be replayed and checked.",
+      "I validate numbers independently rather than trusting a single implementation."
+    ],
+    "next": [
+      "Phase 7: release quality",
+      "NumPy checks for CHSH and the wave packet",
+      "Phase 6: optional Spring Boot service"
+    ],
+    "tech": [
+      "Java 25",
+      "JavaFX 25.0.1",
+      "Maven multi-module",
+      "JUnit 5.11",
+      "SplittableRandom · SplitMix64",
+      "Crank–Nicolson",
+      "Transfer matrices",
+      "Tridiagonal eigen-solver",
+      "Python · NumPy (validation)",
+      "GitHub Actions"
+    ]
+  };
+  waveRef = React.createRef();
+  M64 = (1n << 64n) - 1n;
+  state = { tab: 'meas', p: 0.5, phi: 60, basis: 'X', seed: 2026, run: true, ms: { n: 0, k: 0, hist: [] }, V0: 1.0, wplay: true, wv: null };
+  componentDidMount() {
+    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (this.reduced) this.setState({ run: false, wplay: false });
+    this.rngInit(this.state.seed);
+    this.timer = setInterval(() => { if (this.state.tab === 'meas' && this.state.run) this.stepMeas(); }, 220);
+    this.wf = 0;
+    const loop = () => { this.waveFrame(); this.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
+  }
+  componentWillUnmount() { clearInterval(this.timer); cancelAnimationFrame(this.raf); clearTimeout(this.wt); }
+  rngInit(seed) { this.rs = BigInt.asUintN(64, BigInt(seed)); }
+  rngNext() {
+    const M = this.M64;
+    this.rs = (this.rs + 0x9E3779B97F4A7C15n) & M;
+    let z = this.rs;
+    z = ((z ^ (z >> 30n)) * 0xBF58476D1CE4E5B9n) & M;
+    z = ((z ^ (z >> 27n)) * 0x94D049BB133111EBn) & M;
+    z = z ^ (z >> 31n);
+    return Number(z >> 11n) * 1.1102230246251565e-16;
+  }
+  p0(p, phi, basis) { const c = 2 * Math.sqrt(p * (1 - p)), r = phi * Math.PI / 180; return basis === 'Z' ? p : basis === 'X' ? (1 + c * Math.cos(r)) / 2 : (1 + c * Math.sin(r)) / 2; }
+  resetMeas(seed) { this.rngInit(seed == null ? this.state.seed : seed); this.setState({ ms: { n: 0, k: 0, hist: [] } }); }
+  stepMeas() {
+    const st = this.state, ms = st.ms;
+    if (ms.n >= 100000) return;
+    const P = this.p0(st.p, st.phi, st.basis);
+    const batch = Math.min(100000 - ms.n, 2500, Math.max(2, Math.floor(ms.n * 0.12)));
+    let k = ms.k;
+    for (let i = 0; i < batch; i++) if (this.rngNext() < P) k++;
+    const n = ms.n + batch;
+    this.setState({ ms: { n, k, hist: ms.hist.concat([[n, k / n]]) } });
+  }
+  tof(E, V0, a) {
+    if (Math.abs(E - V0) < 1e-9) return 1 / (1 + V0 * a * a / 2);
+    if (E < V0) { const s = Math.sinh(Math.sqrt(2 * (V0 - E)) * a); return 1 / (1 + V0 * V0 * s * s / (4 * E * (V0 - E))); }
+    const s = Math.sin(Math.sqrt(2 * (E - V0)) * a); return 1 / (1 + V0 * V0 * s * s / (4 * E * (E - V0)));
+  }
+  tbar(V0, k0, sig) { const sk = 1 / (2 * sig); let num = 0, den = 0; for (let i = -400; i <= 400; i++) { const k = k0 + i * 4 * sk / 400; if (k <= 0) continue; const w = Math.exp(-((k - k0) ** 2) / (2 * sk * sk)); num += w * this.tof(k * k / 2, V0, 1); den += w; } return num / den; }
+  initWave(V0) {
+    clearTimeout(this.wt);
+    const N = 1400, X0 = -70, X1 = 70, h = (X1 - X0) / (N + 1), dt = 0.05, sig = 4, k0 = 1.4, xc = -25;
+    const x = new Float64Array(N), V = new Float64Array(N), re = new Float64Array(N), im = new Float64Array(N), beta = new Float64Array(N);
+    let s = 0;
+    for (let j = 0; j < N; j++) { x[j] = X0 + (j + 1) * h; V[j] = x[j] >= 0 && x[j] <= 1 ? V0 : 0; const g = Math.exp(-((x[j] - xc) ** 2) / (4 * sig * sig)); re[j] = g * Math.cos(k0 * x[j]); im[j] = g * Math.sin(k0 * x[j]); s += (re[j] ** 2 + im[j] ** 2) * h; }
+    const nf = 1 / Math.sqrt(s); for (let j = 0; j < N; j++) { re[j] *= nf; im[j] *= nf; }
+    const a = dt / (4 * h * h);
+    const cR = new Float64Array(N), cI = new Float64Array(N), mR = new Float64Array(N), mI = new Float64Array(N);
+    for (let j = 0; j < N; j++) {
+      beta[j] = dt / 2 * (1 / (h * h) + V[j]);
+      let dr = 1, di = beta[j];
+      if (j > 0) { dr -= a * cI[j - 1]; di += a * cR[j - 1]; }
+      const q = dr * dr + di * di; mR[j] = dr / q; mI[j] = -di / q;
+      cR[j] = a * mI[j]; cI[j] = -a * mR[j];
+    }
+    this.W = { N, h, dt, a, x, V, re, im, beta, cR, cI, mR, mI, dR: new Float64Array(N), dI: new Float64Array(N), t: 0, V0, E0: k0 * k0 / 2, Tbar: this.tbar(V0, k0, sig), done: false };
+    this.measureWave(); this.drawWave();
+  }
+  stepWave() {
+    const W = this.W, { N, a, beta, re, im, cR, cI, mR, mI, dR, dI } = W;
+    for (let j = 0; j < N; j++) {
+      const sr = (j > 0 ? re[j - 1] : 0) + (j < N - 1 ? re[j + 1] : 0), si = (j > 0 ? im[j - 1] : 0) + (j < N - 1 ? im[j + 1] : 0);
+      let rr = re[j] + beta[j] * im[j] - a * si, ri = im[j] - beta[j] * re[j] + a * sr;
+      if (j > 0) { rr -= a * dI[j - 1]; ri += a * dR[j - 1]; }
+      dR[j] = rr * mR[j] - ri * mI[j]; dI[j] = rr * mI[j] + ri * mR[j];
+    }
+    re[N - 1] = dR[N - 1]; im[N - 1] = dI[N - 1];
+    for (let j = N - 2; j >= 0; j--) { const xr = re[j + 1], xi = im[j + 1]; re[j] = dR[j] - (cR[j] * xr - cI[j] * xi); im[j] = dI[j] - (cR[j] * xi + cI[j] * xr); }
+    W.t += W.dt;
+  }
+  measureWave() { const W = this.W; let n = 0, R = 0, T = 0; for (let j = 0; j < W.N; j++) { const d = (W.re[j] ** 2 + W.im[j] ** 2) * W.h; n += d; if (W.x[j] < 0) R += d; else if (W.x[j] > 1) T += d; } this.wm = { t: W.t, normErr: n - 1, R, T }; }
+  waveFrame() {
+    if (this.state.tab !== 'wave' || !this.W) return;
+    if (this.state.wplay && !this.W.done) {
+      this.stepWave(); this.stepWave();
+      this.measureWave();
+      if (this.W.t >= 45) { this.W.done = true; this.wt = setTimeout(() => this.initWave(this.state.V0), 1800); }
+      this.wf = (this.wf + 1) % 5;
+      if (this.wf === 0 || this.W.done) this.setState({ wv: this.wm });
+    }
+    this.drawWave();
+  }
+  drawWave() {
+    const c = this.waveRef.current, W = this.W;
+    if (!c || !c.clientWidth || !W) return;
+    const dpr = window.devicePixelRatio || 1, w = c.clientWidth, H = c.clientHeight;
+    if (c.width !== Math.round(w * dpr) || c.height !== Math.round(H * dpr)) { c.width = Math.round(w * dpr); c.height = Math.round(H * dpr); }
+    const ctx = c.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const xl = -60, xr = 60, base = H - 26, X = (x) => ((x - xl) / (xr - xl)) * w, Yd = (d) => base - (d / 0.12) * (base - 30), Ye = (e) => base - (e / 1.5) * (base - 30);
+    ctx.fillStyle = '#0a0d10'; ctx.fillRect(0, 0, w, H);
+    ctx.strokeStyle = '#141c22'; ctx.lineWidth = 1;
+    for (let g = -60; g <= 60; g += 10) { ctx.beginPath(); ctx.moveTo(X(g), 20); ctx.lineTo(X(g), base); ctx.stroke(); }
+    ctx.strokeStyle = '#2c3a44'; ctx.beginPath(); ctx.moveTo(0, base); ctx.lineTo(w, base); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,90,79,0.16)'; ctx.strokeStyle = '#ff7a59'; const bx = X(0), bw = Math.max(2, X(1) - X(0)), by = Ye(W.V0); ctx.fillRect(bx, by, bw, base - by); ctx.strokeRect(bx, by, bw, base - by);
+    ctx.setLineDash([4, 4]); ctx.strokeStyle = '#4fd8ff'; ctx.beginPath(); ctx.moveTo(0, Ye(W.E0)); ctx.lineTo(w, Ye(W.E0)); ctx.stroke(); ctx.setLineDash([]);
+    const i0 = Math.max(0, Math.floor((xl - W.x[0]) / W.h)), i1 = Math.min(W.N - 1, Math.ceil((xr - W.x[0]) / W.h));
+    ctx.strokeStyle = 'rgba(79,216,255,0.35)'; ctx.lineWidth = 1; ctx.beginPath();
+    for (let j = i0; j <= i1; j++) { const y = base - 30 - W.re[j] * 140; j === i0 ? ctx.moveTo(X(W.x[j]), y) : ctx.lineTo(X(W.x[j]), y); }
+    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(W.x[i0]), base);
+    for (let j = i0; j <= i1; j++) ctx.lineTo(X(W.x[j]), Yd(W.re[j] ** 2 + W.im[j] ** 2));
+    ctx.lineTo(X(W.x[i1]), base); ctx.closePath(); ctx.fillStyle = 'rgba(255,181,71,0.22)'; ctx.fill();
+    ctx.beginPath(); for (let j = i0; j <= i1; j++) { const y = Yd(W.re[j] ** 2 + W.im[j] ** 2); j === i0 ? ctx.moveTo(X(W.x[j]), y) : ctx.lineTo(X(W.x[j]), y); }
+    ctx.strokeStyle = '#ffb547'; ctx.lineWidth = 1.8; ctx.shadowColor = '#ffb547'; ctx.shadowBlur = 8; ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.font = "10.5px 'IBM Plex Mono', monospace"; ctx.fillStyle = '#8b97a1';
+    ctx.fillText('← REFLECTED', 12, H - 8); ctx.textAlign = 'right'; ctx.fillText('TRANSMITTED →', w - 12, H - 8); ctx.textAlign = 'left';
+    ctx.fillStyle = '#ff7a59'; ctx.fillText('V₀ = ' + W.V0.toFixed(1), bx + bw + 6, by + 12);
+    ctx.fillStyle = '#4fd8ff'; ctx.fillText('E₀ = k₀²/2 = ' + W.E0.toFixed(2), 12, Ye(W.E0) - 6);
+    ctx.fillStyle = '#dce3e8'; ctx.fillText('t = ' + W.t.toFixed(2), 12, 16);
+  }
+  renderVals() {
+    const st = this.state, d = this.DATA, nf = d.flow.length;
+    const opt = (label, on, pick) => ({ label, pick, pressed: on ? 'true' : 'false', border: on ? '#ffb547' : '#2c3a44', bg: on ? 'rgba(255,181,71,0.12)' : 'transparent', color: on ? '#ffb547' : '#aab4bc' });
+    const P = this.p0(st.p, st.phi, st.basis), ms = st.ms, n = ms.n, f = n ? ms.k / n : 0;
+    const L = { Z: ['|0⟩ not decayed', '|1⟩ decayed'], X: ['|+⟩', '|−⟩'], Y: ['|+i⟩', '|−i⟩'] }[st.basis];
+    const se = n ? Math.sqrt(P * (1 - P) / n) : 0, dev = se > 0 ? (f - P) / se : 0;
+    const consistent = se > 0 ? Math.abs(dev) < 5 : Math.abs(f - P) < 1e-12;
+    const pct = (x) => (x * 100).toFixed(2) + '%';
+    const fx = (phi) => 40 + phi / 360 * 250, fy = (v) => 140 - v * 120;
+    const fr = []; for (let a = 0; a <= 360; a += 5) fr.push(fx(a).toFixed(1) + ',' + fy(this.p0(st.p, a, st.basis)).toFixed(1));
+    const mix = st.basis === 'Z' ? st.p : 0.5;
+    const cx = (k) => 40 + Math.log10(Math.max(1, k)) / 5 * 550, cy = (v) => 110 - v * 100;
+    const wm = st.wv || this.wm || { t: 0, normErr: 0, R: 0, T: 0 };
+    const c2 = 2 * Math.sqrt(st.p * (1 - st.p));
+    return {
+      ...d,
+      flow: d.flow.map((x, i) => ({ ...x, border: i === 0 || i === nf - 1 ? '#ffb547' : '#2c3a44', arrow: i === nf - 1 ? 'none' : 'block' })),
+      waveRef: this.waveRef,
+      qTabs: [opt('MEASUREMENT', st.tab === 'meas', () => this.setState({ tab: 'meas' })), opt('WAVE PACKET', st.tab === 'wave', () => this.setState({ tab: 'wave' }, () => { if (!this.W) this.initWave(st.V0); else setTimeout(() => this.drawWave(), 30); }))],
+      qTabMeas: st.tab === 'meas', qTabWave: st.tab === 'wave',
+      qP: st.p, qPhi: st.phi, qPLabel: st.p.toFixed(2), qPhiLabel: st.phi + '°',
+      qSetP: (e) => this.setState({ p: parseFloat(e.target.value) }, () => this.resetMeas()),
+      qSetPhi: (e) => this.setState({ phi: parseFloat(e.target.value) }, () => this.resetMeas()),
+      qBases: ['Z', 'X', 'Y'].map((b) => opt(b, st.basis === b, () => this.setState({ basis: b }, () => this.resetMeas()))),
+      qState: '|ψ⟩ = ' + Math.sqrt(st.p).toFixed(3) + ' |0⟩ + ' + Math.sqrt(1 - st.p).toFixed(3) + ' e^(i·' + st.phi + '°) |1⟩',
+      qSeed: String(st.seed),
+      qBtn: st.run ? 'PAUSE ❚❚' : 'MEASURE ▶',
+      qToggle: () => this.setState({ run: !st.run }),
+      qReplay: () => this.resetMeas(),
+      qNewSeed: () => { const s = 1 + Math.floor(Math.random() * 99999); this.setState({ seed: s }, () => this.resetMeas(s)); },
+      qOutcomes: [
+        { label: L[0], obs: n ? pct(f) : '—', th: pct(P), obsPct: (f * 100).toFixed(2), thPct: (P * 100).toFixed(2), c: '#ffb547', sub: ms.k.toLocaleString('en-US') + ' counts' },
+        { label: L[1], obs: n ? pct(1 - f) : '—', th: pct(1 - P), obsPct: n ? ((1 - f) * 100).toFixed(2) : '0', thPct: ((1 - P) * 100).toFixed(2), c: '#4fd8ff', sub: (n - ms.k).toLocaleString('en-US') + ' counts' }
+      ],
+      qStats: [
+        { k: 'TRIALS', v: n.toLocaleString('en-US'), c: '#dce3e8' },
+        { k: 'STANDARD ERROR', v: se ? se.toFixed(4) : '—', c: '#dce3e8' },
+        { k: 'DEVIATION', v: n ? (dev >= 0 ? '+' : '') + dev.toFixed(2) + ' σ' : '—', c: '#dce3e8' },
+        { k: '5σ CHECK', v: n ? (consistent ? 'CONSISTENT' : 'INCONSISTENT') : '—', c: n ? (consistent ? '#3ddc84' : '#ff5a4f') : '#8b97a1' }
+      ],
+      qFringe: fr.join(' '), qMix: '40,' + fy(mix).toFixed(1) + ' 290,' + fy(mix).toFixed(1),
+      qMarkX: fx(st.phi).toFixed(1), qMarkY: fy(P).toFixed(1),
+      qFringeNote: st.basis === 'Z' ? 'In the Z basis the probability does not depend on φ, so the superposition and the mixture look the same. Switch to X or Y to see the phase.' : 'Fringe height 2|α||β| = ' + c2.toFixed(4) + '. The classical mixture with the same Z-basis chances stays flat at 50%, whatever φ is.',
+      qThY: cy(P).toFixed(1),
+      qConv: ms.hist.map((q) => cx(q[0]).toFixed(1) + ',' + cy(q[1]).toFixed(1)).join(' '),
+      wBarriers: [0.8, 1.0, 1.2].map((v) => opt(v.toFixed(1), st.V0 === v, () => this.setState({ V0: v, wv: null }, () => this.initWave(v)))),
+      wBtn: st.wplay ? 'PAUSE ❚❚' : 'PLAY ▶',
+      wToggle: () => this.setState({ wplay: !st.wplay }),
+      wRestart: () => this.initWave(st.V0),
+      wReadouts: [
+        { k: 'SIM TIME', v: wm.t.toFixed(2), c: '#dce3e8' },
+        { k: 'NORM − 1', v: wm.normErr.toExponential(1), c: '#3ddc84' },
+        { k: 'REFLECTED R', v: wm.R.toFixed(4), c: '#4fd8ff' },
+        { k: 'TRANSMITTED T', v: wm.T.toFixed(4), c: '#ffb547' },
+        { k: 'STATIONARY T̄(E)', v: this.W ? this.W.Tbar.toFixed(4) : '—', c: '#dce3e8' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
